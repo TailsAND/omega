@@ -1,0 +1,10 @@
+git checkout -b SM_stats
+git add .
+git commit -m "Описание изменений"
+git pull origin основная_ветка
+git push origin имя_ветки
+     
+     
+
+
+     
