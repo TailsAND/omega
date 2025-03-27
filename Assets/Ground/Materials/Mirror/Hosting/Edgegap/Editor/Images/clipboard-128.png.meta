@@ -3,7 +3,7 @@ guid: caa516cdb721dd143bbc8000ca78d50a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 13
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -138,3 +138,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 129321
+  packageName: Mirror
+  packageVersion: 96.0.1
+  assetPath: Assets/Ground/Materials/Mirror/Hosting/Edgegap/Editor/Images/clipboard-128.png
+  uploadId: 736421

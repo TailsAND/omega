@@ -436,7 +436,7 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/Game.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 1448652393}
-  networkAddress: cccefb81a771.pr.edgegap.net
+  networkAddress: 57172167156e.pr.edgegap.net
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -511,7 +511,7 @@ MonoBehaviour:
   sslEnabled: 0
   sslProtocols: 3072
   sslCertJson: ./cert.json
-  port: 30458
+  port: 30577
   batchSend: 1
   waitBeforeSend: 1
   clientUseWss: 1
@@ -1418,7 +1418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6983989303252308380, guid: dd3cd2d00b0493c4c828730a09b3bf29, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 20.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6983989303252308380, guid: dd3cd2d00b0493c4c828730a09b3bf29, type: 3}
       propertyPath: m_AnchoredPosition.y

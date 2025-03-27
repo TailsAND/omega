@@ -56,7 +56,6 @@ public class DialogStart : NetworkBehaviour
         else
         {
             Button.SetActive(false);
-            Debug.Log("mergedw");
 
         }
     }
