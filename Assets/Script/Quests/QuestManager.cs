@@ -51,70 +51,12 @@ public class QuestManager : MonoBehaviour
     {
 
         Quest quest = quests.Find(q => q.title == dialogStart.title);
-        GameObject inventory = GameObject.Find("Slots_transform");
-
-        List<Item> requiredItems = new();
-        foreach (var item in quest.quest_items)
-        {
-            requiredItems.Add(item);
-        }
-        List<InventorySlot> slotsWithItems = new();
-        int needToDelete = requiredItems.Count;
-        int deleted = 0;
-
-        // Проходим по всем слотам в инвентаре
-        for (int i = 0; i < inventory.transform.childCount; i++)
-        {
-            Transform child = inventory.transform.GetChild(i);
-            InventorySlot slot = child.GetComponent<InventorySlot>(); // Получаем компонент InventorySlot
-
-            if (slot != null && slot.SlotItem != null) // Проверяем, что слот и предмет существуют
-            {
-                slotsWithItems.Add(slot); // Добавляем слот с предметом в список
-            }
-        }
-        // Проверяем, есть ли все необходимые предметы в инвентаре
-        bool allItemsAvailable = true;
-
-        int count = 0;
-        int count_final = quest.quest_items.Count;
-
-        // Проходим по всем необходимым предметам
-        foreach (var requiredItem in requiredItems)
-        {
-            // Находим все слоты, содержащие нужный предмет
-            List<InventorySlot> itemSlots = slotsWithItems.FindAll(slot => slot.SlotItem == requiredItem);
-
-            // Если количество найденных предметов меньше, чем ожидаемое, то это недостающий предмет
-            if (itemSlots.Count < requiredItems.Count)
-            {
-                allItemsAvailable = false;
-                Debug.Log($"Недостающий предмет: {requiredItem.name}"); // Используем name для логирования
-            }
-            else
-            {
-                count += itemSlots.Count; // Увеличиваем счетчик для найденных предметов
-            }
-        }
-        if (allItemsAvailable)
+        
+        if (isEnoughRequiredItemsToFinishQuest())
         {
 
-            // Удаляем все необходимые предметы из инвентаря
-            foreach (var requiredItem in requiredItems)
-            {
-                foreach (var slot in slotsWithItems)
-                {
-                    if (slot.SlotItem == requiredItem && deleted < needToDelete)
-                    {
-                        slot.ClearSlot(); // Удаляем предмет для квеста
-                        deleted++;
-                    }
-                    else if (deleted >= needToDelete)
-                    {
-                        break;
-                    }
-                }
-            }
+            DeleteQuestItemsFromInventory();
+            
             middle.SetActive(false);
             dialogueEnd.text = quest.thanks;
             end.SetActive(true);
@@ -123,12 +65,101 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            //Логика отказа квеста при отсутствии нужных предметов
             dialogueMiddle.text = DialogueTexts[Random.Range(0, DialogueTexts.Length)];
         }
     }
 
+    private bool isEnoughRequiredItemsToFinishQuest()
+    {
+        Quest quest = quests.Find(q => q.title == dialogStart.title);
+        GameObject inventory = GameObject.Find("Slots_transform");
+        
+        List<Item> requiredItems = new();
+        foreach (var item in quest.quest_items)
+        {
+            requiredItems.Add(item);
+        }
+        List<InventorySlot> slotsWithItems = new();
+        
+        CheckThroughPlayerInventoryForItems(slotsWithItems);
 
+
+        bool allItemsAvailable = true;
+
+        int count = 0;
+
+        // Проходим по всем необходимым предметам
+        foreach (var requiredItem in requiredItems)
+        {
+            List<InventorySlot> itemSlots = slotsWithItems.FindAll(slot => slot.SlotItem == requiredItem);
+
+
+            if (itemSlots.Count < requiredItems.Count)
+            {
+                allItemsAvailable = false;
+                Debug.Log($"Недостающий предмет: {requiredItem.name}"); 
+            }
+            else
+            {
+                count += itemSlots.Count; 
+            }
+        }
+
+        return allItemsAvailable;
+    }
+
+    private void DeleteQuestItemsFromInventory()
+    {
+        Quest quest = quests.Find(q => q.title == dialogStart.title);
+        
+        List<Item> requiredItems = new();
+        foreach (var item in quest.quest_items)
+        {
+            requiredItems.Add(item);
+        }
+        
+        List<InventorySlot> slotsWithItems = new();
+        int needToDelete = requiredItems.Count;
+        int deleted = 0;
+
+        CheckThroughPlayerInventoryForItems(slotsWithItems);
+        
+        // Удаляем все необходимые предметы из инвентаря
+        foreach (var requiredItem in requiredItems)
+        {
+            foreach (var slot in slotsWithItems)
+            {
+                if (slot.SlotItem == requiredItem && deleted < needToDelete)
+                {
+                    slot.ClearSlot(); // Удаляем предмет для квеста
+                    deleted++;
+                }
+                else if (deleted >= needToDelete)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    private List<InventorySlot> CheckThroughPlayerInventoryForItems(List<InventorySlot> slotsWithItems)
+    {
+        GameObject inventory = GameObject.Find("Slots_transform");
+
+        // Проходим по всем слотам в инвентаре
+        for (int i = 0; i < inventory.transform.childCount; i++)
+        {
+            Transform child = inventory.transform.GetChild(i);
+            InventorySlot slot = child.GetComponent<InventorySlot>();
+
+            if (slot != null && slot.SlotItem != null) 
+            {
+                slotsWithItems.Add(slot); 
+            }
+        }
+
+        return slotsWithItems;
+    }
     private List<Quest> LoadQuests(string title = null)
     {
         List<Quest> loadedQuests = new List<Quest>();
