@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Mirror;
+using Script.Quests;
 
 public class DialogStart : NetworkBehaviour
 {
@@ -27,6 +28,7 @@ public class DialogStart : NetworkBehaviour
 
             if (!quest.isStarted)
             {
+                gameObject.GetComponent<NPCIconController>().ChangeIcon();
                 questManager.start.transform.localScale = Vector3.one;
                 questManager.dialogueStart.text = quest.description;
             }
