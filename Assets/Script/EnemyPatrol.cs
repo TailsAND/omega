@@ -5,19 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class EnemyPatrol : MonoBehaviour
 {
-    public Transform[] patrolPoints; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    public float speed = 2f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-    public float waitTime = 5f; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-    public float detectionRange = 5f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-    public Transform player; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-    public float chaseDuration = 5f; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
-    private int currentPointIndex = 0; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    private bool isChasing = false; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    private Animator animator; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Animator
+    public Transform[] patrolPoints; // Массив точек патрулирования
+    public float speed = 2f; // Скорость движения врага
+    public float waitTime = 5f; // Время ожидания на каждой точке
+    public float detectionRange = 5f; // Дистанция обнаружения игрока
+    public Transform player; // Ссылка на игрока
+    public float chaseDuration = 5f; // Время преследования перед переходом на сцену боя
+    private int currentPointIndex = 0; // Индекс текущей точки патрулирования
+    private bool isChasing = false; // Флаг для отслеживания состояния преследования
+    private Animator animator; // Ссылка на компонент Animator
 
     private void Start()
     {
-        animator = GetComponent<Animator>(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Animator
+        animator = GetComponent<Animator>(); // Получаем компонент Animator
         StartCoroutine(Patrol());
     }
 
@@ -32,7 +32,7 @@ public class EnemyPatrol : MonoBehaviour
             DetectPlayer();
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // Обновляем анимацию в зависимости от скорости
         UpdateAnimation();
     }
 
@@ -44,14 +44,14 @@ public class EnemyPatrol : MonoBehaviour
 
         if (!isChasing)
         {
-            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            // Если враг патрулирует, используем направление к текущей точке патрулирования
             if (patrolPoints.Length > 0)
             {
                 Transform targetPoint = patrolPoints[currentPointIndex];
                 Vector2 direction = (targetPoint.position - transform.position).normalized;
                 currentSpeed = (targetPoint.position - transform.position).magnitude > 0.1f ? speed : 0f;
 
-                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ horizontal пїЅ vertical
+                // Устанавливаем значения horizontal и vertical
                 horizontal = direction.x;
                 vertical = direction.y;
 
@@ -60,18 +60,18 @@ public class EnemyPatrol : MonoBehaviour
         }
         else
         {
-            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            // Если враг преследует игрока
             currentSpeed = speed;
             Vector2 direction = (player.position - transform.position).normalized;
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ horizontal пїЅ vertical
+            // Устанавливаем значения horizontal и vertical
             horizontal = direction.x;
             vertical = direction.y;
 
             transform.position = Vector2.MoveTowards(transform.position, player.position, currentSpeed * Time.deltaTime);
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Speed, Horizontal пїЅ Vertical пїЅ Animator
+        // Устанавливаем параметры Speed, Horizontal и Vertical в Animator
         animator.SetFloat("Speed", currentSpeed);
         animator.SetFloat("Horizontal", horizontal);
         animator.SetFloat("Vertical", vertical);
@@ -80,21 +80,21 @@ public class EnemyPatrol : MonoBehaviour
 
     private void DetectPlayer()
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // Проверяем расстояние до игрока
         if (Vector2.Distance(transform.position, player.position) <= detectionRange)
         {
-            isChasing = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-            StartCoroutine(ChaseTimer()); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            isChasing = true; // Начинаем преследование
+            StartCoroutine(ChaseTimer()); // Запускаем таймер преследования
         }
     }
 
     private void ChasePlayer()
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // Двигаемся к игроку
         if (Vector2.Distance(transform.position, player.position) < 0.1f)
         {
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
-            SceneManager.LoadScene("Battle scene"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "BattleScene" пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+            // Переход на сцену боя
+            SceneManager.LoadScene("Battle scene"); // Замените "BattleScene" на имя вашей сцены боя
         }
     }
 
@@ -107,19 +107,19 @@ public class EnemyPatrol : MonoBehaviour
             Transform targetPoint = patrolPoints[currentPointIndex];
             while (Vector2.Distance(transform.position, targetPoint.position) > 0.1f)
             {
-                yield return null; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                yield return null; // Ждем следующего кадра
             }
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-            yield return new WaitForSeconds(waitTime); // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-            currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            // Останавливаем движение
+            yield return new WaitForSeconds(waitTime); // Ждем время ожидания
+            currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length; // Циклический переход
         }
     }
 
     private IEnumerator ChaseTimer()
     {
         yield return new WaitForSeconds(chaseDuration);
-        isChasing = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-        StartCoroutine(Patrol()); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        isChasing = false; // Останавливаем преследование после времени
+        StartCoroutine(Patrol()); // Возвращаемся к патрулированию
     }
 }
