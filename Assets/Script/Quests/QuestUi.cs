@@ -1,24 +1,29 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 public class QuestUI : MonoBehaviour
 {
     public TMP_Text questListText;
-    public QuestManager questManager;
+    private QuestManager questManager;
     private Find find;
 
     void Start()
     {
         questManager = find.FindUIElement<QuestManager>("QuestManager");
-        UpdateQuestList();
+        // UpdateQuestList();
     }
 
     public void UpdateQuestList()
     {
-        questListText.text = "Задания:\n";
-        foreach (Quest quest in questManager.GetActiveQuests())
+        questListText.text = "Р—Р°РґР°РЅРёСЏ:\n";
+        if (questManager != null)
         {
-            questListText.text += "- " + quest.title + ": " + quest.description + "\n";
+            foreach (Quest quest in questManager.GetActiveQuests())
+            {
+                questListText.text += "- " + quest.title + ": " + quest.description + "\n";
+            }
+            
         }
     }
 }
