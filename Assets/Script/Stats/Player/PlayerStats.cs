@@ -148,6 +148,14 @@ public class PlayerStats : NetworkBehaviour {
     //     gameObject.layer = LayerMask.NameToLayer("Player");
     // }
 
+    [ClientRpc]
+    public void RpcApplyTemporarySlow(float slowFactor, float duration)
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.ApplySlow(duration, slowFactor);
+        }
+    }
  
     [ClientRpc]
     public void RpcShowPoisonEffect()
