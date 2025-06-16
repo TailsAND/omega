@@ -369,7 +369,11 @@ MonoBehaviour:
   animator: {fileID: 7085261678692851948}
   footstepAudio: {fileID: 8487712644808398705}
   footstepSounds:
-  - {fileID: 8300000, guid: bb98477ba3253f447a17387d45298bc5, type: 3}
+  - {fileID: 8300000, guid: 3070b122cad90a1469f8b4b06d48467b, type: 3}
+  - {fileID: 8300000, guid: 8b54579468535f348ba9c2dc1af799b3, type: 3}
+  - {fileID: 8300000, guid: c8c2b28fca75c77448946bcfb7c84008, type: 3}
+  - {fileID: 8300000, guid: ddc6cde2f68720d4f9734f82509ce852, type: 3}
+  - {fileID: 8300000, guid: 2f269826a82421e44b281e6350c09237, type: 3}
   footstepInterval: 0.3
   lastDirection: {x: 0, y: 0}
 --- !u!114 &1589120652148634184
@@ -952,7 +956,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.15
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
