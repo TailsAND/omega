@@ -15790,6 +15790,7 @@ GameObject:
   - component: {fileID: 438720922}
   - component: {fileID: 438720921}
   - component: {fileID: 438720920}
+  - component: {fileID: 438720923}
   m_Layer: 5
   m_Name: LuckUp
   m_TagString: Untagged
@@ -15861,8 +15862,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 438720923}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseLuck
         m_Mode: 1
         m_Arguments:
@@ -15911,6 +15912,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 438720918}
   m_CullTransparentMesh: 1
+--- !u!114 &438720923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438720918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &446568947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16185,6 +16198,7 @@ GameObject:
   - component: {fileID: 477136725}
   - component: {fileID: 477136724}
   - component: {fileID: 477136723}
+  - component: {fileID: 477136726}
   m_Layer: 5
   m_Name: AgilityUp
   m_TagString: Untagged
@@ -16256,8 +16270,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 477136726}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseAgility
         m_Mode: 1
         m_Arguments:
@@ -16306,6 +16320,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477136721}
   m_CullTransparentMesh: 1
+--- !u!114 &477136726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477136721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &483867161
 GameObject:
   m_ObjectHideFlags: 0
@@ -20936,6 +20962,7 @@ GameObject:
   - component: {fileID: 701719138}
   - component: {fileID: 701719137}
   - component: {fileID: 701719136}
+  - component: {fileID: 701719139}
   m_Layer: 5
   m_Name: SpeedUp
   m_TagString: Untagged
@@ -21007,8 +21034,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 701719139}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseSpeed
         m_Mode: 1
         m_Arguments:
@@ -21057,6 +21084,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701719134}
   m_CullTransparentMesh: 1
+--- !u!114 &701719139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701719134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &702910245
 GameObject:
   m_ObjectHideFlags: 0
@@ -34248,6 +34287,7 @@ GameObject:
   - component: {fileID: 1232824835}
   - component: {fileID: 1232824834}
   - component: {fileID: 1232824833}
+  - component: {fileID: 1232824836}
   m_Layer: 5
   m_Name: StrengthUp
   m_TagString: Untagged
@@ -34319,8 +34359,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 1232824836}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseStrength
         m_Mode: 1
         m_Arguments:
@@ -34369,6 +34409,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232824831}
   m_CullTransparentMesh: 1
+--- !u!114 &1232824836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232824831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1236254761
 GameObject:
   m_ObjectHideFlags: 0
@@ -37068,6 +37120,7 @@ GameObject:
   - component: {fileID: 1338760995}
   - component: {fileID: 1338760994}
   - component: {fileID: 1338760993}
+  - component: {fileID: 1338760996}
   m_Layer: 5
   m_Name: SanityUp
   m_TagString: Untagged
@@ -37139,8 +37192,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 1338760996}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseSanity
         m_Mode: 1
         m_Arguments:
@@ -37189,6 +37242,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338760991}
   m_CullTransparentMesh: 1
+--- !u!114 &1338760996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338760991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1342133193
 GameObject:
   m_ObjectHideFlags: 0
@@ -43353,6 +43418,171 @@ Transform:
   m_Children: []
   m_Father: {fileID: 929107519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!43 &1598553708
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 11
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 0
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 0
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 0
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 0
+    _typelessdata: 
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1600483382
 GameObject:
   m_ObjectHideFlags: 0
@@ -57404,6 +57634,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Location void
       objectReference: {fileID: 0}
+    - target: {fileID: 7423419143698308130, guid: 553a8e59ac7be164793350091459d942, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -57523,6 +57757,10 @@ PrefabInstance:
     - target: {fileID: 4172025911005501375, guid: 0cc436d34d926bc43b46dd5dcc275c38, type: 3}
       propertyPath: m_Name
       value: Dungeons
+      objectReference: {fileID: 0}
+    - target: {fileID: 4172025911005501375, guid: 0cc436d34d926bc43b46dd5dcc275c38, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6317908370367527518, guid: 0cc436d34d926bc43b46dd5dcc275c38, type: 3}
       propertyPath: m_LocalPosition.x

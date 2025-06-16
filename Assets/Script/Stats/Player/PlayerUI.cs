@@ -1,9 +1,16 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour {
     private PlayerStats _playerStats;
+
+    public static PlayerUI Instance;
+
+    private void Awake() {
+        Instance = this;
+    }
 
     void Start() {
         _playerStats = GetComponent<PlayerStats>();
@@ -68,7 +75,7 @@ public class PlayerUI : MonoBehaviour {
     }
 
     public void SetStateOfAbilityUpdateButtons() {
-        if (_playerStats.AbilityPoints > 0) {
+        if (InventoryManager.Instance.PlayerSkillController.PlayerStats.AbilityPoints > 0) {
             UiContainer.Instance.strength_up.transform.localScale = new Vector3(0.3f, 1, 1); // Устанавливаем нормальный размер, кнопка активна
             UiContainer.Instance.sanity_up.transform.localScale = new Vector3(0.3f, 1, 1);
             UiContainer.Instance.agility_up.transform.localScale = new Vector3(0.3f, 1, 1);

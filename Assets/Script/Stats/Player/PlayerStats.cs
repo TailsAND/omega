@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -100,18 +99,7 @@ public class PlayerStats : NetworkBehaviour {
         set { speed = value; }
     }
 
-    public float MovementSpeed
-    {
-        get { return playerMovement.moveSpeed; }
-        set { playerMovement.moveSpeed = value; }
-    }
-    
-    public bool isPlayer
-    {
-        get { return isLocalPlayer; }
-    }
-    
-    public bool IsPlayer => isLocalPlayer;
+
     private PlayerMovement playerMovement;
     private PlayerUI playerUI;
 
@@ -147,23 +135,6 @@ public class PlayerStats : NetworkBehaviour {
     //     base.OnStartLocalPlayer();
     //     gameObject.layer = LayerMask.NameToLayer("Player");
     // }
-
- 
-    [ClientRpc]
-    public void RpcShowPoisonEffect()
-    {
-        // Здесь можно добавить визуальные эффекты (например, изменение цвета игрока)
-        Debug.Log("Poison effect applied (visual)");
-    }
-
-    [ClientRpc]
-    public void RpcHidePoisonEffect()
-    {
-        // Здесь можно убрать визуальные эффекты
-        Debug.Log("Poison effect removed (visual)");
-    }
-
-
     
     public void UseItem(ItemConfig itemConfig)
     {
@@ -198,7 +169,7 @@ public class PlayerStats : NetworkBehaviour {
 
             xp_currently = 0;
             ability_points += 1;
-            playerUI.SetStateOfAbilityUpdateButtons();
+            PlayerUI.Instance.SetStateOfAbilityUpdateButtons();
         }
 
 
@@ -212,7 +183,7 @@ public class PlayerStats : NetworkBehaviour {
         UpdateAllStats();
     }
     
-    private void UpdateAllStats() {
+    public void UpdateAllStats() {
         xp_needed = (int)(xp_needed_per_lvl + xp_needed_per_lvl * (lvl - 1));
         int strength_hp = (strength - 1) * 20;
         max_hp = (int)300 + strength_hp;
@@ -233,29 +204,28 @@ public class PlayerStats : NetworkBehaviour {
     [Server]
     public void TakeHit(int damage)
     {
-        if (!isServer || connectionToClient == null) return;
         if (!isServer) 
         {
             Debug.Log("TakeHit called on client, ignoring");
             return;
         }
-
+    
         currently_hp -= damage;
         Debug.Log($"Player took {damage} damage, health now: {currently_hp}");
-
+    
         if (currently_hp <= 0)
         {
             currently_hp = 0;
             Die();
         }
-
+    
         RpcUpdateHealth(currently_hp);
     }
+    
 
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
     {
-        if (!isClient) return;
         currently_hp = newHealth;
         if (playerUI != null)
         {
@@ -288,63 +258,6 @@ public class PlayerStats : NetworkBehaviour {
         transform.position = _spawnPosition;
     }
 
-    public void IncreaseStrength() {
-        if (ability_points > 0) {
-            strength++;
-            ability_points -= 1;
-            UpdateAllStats();
-            playerUI.SetStateOfAbilityUpdateButtons();
-        }
-    }
-
-    public void IncreaseSanity() {
-        if (ability_points > 0) {
-            sanity++;
-            ability_points -= 1;
-            UpdateAllStats();
-            playerUI.SetStateOfAbilityUpdateButtons();
-        }
-    }
-
-    public void IncreaseAgility() {
-        if (ability_points > 0) {
-            agility++;
-            ability_points -= 1;
-            UpdateAllStats();
-
-            playerUI.SetStateOfAbilityUpdateButtons();
-        }
-    }
-
-    public void IncreaseLuck() {
-        if (ability_points > 0) {
-            luck++;
-            ability_points -= 1;
-            UpdateAllStats();
-            playerUI.SetStateOfAbilityUpdateButtons();
-        }
-    }
-
-    public void IncreaseSpeed() {
-        if (ability_points > 0) {
-            speed++;
-            ability_points -= 1;
-            float speed_multiply = 0.05f;
-            playerMovement.moveSpeed += speed_multiply;
-            UpdateAllStats();
-            playerUI.SetStateOfAbilityUpdateButtons();
-        }
-    }
-
-    [ClientRpc]
-    public void RpcApplyTemporarySlow(float slowFactor, float duration)
-    {
-        if (playerMovement != null)
-        {
-            playerMovement.ApplySlow(duration, slowFactor);
-        }
-    }
-    
     [Client]
     private void UpdateEverything() {
         playerUI.UpdateUI();
@@ -355,6 +268,23 @@ public class PlayerStats : NetworkBehaviour {
     private void FindPlayerComponents() {
         playerMovement = GetComponent<PlayerMovement>();
         playerUI = GetComponent<PlayerUI>();
-        ;
+        
+    }
+    public void SetStateOfAbilityUpdateButtons() {
+        if (InventoryManager.Instance.PlayerSkillController.PlayerStats.AbilityPoints > 0) {
+            UiContainer.Instance.strength_up.transform.localScale = new Vector3(0.3f, 1, 1); // Устанавливаем нормальный размер, кнопка активна
+            UiContainer.Instance.sanity_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            UiContainer.Instance.agility_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            UiContainer.Instance.luck_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            UiContainer.Instance.speed_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            PlayerUI.Instance.UpdateUI();
+        } else {
+            UiContainer.Instance.strength_up.transform.localScale = Vector3.zero; // Устанавливаем размер в ноль, кнопка неактивна
+            UiContainer.Instance.sanity_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.agility_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.luck_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.speed_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.ability_points_text.text = "";
+        }
     }
 }
