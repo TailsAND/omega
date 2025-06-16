@@ -29,9 +29,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8894036980424771460}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -36.621, y: -34.3123, z: -12.789505}
-  m_LocalScale: {x: 0.4094, y: 0.4094, z: 0.4094}
+  m_LocalScale: {x: 1.8073394, y: 1.8222299, z: 0.4094}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,7 +102,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 7b537c82492350649b0049a75f59935a, type: 3}
+  m_Sprite: {fileID: -1623465313, guid: 73d1bcfc9eeac7a48a4cffb49a5b635e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,6 +128,7 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  <ProjectileType>k__BackingField: 0
   damage: 0
   speed: 0
   lifetime: 0
@@ -183,5 +184,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.53
+  m_Offset: {x: 0.02564366, y: -0.00444064}
+  m_Radius: 0.10099348

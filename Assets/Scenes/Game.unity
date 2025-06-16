@@ -2334,10 +2334,10 @@ RectTransform:
   - {fileID: 389774761}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 847.5, y: -65}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86822061
 MonoBehaviour:
@@ -2447,6 +2447,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &95793205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,10 +3702,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DarkCultist (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 1527724019946203007, guid: abcef40ed8c372c4085c92c04b6cccb2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2961475741172367653, guid: abcef40ed8c372c4085c92c04b6cccb2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 42.896
@@ -3784,10 +3786,10 @@ RectTransform:
   - {fileID: 1249148211}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 692.5, y: -485}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &157110657
 MonoBehaviour:
@@ -3897,6 +3899,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &160821726
 GameObject:
   m_ObjectHideFlags: 0
@@ -4709,10 +4717,10 @@ RectTransform:
   - {fileID: 1745001004}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 227.5, y: -205}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &187905732
 MonoBehaviour:
@@ -4822,6 +4830,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &192029788
 GameObject:
   m_ObjectHideFlags: 0
@@ -5263,15 +5277,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6961648780496721955, guid: 2c3c946d97076774b8d8883feecf0625, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -119.35613
+      value: 30.543
       objectReference: {fileID: 0}
     - target: {fileID: 6961648780496721955, guid: 2c3c946d97076774b8d8883feecf0625, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 25.37857
+      value: 14.202
       objectReference: {fileID: 0}
     - target: {fileID: 6961648780496721955, guid: 2c3c946d97076774b8d8883feecf0625, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.11
+      value: -4.491
       objectReference: {fileID: 0}
     - target: {fileID: 6961648780496721955, guid: 2c3c946d97076774b8d8883feecf0625, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5721,6 +5735,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &223534309
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5833,10 +5853,10 @@ RectTransform:
   - {fileID: 186003250}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 72.5, y: -65}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &237731940
 MonoBehaviour:
@@ -5946,6 +5966,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1001 &237744500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6565,10 +6591,10 @@ RectTransform:
   - {fileID: 1822102963}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 537.5, y: -65}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &263312672
 MonoBehaviour:
@@ -6678,6 +6704,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &267663987
 GameObject:
   m_ObjectHideFlags: 0
@@ -7861,10 +7893,10 @@ RectTransform:
   - {fileID: 1409681958}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 382.5, y: -205}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &308465248
 MonoBehaviour:
@@ -7974,6 +8006,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &311083749
 GameObject:
   m_ObjectHideFlags: 0
@@ -10722,6 +10760,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &400880743
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11461,6 +11505,7 @@ GameObject:
   - component: {fileID: 438720922}
   - component: {fileID: 438720921}
   - component: {fileID: 438720920}
+  - component: {fileID: 438720923}
   m_Layer: 5
   m_Name: LuckUp
   m_TagString: Untagged
@@ -11532,8 +11577,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 438720923}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseLuck
         m_Mode: 1
         m_Arguments:
@@ -11582,6 +11627,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 438720918}
   m_CullTransparentMesh: 1
+--- !u!114 &438720923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438720918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &446568947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11836,6 +11893,7 @@ GameObject:
   - component: {fileID: 477136725}
   - component: {fileID: 477136724}
   - component: {fileID: 477136723}
+  - component: {fileID: 477136726}
   m_Layer: 5
   m_Name: AgilityUp
   m_TagString: Untagged
@@ -11907,8 +11965,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 477136726}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseAgility
         m_Mode: 1
         m_Arguments:
@@ -11957,6 +12015,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477136721}
   m_CullTransparentMesh: 1
+--- !u!114 &477136726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477136721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &483867161
 GameObject:
   m_ObjectHideFlags: 0
@@ -13351,10 +13421,10 @@ RectTransform:
   - {fileID: 1750336504}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 692.5, y: -65}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &536996393
 MonoBehaviour:
@@ -13464,6 +13534,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &540643603
 GameObject:
   m_ObjectHideFlags: 0
@@ -14410,6 +14486,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &574275103
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15830,6 +15912,171 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636367264}
   m_CullTransparentMesh: 1
+--- !u!43 &636652562
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 11
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 0
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 0
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 0
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 0
+    _typelessdata: 
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &636657571
 GameObject:
   m_ObjectHideFlags: 0
@@ -16451,6 +16698,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &660584611
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16732,6 +16985,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!114 &674982330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16937,6 +17196,7 @@ GameObject:
   - component: {fileID: 701719138}
   - component: {fileID: 701719137}
   - component: {fileID: 701719136}
+  - component: {fileID: 701719139}
   m_Layer: 5
   m_Name: SpeedUp
   m_TagString: Untagged
@@ -17008,8 +17268,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 701719139}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseSpeed
         m_Mode: 1
         m_Arguments:
@@ -17058,6 +17318,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701719134}
   m_CullTransparentMesh: 1
+--- !u!114 &701719139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701719134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &703695154
 GameObject:
   m_ObjectHideFlags: 0
@@ -17442,10 +17714,10 @@ RectTransform:
   - {fileID: 1965386600}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 227.5, y: -485}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &720006656
 MonoBehaviour:
@@ -17555,6 +17827,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &720930613
 GameObject:
   m_ObjectHideFlags: 0
@@ -20470,10 +20748,10 @@ RectTransform:
   - {fileID: 892986486}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 537.5, y: -205}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &843719452
 MonoBehaviour:
@@ -20583,6 +20861,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &844324961
 GameObject:
   m_ObjectHideFlags: 0
@@ -21567,6 +21851,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!114 &888660432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22847,10 +23137,10 @@ RectTransform:
   - {fileID: 1429786300}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 72.5, y: -345}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &913412359
 MonoBehaviour:
@@ -22960,6 +23250,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &914278300
 GameObject:
   m_ObjectHideFlags: 0
@@ -25204,6 +25500,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &984743184
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28492,10 +28794,10 @@ RectTransform:
   - {fileID: 636367265}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 847.5, y: -485}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1159551398
 MonoBehaviour:
@@ -28605,6 +28907,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1167215314
 GameObject:
   m_ObjectHideFlags: 0
@@ -29001,6 +29309,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &1168982202
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -29044,10 +29358,10 @@ RectTransform:
   - {fileID: 1012019747}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 847.5, y: -345}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1169042893
 MonoBehaviour:
@@ -29157,6 +29471,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1173185639
 GameObject:
   m_ObjectHideFlags: 0
@@ -30914,6 +31234,7 @@ GameObject:
   - component: {fileID: 1232824835}
   - component: {fileID: 1232824834}
   - component: {fileID: 1232824833}
+  - component: {fileID: 1232824836}
   m_Layer: 5
   m_Name: StrengthUp
   m_TagString: Untagged
@@ -30985,8 +31306,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 1232824836}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseStrength
         m_Mode: 1
         m_Arguments:
@@ -31035,6 +31356,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232824831}
   m_CullTransparentMesh: 1
+--- !u!114 &1232824836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232824831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1236254761
 GameObject:
   m_ObjectHideFlags: 0
@@ -33360,10 +33693,10 @@ RectTransform:
   - {fileID: 1185541105}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 382.5, y: -345}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1305858024
 MonoBehaviour:
@@ -33473,6 +33806,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1312510456
 GameObject:
   m_ObjectHideFlags: 0
@@ -34328,6 +34667,7 @@ GameObject:
   - component: {fileID: 1338760995}
   - component: {fileID: 1338760994}
   - component: {fileID: 1338760993}
+  - component: {fileID: 1338760996}
   m_Layer: 5
   m_Name: SanityUp
   m_TagString: Untagged
@@ -34399,8 +34739,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerStats, Assembly-CSharp
+      - m_Target: {fileID: 1338760996}
+        m_TargetAssemblyTypeName: StatsUpgrade, Assembly-CSharp
         m_MethodName: IncreaseSanity
         m_Mode: 1
         m_Arguments:
@@ -34449,6 +34789,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338760991}
   m_CullTransparentMesh: 1
+--- !u!114 &1338760996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338760991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28767e3fa0a74591bc42a0d34f13acf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1342337843
 GameObject:
   m_ObjectHideFlags: 0
@@ -35442,6 +35794,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &1375328444
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36060,7 +36418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1411123224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37167,171 +37525,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447081563}
   m_CullTransparentMesh: 1
---- !u!43 &1457231716
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 11
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 0
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 0
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0, y: 0, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 0
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 0
-    _typelessdata: 
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &1458009184
 GameObject:
   m_ObjectHideFlags: 0
@@ -38609,6 +38802,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &1502873811
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39385,10 +39584,10 @@ RectTransform:
   - {fileID: 484588606}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 227.5, y: -345}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1548175530
 MonoBehaviour:
@@ -39498,6 +39697,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1548685465
 GameObject:
   m_ObjectHideFlags: 0
@@ -39948,10 +40153,10 @@ RectTransform:
   - {fileID: 1548685466}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 227.5, y: -65}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1565992749
 MonoBehaviour:
@@ -40061,6 +40266,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1569616614
 GameObject:
   m_ObjectHideFlags: 0
@@ -40171,10 +40382,10 @@ RectTransform:
   - {fileID: 998199331}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 847.5, y: -205}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1570459119
 MonoBehaviour:
@@ -40284,6 +40495,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1571266017
 GameObject:
   m_ObjectHideFlags: 0
@@ -41370,10 +41587,10 @@ RectTransform:
   - {fileID: 1064298118}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 72.5, y: -485}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1651643226
 MonoBehaviour:
@@ -41483,6 +41700,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1654129208
 GameObject:
   m_ObjectHideFlags: 0
@@ -43107,10 +43330,10 @@ RectTransform:
   - {fileID: 1202861221}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 382.5, y: -65}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1749921449
 MonoBehaviour:
@@ -43220,6 +43443,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1750336503
 GameObject:
   m_ObjectHideFlags: 0
@@ -43877,6 +44106,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!222 &1760721235
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45238,10 +45473,10 @@ RectTransform:
   - {fileID: 1870676644}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 72.5, y: -205}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1804890421
 MonoBehaviour:
@@ -45351,6 +45586,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1808618598
 GameObject:
   m_ObjectHideFlags: 0
@@ -46064,10 +46305,10 @@ RectTransform:
   - {fileID: 1522627838}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 537.5, y: -345}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1849018909
 MonoBehaviour:
@@ -46177,6 +46418,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1852596299
 GameObject:
   m_ObjectHideFlags: 0
@@ -47092,10 +47339,10 @@ RectTransform:
   - {fileID: 1575617222}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 537.5, y: -485}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1914024103
 MonoBehaviour:
@@ -47205,6 +47452,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1001 &1916554323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48271,10 +48524,10 @@ RectTransform:
   - {fileID: 1313152500}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 692.5, y: -205}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1954956425
 MonoBehaviour:
@@ -48384,6 +48637,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &1955354567
 GameObject:
   m_ObjectHideFlags: 0
@@ -49751,10 +50010,10 @@ RectTransform:
   - {fileID: 95793206}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 692.5, y: -345}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2007993098
 MonoBehaviour:
@@ -49864,6 +50123,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &2010394747
 GameObject:
   m_ObjectHideFlags: 0
@@ -50278,10 +50543,10 @@ RectTransform:
   - {fileID: 459398713}
   m_Father: {fileID: 717525735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 382.5, y: -485}
-  m_SizeDelta: {x: 145, y: 130}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018812548
 MonoBehaviour:
@@ -50391,6 +50656,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
 --- !u!1 &2036833309
 GameObject:
   m_ObjectHideFlags: 0
@@ -54028,9 +54299,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 656844080}
     m_Modifications:
+    - target: {fileID: 1036650556562952066, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 39.343
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036650556562952066, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.381004
+      objectReference: {fileID: 0}
     - target: {fileID: 1341165868808833573, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
       propertyPath: m_Name
       value: Object underground zone
+      objectReference: {fileID: 0}
+    - target: {fileID: 1765251291559198869, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.207
+      objectReference: {fileID: 0}
+    - target: {fileID: 1765251291559198869, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.697
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130417454418253936, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 39.754
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130417454418253936, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.795
       objectReference: {fileID: 0}
     - target: {fileID: 4125398937321732156, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54080,10 +54375,34 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -3.22
       objectReference: {fileID: 0}
+    - target: {fileID: 5705529023744352234, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 39.725647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5705529023744352234, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11.129752
+      objectReference: {fileID: 0}
     - target: {fileID: 6288587640145287126, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
       propertyPath: confirmationPanel
       value: 
       objectReference: {fileID: 1312510456}
+    - target: {fileID: 8198133694898595204, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 40.009647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8198133694898595204, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.955752
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552323818953580441, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 39.69465
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552323818953580441, guid: f3dcd10b215e8d642b7c308bc66b4f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10.969755
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -54872,18 +55191,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3696704964607310993, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
-      propertyPath: 'patrolPoints.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1199671102}
-    - target: {fileID: 3696704964607310993, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
-      propertyPath: 'patrolPoints.Array.data[1]'
-      value: 
-      objectReference: {fileID: 628771366}
-    - target: {fileID: 3696704964607310993, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
-      propertyPath: 'patrolPoints.Array.data[2]'
-      value: 
-      objectReference: {fileID: 229840662}
     - target: {fileID: 6490354134282400493, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
       propertyPath: m_LocalPosition.x
       value: 66.35
@@ -54924,6 +55231,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8173831615041351077, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8728939673222833598, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
       propertyPath: sceneId
       value: 1341525283
@@ -54935,8 +55246,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9062793993910443160, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7110043595237401651}
   m_SourcePrefab: {fileID: 100100000, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
+--- !u!1 &7110043595237401650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9062793993910443160, guid: c62aed91e74a6324e90c688c0f63c968, type: 3}
+  m_PrefabInstance: {fileID: 7110043595237401649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &7110043595237401651
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110043595237401650}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1001 &8045934197298305335
 PrefabInstance:
   m_ObjectHideFlags: 0

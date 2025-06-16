@@ -263,6 +263,14 @@ public class PlayerStats : NetworkBehaviour {
             playerUI.UpdateUI();
         }
     }
+    [ClientRpc]
+    public void RpcApplyTemporarySlow(float slowFactor, float duration)
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.ApplySlow(duration, slowFactor);
+        }
+    }
 
     [Client]
     private void CheckHpAndMana() {
