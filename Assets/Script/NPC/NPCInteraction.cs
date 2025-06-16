@@ -6,24 +6,109 @@ using Mirror;
 public class NPCInteraction : MonoBehaviour
 {
     [Header("UI Elements")]
-    public GameObject panel; // Панель диалога
-    public TextMeshProUGUI dialogText; // Текст диалога (TMP)
-    public AudioSource audioSource; // Аудиоисточник для голоса NPC
-    public GameObject interactHint; // Подсказка "Нажми E"
+    public GameObject panel;
+    public TextMeshProUGUI dialogText;
+    public TextMeshProUGUI playerResponseText;
+    public GameObject responseButton;
+    public AudioSource audioSource; // Аудиоисточник в панели
+    public GameObject interactHint;
 
     [Header("Dialog Settings")]
-    public Dialog[] dialogs; // Массив реплик NPC
+    public Dialog[] dialogs;
     private int currentDialogIndex = 0;
     private bool isDialogActive = false;
     private bool isPlayerInTrigger = false;
-    private Collider2D npcCollider;
-    private GameObject currentPlayer; // Текущий игрок в триггере
+    private GameObject currentPlayer;
+
+    [System.Serializable]
+    public class Dialog
+    {
+        public string npcText;
+        public AudioClip npcVoice;
+        public string playerResponse;
+        public AudioClip playerVoice;
+    }
 
     private void Start()
     {
+        ResetDialogState();
+    }
+
+    private void ResetDialogState()
+    {
         panel.SetActive(false);
         interactHint.SetActive(false);
-        npcCollider = GetComponent<Collider2D>();
+        responseButton.SetActive(false);
+        currentDialogIndex = 0;
+        
+        // Очищаем аудиодорожку
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.clip = null; // Важно: сбрасываем клип
+        }
+    }
+
+    private void Update()
+    {
+        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && !isDialogActive)
+        {
+            StartDialog();
+        }
+    }
+
+    private void StartDialog()
+    {
+        currentDialogIndex = 0;
+        isDialogActive = true;
+        panel.SetActive(true);
+        interactHint.SetActive(false);
+        ShowNPCDialog();
+    }
+
+    private void ShowNPCDialog()
+    {
+        if (currentDialogIndex < dialogs.Length)
+        {
+            dialogText.text = dialogs[currentDialogIndex].npcText;
+            
+            if (audioSource != null && dialogs[currentDialogIndex].npcVoice != null)
+            {
+                audioSource.Stop();
+                audioSource.clip = dialogs[currentDialogIndex].npcVoice;
+                audioSource.Play();
+            }
+
+            playerResponseText.text = dialogs[currentDialogIndex].playerResponse;
+            responseButton.SetActive(true);
+        }
+        else
+        {
+            EndDialog();
+        }
+    }
+
+    public void OnResponseButtonClick()
+    {
+        if (currentDialogIndex < dialogs.Length)
+        {
+            if (audioSource != null && dialogs[currentDialogIndex].playerVoice != null)
+            {
+                audioSource.Stop();
+                audioSource.clip = dialogs[currentDialogIndex].playerVoice;
+                audioSource.Play();
+            }
+
+            responseButton.SetActive(false);
+            currentDialogIndex++;
+            ShowNPCDialog();
+        }
+    }
+
+    private void EndDialog()
+    {
+        ResetDialogState();
+        isDialogActive = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,7 +117,7 @@ public class NPCInteraction : MonoBehaviour
         {
             isPlayerInTrigger = true;
             currentPlayer = other.gameObject;
-            interactHint.SetActive(true); // Показываем подсказку
+            interactHint.SetActive(true);
         }
     }
 
@@ -41,91 +126,14 @@ public class NPCInteraction : MonoBehaviour
         if (other.CompareTag("Player") && other.gameObject == currentPlayer)
         {
             isPlayerInTrigger = false;
-            interactHint.SetActive(false); // Скрываем подсказку
-            
-            if (isDialogActive)
-            {
-                ForceEndDialog(); // Закрываем диалог, если игрок ушёл
-            }
+            interactHint.SetActive(false);
+            if (isDialogActive) EndDialog();
         }
     }
 
-    private void Update()
-    {
-        // Если игрок в триггере и нажал E
-        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E))
-        {
-            if (!isDialogActive)
-            {
-                StartDialog(); // Начинаем диалог
-            }
-            else
-            {
-                ShowNextDialog(); // Продолжаем диалог
-            }
-        }
-    }
-
-    // Проверка, является ли игрок локальным (для Mirror)
     private bool IsLocalPlayer(Collider2D playerCollider)
     {
         NetworkIdentity networkIdentity = playerCollider.GetComponent<NetworkIdentity>();
         return networkIdentity != null && networkIdentity.isLocalPlayer;
     }
-
-    private void StartDialog()
-    {
-        isDialogActive = true;
-        panel.SetActive(true);
-        interactHint.SetActive(false); // Скрываем подсказку
-        ShowNextDialog();
-        Debug.Log("Диалог начат (по нажатию E)");
-    }
-
-    private void ShowNextDialog()
-    {
-        if (currentDialogIndex < dialogs.Length)
-        {
-            dialogText.text = dialogs[currentDialogIndex].text;
-            
-            if (dialogs[currentDialogIndex].voiceClip != null)
-            {
-                audioSource.Stop();
-                audioSource.clip = dialogs[currentDialogIndex].voiceClip;
-                audioSource.Play();
-            }
-            
-            currentDialogIndex++;
-        }
-        else
-        {
-            EndDialog();
-        }
-    }
-
-    private void EndDialog()
-    {
-        panel.SetActive(false);
-        currentDialogIndex = 0;
-        isDialogActive = false;
-        interactHint.SetActive(true); // Снова показываем подсказку
-        Debug.Log("Диалог завершен (нормально)");
-    }
-
-    // Принудительное завершение диалога
-    private void ForceEndDialog()
-    {
-        panel.SetActive(false);
-        currentDialogIndex = 0;
-        isDialogActive = false;
-        audioSource.Stop();
-        Debug.Log("Диалог прерван (игрок вышел из зоны)");
-    }
-}
-
-[System.Serializable]
-public class Dialog
-{
-    public string text; // Текст реплики
-    public AudioClip voiceClip; // Озвучка реплики
 }
