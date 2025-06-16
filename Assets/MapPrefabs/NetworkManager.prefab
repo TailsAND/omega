@@ -55,7 +55,7 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/Game.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 1285411575813866912}
-  networkAddress: 11e65bb76920.pr.edgegap.net
+  networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -66,14 +66,21 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 828090784902224273, guid: c690769b36539fd4984af938938e0dbd, type: 3}
   - {fileID: 828090784902224273, guid: c8c55e48a63518545a7714e21efa9675, type: 3}
+  - {fileID: 3121824133957447250, guid: 3a391260fa91a9e408301f12336a9244, type: 3}
   - {fileID: 828090784902224273, guid: ff7c5f015d684e446a5fdec15668cf27, type: 3}
   - {fileID: 4223194317599826411, guid: 78a7a1e0d762afb4baa51dbb1680ba8e, type: 3}
   - {fileID: 8894036980424771460, guid: 99ed20a651e8d2d40a0fff26c917baeb, type: 3}
   - {fileID: 8894036980424771460, guid: 1484a86963bb0d94699192f43f2002f2, type: 3}
   - {fileID: 8894036980424771460, guid: 3a24f405b8924e34b98f8f76f5a5e4f1, type: 3}
   - {fileID: 828090784902224273, guid: 8cc184bb3cc284c4d8fa52d5a700c97c, type: 3}
-  - {fileID: 6661974916675127876, guid: 9e03cb29852581145909f2c24942aeca, type: 3}
+  - {fileID: 3056877770394114114, guid: cd5b18cd9aff5e1488d78ede88eaaa6e, type: 3}
   - {fileID: 828090784902224273, guid: 2c3c946d97076774b8d8883feecf0625, type: 3}
+  - {fileID: 5835167982013375617, guid: 3319fda1baafd0c4abd22814b7b843d4, type: 3}
+  - {fileID: 737353601970118138, guid: 0e66e4bd8cc8b1541af1349e9d0332d1, type: 3}
+  - {fileID: 4166307511622207365, guid: bd29084d18dcc5442a744548c5d10830, type: 3}
+  - {fileID: 4166307511622207365, guid: b5fa338c3854d024d99a771ec59d35cf, type: 3}
+  - {fileID: 4166307511622207365, guid: 18f58a7b5bd4f9e4b9f399a117892675, type: 3}
+  - {fileID: 4166307511622207365, guid: 0b309486d3c47b74e9f16fa8ecc98768, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2

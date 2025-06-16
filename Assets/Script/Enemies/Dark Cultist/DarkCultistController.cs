@@ -50,8 +50,15 @@ public class DarkCultistController : NetworkBehaviour
     {
         _health = GetComponent<TestenemyHealth>();
         _initialPosition = transform.position;
-        SetRandomWanderDirection();
         gameObject.layer = LayerMask.NameToLayer("Enemies");
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        SetRandomWanderDirection(); // Перенесли инициализацию направления сюда
+        FindTarget();
+        StartCoroutine(ServerUpdate());
     }
     
 
@@ -64,12 +71,6 @@ public class DarkCultistController : NetworkBehaviour
     }
     
     
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        FindTarget();
-        StartCoroutine(ServerUpdate());
-    }
 
     [Server]
     private void FindTarget()

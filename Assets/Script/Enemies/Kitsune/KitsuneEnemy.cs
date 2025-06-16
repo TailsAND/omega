@@ -206,7 +206,7 @@ public class KitsuneEnemy : NetworkBehaviour
         if (!isServer || targetPlayer == null) return;
 
         isCasting = true;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         RpcPlayAnimation("Attack");
         
         Vector2 teleportPosition = (Vector2)targetPlayer.position - (Vector2)targetPlayer.right * teleportDistance;
@@ -231,7 +231,7 @@ public class KitsuneEnemy : NetworkBehaviour
         if (!isServer) return;
 
         isCasting = true;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         RpcPlayAnimation("Cast");
         
         Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, silenceRange);

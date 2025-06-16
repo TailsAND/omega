@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7692972613622225493}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SlimeFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 5569955187492641162}
   - component: {fileID: 4593279036786839548}
   - component: {fileID: 3723027009138511136}
-  m_Layer: 0
-  m_Name: Circle
+  m_Layer: 11
+  m_Name: SlimeFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
