@@ -198,7 +198,7 @@ public class PlayerStats : NetworkBehaviour {
 
             xp_currently = 0;
             ability_points += 1;
-            playerUI.SetStateOfAbilityUpdateButtons();
+            PlayerUI.Instance.SetStateOfAbilityUpdateButtons();
         }
 
 
@@ -212,7 +212,7 @@ public class PlayerStats : NetworkBehaviour {
         UpdateAllStats();
     }
     
-    private void UpdateAllStats() {
+    public void UpdateAllStats() {
         xp_needed = (int)(xp_needed_per_lvl + xp_needed_per_lvl * (lvl - 1));
         int strength_hp = (strength - 1) * 20;
         max_hp = (int)300 + strength_hp;
@@ -239,18 +239,19 @@ public class PlayerStats : NetworkBehaviour {
             Debug.Log("TakeHit called on client, ignoring");
             return;
         }
-
+    
         currently_hp -= damage;
         Debug.Log($"Player took {damage} damage, health now: {currently_hp}");
-
+    
         if (currently_hp <= 0)
         {
             currently_hp = 0;
             Die();
         }
-
+    
         RpcUpdateHealth(currently_hp);
     }
+    
 
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
@@ -336,15 +337,6 @@ public class PlayerStats : NetworkBehaviour {
         }
     }
 
-    [ClientRpc]
-    public void RpcApplyTemporarySlow(float slowFactor, float duration)
-    {
-        if (playerMovement != null)
-        {
-            playerMovement.ApplySlow(duration, slowFactor);
-        }
-    }
-    
     [Client]
     private void UpdateEverything() {
         playerUI.UpdateUI();
@@ -355,6 +347,23 @@ public class PlayerStats : NetworkBehaviour {
     private void FindPlayerComponents() {
         playerMovement = GetComponent<PlayerMovement>();
         playerUI = GetComponent<PlayerUI>();
-        ;
+        
+    }
+    public void SetStateOfAbilityUpdateButtons() {
+        if (InventoryManager.Instance.PlayerSkillController.PlayerStats.AbilityPoints > 0) {
+            UiContainer.Instance.strength_up.transform.localScale = new Vector3(0.3f, 1, 1); // Устанавливаем нормальный размер, кнопка активна
+            UiContainer.Instance.sanity_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            UiContainer.Instance.agility_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            UiContainer.Instance.luck_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            UiContainer.Instance.speed_up.transform.localScale = new Vector3(0.3f, 1, 1);
+            PlayerUI.Instance.UpdateUI();
+        } else {
+            UiContainer.Instance.strength_up.transform.localScale = Vector3.zero; // Устанавливаем размер в ноль, кнопка неактивна
+            UiContainer.Instance.sanity_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.agility_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.luck_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.speed_up.transform.localScale = Vector3.zero;
+            UiContainer.Instance.ability_points_text.text = "";
+        }
     }
 }
