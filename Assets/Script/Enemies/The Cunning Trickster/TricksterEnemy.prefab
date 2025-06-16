@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 0
+  _assetId: 4163340555
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   cloneCooldown: 15
   stealCooldown: 20
   maxClones: 3
-  clonePrefab: {fileID: 1988419795365826396, guid: 50a3d47a5aa4171419d11f0759d9c1ef, type: 3}
+  clonePrefab: {fileID: 4067909426962822870, guid: 4c89d89867834844bbcb9452f90677a0, type: 3}
   abilityRange: 5
   stealDistance: 2
   stealEffectPrefab: {fileID: 0}
