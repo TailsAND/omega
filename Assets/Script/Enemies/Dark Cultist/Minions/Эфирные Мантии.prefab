@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1911606315559670640}
   - component: {fileID: 7313356421186205600}
   - component: {fileID: 8185388560918233751}
+  - component: {fileID: -7652126397682855457}
   m_Layer: 10
   m_Name: "\u042D\u0444\u0438\u0440\u043D\u044B\u0435 \u041C\u0430\u043D\u0442\u0438\u0438"
   m_TagString: Untagged
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7379034307553318968}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dec0a0e0a1211c46b9ea3bddd6ec2a2, type: 3}
   m_Name: 
@@ -194,6 +195,7 @@ MonoBehaviour:
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
 --- !u!58 &8185388560918233751
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -230,3 +232,20 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.011582017, y: 0.4516992}
   m_Radius: 0.67
+--- !u!114 &-7652126397682855457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7379034307553318968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c570adb6c59c9d4b994b7a2a6f80b02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 2702828355428964061, guid: 78dae3d229290814c884637c03ddeed6, type: 3}
+  offset: {x: 0, y: 0.67, z: 0}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  blockingColor: {r: 0, g: 0, b: 1, a: 1}
+  colorChangeSpeed: 5

@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: Item Description
   icon: {fileID: 21300000, guid: 798a0192e5e2a1c45a1f6786703af909, type: 3}
+  weaponType: 6
+  weaponRange: 1.5
+  attackSpeed: 1
+  baseDamage: 10
   isHealing: 0
   HealingPower: 0
   isMana: 0
   ManaPower: 0
   time: 0
   Coins: 0
+  canBeStolen: 1
   PlayerPrefsName: 
   itemName: sss
   itemType: 5
@@ -34,9 +39,9 @@ MonoBehaviour:
     possibleSpecialStats: 
     specialStatRanges: []
   cRankStats:
-    health: {x: 0, y: 0}
-    attack: {x: 0, y: 0}
-    armor: {x: 0, y: 0}
+    health: {x: 3, y: 3}
+    attack: {x: 3, y: 3}
+    armor: {x: 3, y: 3}
     perLevelIncrease: 0
     possibleSpecialStats: 
     specialStatRanges: []

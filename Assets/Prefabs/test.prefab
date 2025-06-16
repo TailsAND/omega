@@ -170,6 +170,12 @@ MonoBehaviour:
     Skills: 
     configId: 
     rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
   itemConfig: {fileID: 11400000, guid: 6fb73704d74cdc64197ab2dd2d2b4cbf, type: 2}
 --- !u!114 &515242657347721765
 MonoBehaviour:
@@ -184,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2410654426
+  _assetId: 3168816648
   serverOnly: 0
   visibility: 0
   hasSpawned: 0

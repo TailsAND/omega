@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4216038779836334150}
   - component: {fileID: 6413401923073072589}
   - component: {fileID: 7764012664317314528}
+  - component: {fileID: -1317148550567430644}
   m_Layer: 10
   m_Name: Shadow Slime
   m_TagString: Untagged
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 0
+  _assetId: 847817332
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -198,6 +199,7 @@ MonoBehaviour:
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
 --- !u!114 &7764012664317314528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +207,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6349456098392761170}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a293fc17d4cee4a49b4eeb016c7396bd, type: 3}
   m_Name: 
@@ -230,3 +232,20 @@ MonoBehaviour:
   _poolSpawnInterval: 2
   _maxPools: 3
   _poolLifetime: 8
+--- !u!114 &-1317148550567430644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6349456098392761170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c570adb6c59c9d4b994b7a2a6f80b02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 2702828355428964061, guid: 78dae3d229290814c884637c03ddeed6, type: 3}
+  offset: {x: 0, y: 0.37, z: 0}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  blockingColor: {r: 0, g: 0, b: 1, a: 1}
+  colorChangeSpeed: 5

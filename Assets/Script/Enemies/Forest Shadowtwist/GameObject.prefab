@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4998228624236869368}
   - component: {fileID: 2473458545776876876}
   - component: {fileID: -8774325862638392167}
+  - component: {fileID: 9128747132199584960}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.99, y: -39.12, z: -0.6220976}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4718779, y: 0.4718779, z: 0.4718779}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -197,6 +198,7 @@ MonoBehaviour:
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
 --- !u!114 &2473458545776876876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +206,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7732282879374882115}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa5fc2811e2377f46950b3805664c9f3, type: 3}
   m_Name: 
@@ -224,6 +226,10 @@ MonoBehaviour:
   debuffDuration: 3
   debuffStacksMax: 3
   debuffEffectValue: 0.1
+  bleedingDamagePerTick: 5
+  bleedingTickInterval: 1
+  fearDuration: 3
+  hunterMarkMultiplier: 1.5
   patrolRadius: 10
   patrolPointReachedThreshold: 0.5
   idleTimeBetweenPatrolPoints: 2
@@ -248,3 +254,20 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &9128747132199584960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7732282879374882115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c570adb6c59c9d4b994b7a2a6f80b02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 2702828355428964061, guid: 78dae3d229290814c884637c03ddeed6, type: 3}
+  offset: {x: 0, y: 0.54, z: 0}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  blockingColor: {r: 0, g: 0, b: 1, a: 1}
+  colorChangeSpeed: 5

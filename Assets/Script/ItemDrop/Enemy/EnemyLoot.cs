@@ -17,6 +17,7 @@ public class EnemyLoot : MonoBehaviour
     [Header("Debug")]
     public bool enableLogs = true;
 
+    [Server]
     public void DropItem(int playerLevel)
     {
         if (lootTable == null && enableLogs)
@@ -25,29 +26,24 @@ public class EnemyLoot : MonoBehaviour
             return;
         }
 
-        // Выпадение обычного предмета (если прошёл шанс)
         if (Random.value <= dropChance && lootTable != null)
         {
             EquipmentItemData item = lootTable.GetRandomItem(enemyRank, playerLevel, GetComponent<TestenemyHealth>());
             
-            if (item != null && item.Config.Prefab != null)
+            if (item != null)
             {
-                Instantiate(item.Config.Prefab, transform.position, Quaternion.identity);
-                if (enableLogs) Debug.Log($"Dropped item: {item.Config.itemName}");
+                ItemData itemData = item.GenerateItemData(GetComponent<TestenemyHealth>());
+                DropItemObj(itemData);
+                
+                if (enableLogs) 
+                    Debug.Log($"Dropped item: {item.Config.itemName} with stats: HP+{itemData.healthBonus}, Armor+{itemData.armorBonus}");
             }
-            else if (enableLogs)
-            {
-                Debug.LogWarning(item == null ? "No item was generated" : "Item prefab is missing");
-            }
-        }
-        else if (enableLogs)
-        {
-            Debug.Log("Drop chance failed for regular item");
         }
 
-        // Гарантированное выпадение случайных ингредиентов
         DropRandomIngredients();
     }
+    
+    
 
     private void DropRandomIngredients()
     {
@@ -82,10 +78,14 @@ public class EnemyLoot : MonoBehaviour
     [Server]
     private void DropItemObj(ItemData itemData)
     {
-        Vector3 dropPos = new(transform.position.x + 0.5f, transform.position.y, transform.position.z);
+        Vector3 dropPos = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
         ItemBase item = ItemFactory.Instance.CreateItemByData(itemData);
-        item.gameObject.SetActive(true);
-        item.gameObject.transform.position = dropPos;
-        NetworkServer.Spawn(item.gameObject);
+        
+        if (item != null)
+        {
+            item.gameObject.SetActive(true);
+            item.gameObject.transform.position = dropPos;
+            NetworkServer.Spawn(item.gameObject);
+        }
     }
 }

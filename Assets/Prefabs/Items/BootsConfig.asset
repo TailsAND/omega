@@ -14,18 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD \uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
   icon: {fileID: 21300000, guid: e420c5bc93cb2604695a893500c897e3, type: 3}
+  weaponType: 4
+  weaponRange: 1.5
+  attackSpeed: 1
+  baseDamage: 10
   isHealing: 0
   HealingPower: 0
   isMana: 0
   ManaPower: 0
   time: 0
   Coins: 0
+  canBeStolen: 1
   PlayerPrefsName: 
   itemName: 
   itemType: 4
   Rank: 0
   Prefab: {fileID: 828090784902224273, guid: c8c55e48a63518545a7714e21efa9675, type: 3}
-  itemSkills: []
+  Skills: 
   dRankStats:
     health: {x: 0, y: 0}
     attack: {x: 0, y: 0}

@@ -13,6 +13,7 @@ public class AncientRootsController : MinionController
     
     private float _lastRootTime;
     private bool _isRooting = false;
+    private GameObject _currentRootEffect;
 
     protected override void Awake()
     {
@@ -26,7 +27,6 @@ public class AncientRootsController : MinionController
     {
         base.Update();
 
-        // Проверяем возможность атаки
         if (!_isRooting && 
             Time.time > _lastRootTime + _rootCooldown && 
             _target != null && 
@@ -39,85 +39,55 @@ public class AncientRootsController : MinionController
     [Server]
     private void TryRootPlayer()
     {
-        // Проверяем по тегу, что цель является игроком
-        if (_target == null || !_target.CompareTag("Player"))
-        {
-            _isRooting = false;
-            return;
-        }
+        if (_target == null || !_target.CompareTag("Player")) return;
 
         _lastRootTime = Time.time;
         _isRooting = true;
 
-        // Визуальные эффекты
-        RpcPlayRootEffect(true);
-    
-        PlayerStats playerStats = _target.GetComponent<PlayerStats>();
-        if (playerStats != null)
+        // Применяем root эффект
+        PlayerMovement playerMovement = _target.GetComponent<PlayerMovement>();
+        if (playerMovement != null)
         {
-            NetworkIdentity targetIdentity = playerStats.GetComponent<NetworkIdentity>();
-            if (targetIdentity != null && targetIdentity.connectionToClient != null)
-            {
-                TargetRootPlayer(targetIdentity.connectionToClient);
-            }
-            else
-            {
-                Debug.LogWarning("Не удалось получить connectionToClient у цели");
-                _isRooting = false;
-                return;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("PlayerStats не найден у игрока");
-            _isRooting = false;
-            return;
+            playerMovement.ApplyRoot(_rootDuration);
+            RpcPlayRootEffect(_target.position, true);
         }
 
         StartCoroutine(EndRootAfterDelay(_rootDuration));
     }
 
-    [TargetRpc]
-    private void TargetRootPlayer(NetworkConnection target)
-    {
-        if (target == null || target.identity == null) return;
-    
-        PlayerMovement movement = target.identity.GetComponent<PlayerMovement>();
-        if (movement != null && movement.isLocalPlayer)
-        {
-            movement.ApplyRoot(_rootDuration);
-        }
-    }
     [Server]
     private IEnumerator EndRootAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         _isRooting = false;
-        RpcPlayRootEffect(false);
+        RpcPlayRootEffect(_target.position, false);
     }
 
     [ClientRpc]
-    private void RpcPlayRootEffect(bool start)
+    private void RpcPlayRootEffect(Vector3 position, bool start)
     {
-        if (_rootEffectPrefab != null)
+        if (_rootEffectPrefab == null) return;
+
+        if (start)
         {
-            // Здесь должна быть логика активации/деактивации эффектов
-            if (start)
-            {
-                Instantiate(_rootEffectPrefab, _target.position, Quaternion.identity);
-            }
+            // Создаем эффект на всех клиентах
+            _currentRootEffect = Instantiate(_rootEffectPrefab, position, Quaternion.identity);
+            _currentRootEffect.transform.SetParent(_target); // Прикрепляем к цели
+        }
+        else if (_currentRootEffect != null)
+        {
+            // Уничтожаем эффект на всех клиентах
+            Destroy(_currentRootEffect);
+            _currentRootEffect = null;
         }
     }
-
 
     [Server]
     public override void TakeDamage(int damage, DamageType damageType = DamageType.Physical)
     {
-        // Уязвимость к огню
         if (damageType == DamageType.Fire)
         {
-            damage = Mathf.RoundToInt(damage * 1.5f); // +50% урона
-            Debug.Log($"Ancient Roots take extra fire damage: {damage}");
+            damage = Mathf.RoundToInt(damage * _fireDamageMultiplier);
         }
 
         base.TakeDamage(damage, damageType);
@@ -125,7 +95,6 @@ public class AncientRootsController : MinionController
 
     protected override void HandleMovement()
     {
-        // Корни медленно тянутся к цели
         if (_target != null && !_isRooting)
         {
             Vector2 direction = (_target.position - transform.position).normalized;

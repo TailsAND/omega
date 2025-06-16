@@ -31,7 +31,20 @@ public bool PutInEmptySlot(ItemConfig itemConfig, ItemData itemData)
     return false;
 }
 
-      
+[Server]
+public void AddLoot(EquipmentItemData itemData, TestenemyHealth enemyHealth)
+{
+    if (!isServer) return;
+
+    var generatedItemData = itemData.GenerateItemData(enemyHealth);
+    var itemConfig = ItemDatabase.GetItemById(itemData.name);
+        
+    if (PutInEmptySlot(itemConfig, generatedItemData))
+    {
+        Debug.Log($"Added loot: {itemConfig.itemName} with stats: HP+{generatedItemData.healthBonus}, Armor+{generatedItemData.armorBonus}");
+    }
+}
+
     [Server]
     public ItemData StealRandomItem()
     {

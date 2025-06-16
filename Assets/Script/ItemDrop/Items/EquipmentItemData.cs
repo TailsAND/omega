@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EquipmentItemData : ItemConfig
 {
     public ItemConfig Config { get; private set; }
-    public List<string> Skills { get; private set; }
+    public List<string> Skills { get;  set; }
     private ItemRank Rank { get ;  set; }
     public int Level { get; private set; }
     public int Health { get; private set; }
@@ -20,7 +20,13 @@ public class EquipmentItemData : ItemConfig
         Rank = DetermineRankByEnemyLevel(enemyHealth.Level);
         Generate(Rank, enemyHealth);
     }
-
+    // public static EquipmentItemData CreateFromConfig(ItemConfig source)
+    // {
+    //     var item = ScriptableObject.CreateInstance<EquipmentItemData>();
+    //     item.Initialize(source, someEnemyHealth); // Если требуется инициализация
+    //     // Нельзя напрямую устанавливать приватные свойства
+    //     return item;
+    // }
     private ItemRank DetermineRankByEnemyLevel(int enemyLevel)
     {
         Dictionary<ItemRank, float> rankChances = GetRankChancesForEnemyLevel(enemyLevel);
@@ -116,6 +122,36 @@ public class EquipmentItemData : ItemConfig
             range.x + levelBonus,
             range.y + levelBonus + UnityEngine.Random.Range(0, maxRandomBonus + 1)
         );
+    }
+    
+    public ItemData GenerateItemData(TestenemyHealth enemyHealth)
+    {
+        Initialize(this, enemyHealth);
+        
+        var itemData = new ItemData {
+            configId = this.name,
+            rank = this.Rank,
+            healthBonus = this.Health,
+            armorBonus = this.Armor,
+            attackBonus = this.Attack,
+            specialStats = this.SpecialStats,
+            specialStatsValues = this.SpecialStatsValues,
+            level = this.Level,
+            Type = ConvertItemTypeToPickType(this.itemType)
+        };
+        
+        return itemData;
+    }
+    
+    private PickItemType ConvertItemTypeToPickType(ItemType itemType)
+    {
+        return itemType switch
+        {
+            ItemType.Weapon => PickItemType.Staff, // или другой тип оружия
+            ItemType.Armor => PickItemType.Chestplate,
+            // ... другие соответствия ...
+            _ => PickItemType.ingredients
+        };
     }
     
     private void GenerateSpecialStats()

@@ -13,7 +13,8 @@ public class PlayerEquipment : NetworkBehaviour {
     private Dictionary<ItemType, Image> _itemTypeToImageMap = new();
 
     public static PlayerEquipment Instance;
-
+    private PlayerStats _playerStats;
+    
     [SerializeField] private Image imageForArmor;
     [SerializeField] private Image imageForAccessory;
     [SerializeField] private Image imageForWeapon;
@@ -26,10 +27,11 @@ public class PlayerEquipment : NetworkBehaviour {
     [SerializeField] private Image imageForBracelet;
 
 
-    private void Awake() {
+    private void Awake()
+    {
         Instance = this;
         InitializeItemTypeMap();
-        
+        _playerStats = GetComponent<PlayerStats>();
     }
 
     public Dictionary<ItemType, ItemConfig> GetAllItems() {
@@ -44,8 +46,15 @@ public class PlayerEquipment : NetworkBehaviour {
         return _playerInventoryData[itemType];
     }
 
-    public void WearItem(ItemConfig equipmentItemConfig, ItemData itemData) {
-        if (equipmentItemConfig.Skills.Count < 0) {
+    public void WearItem(ItemConfig equipmentItemConfig, ItemData itemData)
+    {
+        if (equipmentItemConfig == null || itemData == null) return;
+
+        // Применяем характеристики предмета
+        ApplyItemStats(equipmentItemConfig, itemData, true);
+
+        if (equipmentItemConfig.Skills.Count < 0)
+        {
             SetEquipmentImage(equipmentItemConfig);
             return;
         }
@@ -65,13 +74,19 @@ public class PlayerEquipment : NetworkBehaviour {
         Debug.Log(_playerInventoryConfig[equipmentItemConfig.itemType]);
     }
 
-    public void Unwear(ItemConfig equipmentItemConfig, ItemData itemData) {
+    public void Unwear(ItemConfig equipmentItemConfig, ItemData itemData)
+    {
+        if (equipmentItemConfig == null || itemData == null) return;
+
+        // Удаляем характеристики предмета
+        ApplyItemStats(equipmentItemConfig, itemData, false);
         InventoryManager.Instance.PlayerSkillController.gameObject.GetComponent<PlayerInventory>()
             .PutInEmptySlot(equipmentItemConfig, itemData);
 
         DeleteEquipment(equipmentItemConfig);
 
-        foreach (var skillType in itemData.Skills) {
+        foreach (var skillType in itemData.Skills)
+        {
             InventoryManager.Instance.PlayerSkillController.DeleteSkill(
                 SkillFactory.Create(ConfigsManager.GetSkillConfig(skillType),
                     InventoryManager.Instance.PlayerSkillController));
@@ -83,7 +98,53 @@ public class PlayerEquipment : NetworkBehaviour {
         InventoryManager.Instance.PlayerSkillController.AddNewSkillFromItem();
         GameUI.Instance.SkillContainerView.gameObject.GetComponent<SkillSelectorHandler>().UpdateSkillSelector();
     }
+    
+    private void ApplyItemStats(ItemConfig itemConfig, ItemData itemData, bool isEquipping)
+    {
+        if (_playerStats == null || itemConfig == null || itemData == null) return;
 
+        int multiplier = isEquipping ? 1 : -1;
+
+        // Применяем базовые характеристики
+        _playerStats.MaxHp += itemData.healthBonus * multiplier;
+        _playerStats.Armor += itemData.armorBonus * multiplier;
+
+        // Если это оружие, обновляем характеристики атаки
+        if (itemConfig.weaponType != WeaponType.None)
+        {
+            var combat = GetComponent<PlayerCombat>();
+            if (combat != null)
+            {
+                // Можно добавить модификаторы атаки здесь
+            }
+        }
+
+        // Применяем специальные характеристики
+        if (itemData.specialStats != null)
+        {
+            for (int i = 0; i < itemData.specialStats.Length; i++)
+            {
+                ApplySpecialStat(itemData.specialStats[i], itemData.specialStatsValues[i] * multiplier);
+            }
+        }
+    }
+    
+    
+    private void ApplySpecialStat(SpecialStatType statType, float value)
+    {
+        // Реализация специальных эффектов
+        switch (statType)
+        {
+            case SpecialStatType.CRIT:
+                // Увеличиваем шанс крита
+                break;
+            case SpecialStatType.Dodge:
+                // Увеличиваем шанс уклонения
+                break;
+            // ... другие специальные характеристики ...
+        }
+    }
+    
     private void DeleteEquipment(ItemConfig equipmentItemConfig) {
         _playerInventoryConfig.Remove(equipmentItemConfig.itemType);
         _playerInventoryData.Remove(equipmentItemConfig.itemType);

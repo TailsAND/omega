@@ -11,7 +11,12 @@ public class ItemConfig : ScriptableObject
     // public string Name = "";
     public string Description = "�������� ��������";
     public Sprite icon = null;
-
+    
+    [Header("Weapon Settings")]
+    public WeaponType weaponType = WeaponType.None;
+    public float weaponRange = 1.5f; // Дистанция атаки для этого оружия
+    public float attackSpeed = 1.0f;  // Скорость атаки
+    public int baseDamage = 10;
     public bool isHealing;
     public float HealingPower;
 
@@ -73,6 +78,18 @@ public class ItemConfig : ScriptableObject
     
     public ItemRarity rarity;
 }
+
+public enum WeaponType {
+    None,       // Не оружие (предметы, зелья и т.д.)
+    Sword,      // Меч - ближний бой
+    Axe,        // Топор - ближний бой
+    Dagger,     // Кинжал - ближний бой
+    Bow,        // Лук - дальний бой
+    Crossbow,   // Арбалет - дальний бой
+    Staff,      // Посох - магический дальний бой
+    Wand        // Волшебная палочка - магический дальний бой
+}
+
 public enum ItemRarity {
     Common,
     Uncommon,

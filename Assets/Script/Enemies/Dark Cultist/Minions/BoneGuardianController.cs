@@ -15,10 +15,12 @@ public class BoneGuardianController : MinionController
     private float _lastDamageTime;
     private bool _isRegenerating = false;
     private float _originalMoveSpeed;
-
+    private EnemyHealthBar _healthBar;
+    private bool _isBlocking = false;
     protected override void Awake()
     {
         base.Awake();
+        _healthBar = GetComponent<EnemyHealthBar>();
         _originalMoveSpeed = _moveSpeed;
         _moveSpeed *= 0.5f; // Стражи двигаются медленнее
         _health.OnDamageTaken += HandleDamageTaken;
@@ -26,11 +28,15 @@ public class BoneGuardianController : MinionController
         holyResistance = 0.8f; 
     }
 
+    
+    
     protected override void OnDestroy()
     {
         base.OnDestroy();
         _health.OnDamageTaken -= HandleDamageTaken;
     }
+
+    
 
     [ServerCallback]
     protected override void Update()
@@ -52,14 +58,35 @@ public class BoneGuardianController : MinionController
         // Проверяем блокировку
         if (Random.value <= _blockChance)
         {
+            _isBlocking = true;
             float reducedDamage = damage * (1f - _blockDamageReduction);
-            _health.ServerHeal(damage - reducedDamage); // Частично "отменяем" урон
+            _health.ServerHeal(damage - reducedDamage);
             
             RpcPlayBlockEffect();
+            RpcUpdateHealthBarColor(true);
             Debug.Log($"Блок! Урон уменьшен с {damage} до {reducedDamage}");
+
+            // Возвращаем обычный цвет через 1 секунду
+            Invoke(nameof(ResetBlockingState), 1f);
         }
     }
 
+    [Server]
+    private void ResetBlockingState()
+    {
+        _isBlocking = false;
+        RpcUpdateHealthBarColor(false);
+    }
+    
+    [ClientRpc]
+    private void RpcUpdateHealthBarColor(bool isBlocking)
+    {
+        if (_healthBar != null)
+        {
+            _healthBar.SetBlockingState(isBlocking);
+        }
+    }
+    
     [Server]
     private IEnumerator RegenerateHealth()
     {

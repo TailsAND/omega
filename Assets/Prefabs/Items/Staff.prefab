@@ -63,7 +63,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f6828144b6cbd5f468d27f2066db52da, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 798a0192e5e2a1c45a1f6786703af909, type: 3}
-  m_Color: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -170,6 +170,16 @@ MonoBehaviour:
   syncInterval: 0
   itemData:
     Type: 3
+    Skills: 00000000
+    configId: 
+    rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 01000000
+    specialStatsValues:
+    - 3
+    level: 0
   itemConfig: {fileID: 11400000, guid: 0084c87e2f68ac04395cb64e968538b6, type: 2}
 --- !u!114 &3777453876243841646
 MonoBehaviour:

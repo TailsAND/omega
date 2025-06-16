@@ -9,12 +9,14 @@ public class PlayerMovement : NetworkBehaviour
     public Animator animator;
     
     private Vector2 movementInput;
-    private Vector2 lastDirection;
+    public Vector2 lastDirection;
     private Camera mainCamera;
     private float originalMoveSpeed;
     private Coroutine slowCoroutine;
     private Coroutine rootCoroutine;
     private bool isFearEffectActive;
+    
+    
     private void Awake()
     {
         mainCamera = Camera.main;

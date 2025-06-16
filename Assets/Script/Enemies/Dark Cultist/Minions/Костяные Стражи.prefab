@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5339472249177845262}
   - component: {fileID: 388418756353721012}
   - component: {fileID: 784377041477359823}
+  - component: {fileID: -6013844209162897986}
   m_Layer: 10
   m_Name: "\u041A\u043E\u0441\u0442\u044F\u043D\u044B\u0435 \u0421\u0442\u0440\u0430\u0436\u0438"
   m_TagString: Untagged
@@ -44,7 +45,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008947751507672616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d0188fb0ee893c4595dfa2a02a74037, type: 3}
   m_Name: 
@@ -228,3 +229,21 @@ MonoBehaviour:
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
+--- !u!114 &-6013844209162897986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008947751507672616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c570adb6c59c9d4b994b7a2a6f80b02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 2702828355428964061, guid: 78dae3d229290814c884637c03ddeed6, type: 3}
+  offset: {x: 0, y: 0.66, z: 0}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  blockingColor: {r: 0, g: 0, b: 1, a: 1}
+  colorChangeSpeed: 5
