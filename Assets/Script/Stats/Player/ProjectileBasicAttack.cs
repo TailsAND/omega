@@ -32,7 +32,7 @@ public class ProjectileBasicAttack : NetworkBehaviour
     {
         if (isServer)
         {
-            _rb.velocity = transform.up * _speed; // В 2D используем transform.up
+            _rb.linearVelocity = transform.up * _speed; // В 2D используем transform.up
         }
     }
 

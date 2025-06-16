@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 using System.Linq;
@@ -21,6 +22,9 @@ public class TestenemyHealth : NetworkBehaviour
     [SerializeField] private EnemyLoot _enemyLoot;      
     [SerializeField] private GameObject _deathEffectPrefab; 
     
+    [Header("Health Bar")]
+    [SerializeField] private bool showHealthBar = true;
+    
     [SyncVar] private int _currentHealth;   
     [SyncVar] private int _currentLevel;    
     [SyncVar] private int _currentAttack;    
@@ -43,7 +47,7 @@ public class TestenemyHealth : NetworkBehaviour
     public bool IsDead => _isDead;
     public float MaxHealth => MaxHp;
     #endregion
-
+    public event Action<float> OnHealthChanged;
 
     public override void OnStartServer()
     {
@@ -62,7 +66,17 @@ public class TestenemyHealth : NetworkBehaviour
         _currentHealth = Mathf.Min(_currentHealth + Mathf.RoundToInt(amount), MaxHp);
         RpcUpdateHealth(_currentHealth);
     }
+    [Server]
+    protected virtual void ServerUpdate()
+    {
+        // Base enemy update logic (if any)
+    }
 
+    [ServerCallback]
+    protected virtual void Update()
+    {
+        ServerUpdate();
+    }
     [Server]
     private void CalculateEnemyLevel()
     {
@@ -92,19 +106,19 @@ public class TestenemyHealth : NetworkBehaviour
     [Server]
     public void TakeDamage(int damage, PlayerStats attacker)
     {
-        if (_isDead || !isServer) return; // Добавили проверку isServer
-    
+        if (_isDead) return;
+        
         int actualDamage = Mathf.Max(1, damage - _currentArmor);
         _currentHealth -= actualDamage;
         _lastAttacker = attacker;
-    
+        
         OnDamageTaken?.Invoke(actualDamage); 
-    
+        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp);
         if (_currentHealth <= 0)
         {
             Die();
         }
-    
+        
         RpcUpdateHealth(_currentHealth);
     }
     [ClientRpc]
@@ -142,7 +156,22 @@ public class TestenemyHealth : NetworkBehaviour
             Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
         }
     }
-
+    [ServerCallback]
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<ProjectileBasicAttack>(out var projectile))
+        {
+            var owner = projectile.GetOwner(); // Используем метод-геттер
+            if (owner != null)
+            {
+                var ownerStats = owner.GetComponent<PlayerStats>();
+                if (ownerStats != null)
+                {
+                    TakeDamage(projectile.GetDamage(), ownerStats); // Используем метод-геттер
+                }
+            }
+        }
+    }
     [Server]
     public bool CanAttack()
     {
