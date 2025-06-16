@@ -20,7 +20,7 @@ public class ProjectileDarkCultist : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Enemies"), true);
         Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Minions"), true);
         Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Projectiles"), true);
-        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Mebeli"), true);
+        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Light1"), true);
     }
 
     public override void OnStartServer()

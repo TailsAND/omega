@@ -10,6 +10,7 @@ public class EnemySpawnController : NetworkBehaviour
     {
         public Transform point;
         [HideInInspector] public GameObject spawnedEnemy;
+        [HideInInspector] public float lastDeathTime;
         [HideInInspector] public bool isOccupied => spawnedEnemy != null;
     }
 
@@ -19,6 +20,7 @@ public class EnemySpawnController : NetworkBehaviour
     [SerializeField] private float spawnCheckInterval = 5f;
     [SerializeField] private int maxActiveEnemies = 10;
     [SerializeField] private float spawnRadius = 1f;
+    [SerializeField] private float respawnCooldown = 30f;
 
     [Header("Wave Settings")]
     [SerializeField] private int enemiesPerWave = 3;
@@ -69,7 +71,7 @@ public class EnemySpawnController : NetworkBehaviour
         List<SpawnPoint> available = new List<SpawnPoint>();
         foreach (var point in spawnPoints)
         {
-            if (!point.isOccupied)
+            if (!point.isOccupied && Time.time - point.lastDeathTime >= respawnCooldown)
             {
                 available.Add(point);
             }
@@ -82,17 +84,17 @@ public class EnemySpawnController : NetworkBehaviour
     {
         if (enemyPrefabs.Length == 0) return;
 
-        // Выбираем случайного врага из доступных префабов
         GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        
-        // Случайное смещение в пределах spawnRadius
         Vector2 randomOffset = Random.insideUnitCircle * spawnRadius;
         Vector3 spawnPosition = spawnPoint.point.position + new Vector3(randomOffset.x, randomOffset.y, 0);
 
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        
+        // Устанавливаем точку спавна как центр патрулирования для врага
+        SetupEnemyPatrolCenter(enemy, spawnPosition);
+        
         NetworkServer.Spawn(enemy);
 
-        // Назначаем обработчик смерти врага
         TestenemyHealth health = enemy.GetComponent<TestenemyHealth>();
         if (health != null)
         {
@@ -104,11 +106,59 @@ public class EnemySpawnController : NetworkBehaviour
     }
 
     [Server]
+    private void SetupEnemyPatrolCenter(GameObject enemy, Vector3 spawnPosition)
+    {
+        // Для ShadowConjurer
+        ShadowConjurer shadowConjurer = enemy.GetComponent<ShadowConjurer>();
+        if (shadowConjurer != null)
+        {
+            // Используем рефлексию для установки приватного поля _initialPosition
+            System.Reflection.FieldInfo fieldInfo = typeof(ShadowConjurer).GetField("_initialPosition", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (fieldInfo != null)
+            {
+                fieldInfo.SetValue(shadowConjurer, spawnPosition);
+            }
+            
+            // Вызываем SetupPatrolPoints для пересчета точек патрулирования
+            shadowConjurer.Invoke("SetupPatrolPoints", 0);
+            return;
+        }
+
+        // Для EnemyShadowStalker
+        EnemyShadowStalker shadowStalker = enemy.GetComponent<EnemyShadowStalker>();
+        if (shadowStalker != null)
+        {
+            System.Reflection.FieldInfo patrolCenterField = typeof(EnemyShadowStalker).GetField("patrolCenter", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (patrolCenterField != null)
+            {
+                patrolCenterField.SetValue(shadowStalker, (Vector2)spawnPosition);
+            }
+            return;
+        }
+
+        // Для DarkCultistController
+        DarkCultistController darkCultist = enemy.GetComponent<DarkCultistController>();
+        if (darkCultist != null)
+        {
+            System.Reflection.FieldInfo initialPositionField = typeof(DarkCultistController).GetField("_initialPosition", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (initialPositionField != null)
+            {
+                initialPositionField.SetValue(darkCultist, spawnPosition);
+            }
+            return;
+        }
+    }
+
+    [Server]
     private void OnEnemyDeath(SpawnPoint spawnPoint, GameObject enemy)
     {
         if (spawnPoint.spawnedEnemy == enemy)
         {
             spawnPoint.spawnedEnemy = null;
+            spawnPoint.lastDeathTime = Time.time;
         }
 
         if (activeEnemies.Contains(enemy))

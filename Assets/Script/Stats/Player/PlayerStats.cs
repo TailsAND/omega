@@ -114,6 +114,7 @@ public class PlayerStats : NetworkBehaviour {
     public bool IsPlayer => isLocalPlayer;
     private PlayerMovement playerMovement;
     private PlayerUI playerUI;
+    private static List<PlayerStats> playersWithAttachedEnemies = new List<PlayerStats>();
 
 
 
@@ -148,6 +149,24 @@ public class PlayerStats : NetworkBehaviour {
     //     gameObject.layer = LayerMask.NameToLayer("Player");
     // }
 
+    public bool CanAttachEnemy()
+    {
+        return !playersWithAttachedEnemies.Contains(this);
+    }
+
+    public void RegisterAttachedEnemy()
+    {
+        if (!playersWithAttachedEnemies.Contains(this))
+        {
+            playersWithAttachedEnemies.Add(this);
+        }
+    }
+
+    public void UnregisterAttachedEnemy()
+    {
+        playersWithAttachedEnemies.Remove(this);
+    }
+    
     [ClientRpc]
     public void RpcApplyTemporarySlow(float slowFactor, float duration)
     {

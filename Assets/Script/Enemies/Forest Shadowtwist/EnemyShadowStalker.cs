@@ -266,31 +266,33 @@ public class EnemyShadowStalker : NetworkBehaviour
     private void AttachToPlayer(Transform player)
     {
         if (isAttachedToPlayer) return;
-        
+    
+        PlayerStats playerStats = player.GetComponent<PlayerStats>();
+        if (playerStats == null || !playerStats.CanAttachEnemy()) return;
+    
         isAttachedToPlayer = true;
         attachmentEndTime = Time.time + attachmentDuration;
-        
-        // Останавливаем патрулирование и другие корутины
+        playerStats.RegisterAttachedEnemy();
+    
         if (patrolCoroutine != null)
             StopCoroutine(patrolCoroutine);
         isPatrolling = false;
-        
+    
         if (stealthCoroutine != null)
             StopCoroutine(stealthCoroutine);
         isInStealth = false;
         RpcSetStealthVisuals(false);
-        
-        // Запускаем корутину прикрепления
+    
         if (attachmentCoroutine != null)
             StopCoroutine(attachmentCoroutine);
         attachmentCoroutine = StartCoroutine(AttachmentRoutine(player));
-        
-        // Запускаем дебафф (если нужно)
+    
         if (debuffCoroutine != null)
             StopCoroutine(debuffCoroutine);
-        debuffedPlayer = player.GetComponent<PlayerStats>();
+        debuffedPlayer = playerStats;
         debuffCoroutine = StartCoroutine(ApplyDebuffRoutine());
     }
+
     
     [Server]
     private IEnumerator AttachmentRoutine(Transform player)
@@ -319,21 +321,25 @@ public class EnemyShadowStalker : NetworkBehaviour
     private void DetachFromPlayer()
     {
         if (!isAttachedToPlayer) return;
-        
+    
         isAttachedToPlayer = false;
-        
+    
+        if (debuffedPlayer != null)
+        {
+            debuffedPlayer.UnregisterAttachedEnemy();
+        }
+    
+        // Остальной код остается без изменений
         if (attachmentCoroutine != null)
             StopCoroutine(attachmentCoroutine);
         attachmentCoroutine = null;
-        
-        // Останавливаем дебафф
+    
         if (debuffCoroutine != null)
         {
             StopCoroutine(debuffCoroutine);
             RemoveDebuff();
         }
-        
-        // Возвращаемся к патрулированию
+    
         currentTarget = null;
         StartPatrol();
         StartStealthCycle();
@@ -492,18 +498,24 @@ public class EnemyShadowStalker : NetworkBehaviour
     [Server]
     private void OnEnemyDeath()
     {
+        if (isAttachedToPlayer && debuffedPlayer != null)
+        {
+            debuffedPlayer.UnregisterAttachedEnemy();
+        }
+    
+        // Остальной код остается без изменений
         if (stealthCoroutine != null)
             StopCoroutine(stealthCoroutine);
-        
+    
         if (patrolCoroutine != null)
             StopCoroutine(patrolCoroutine);
-            
+        
         if (debuffCoroutine != null)
         {
             StopCoroutine(debuffCoroutine);
             RemoveDebuff();
         }
-        
+    
         if (attachmentCoroutine != null)
         {
             StopCoroutine(attachmentCoroutine);
