@@ -20,7 +20,8 @@ public class PlayerStats : NetworkBehaviour {
     [SyncVar] private int agility = 1;
     [SyncVar] private int luck = 1;
     [SyncVar] private int speed = 1;
-    [SyncVar] 
+    
+    public AudioClip hitSound; // Перетащите сюда ваш звуковой файл в инспекторе
     
     public bool greenZone = true;
 
@@ -229,27 +230,34 @@ public class PlayerStats : NetworkBehaviour {
 
         playerUI.UpdateUI();
     }
-
     [Server]
     public void TakeHit(int damage)
     {
         if (!isServer || connectionToClient == null) return;
-        if (!isServer) 
-        {
-            Debug.Log("TakeHit called on client, ignoring");
-            return;
-        }
     
         currently_hp -= damage;
         Debug.Log($"Player took {damage} damage, health now: {currently_hp}");
+
+        // Воспроизводим звук на всех клиентах
+        RpcPlayHitSound();
     
         if (currently_hp <= 0)
         {
             currently_hp = 0;
             Die();
         }
-    
+
         RpcUpdateHealth(currently_hp);
+    }
+
+    [ClientRpc]
+    private void RpcPlayHitSound()
+    {
+        // Здесь добавьте код для воспроизведения звука получения урона
+        // Например:
+        AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        // Или, если у вас есть AudioSource на объекте:
+        // GetComponent<AudioSource>().PlayOneShot(hitSound);
     }
     
 

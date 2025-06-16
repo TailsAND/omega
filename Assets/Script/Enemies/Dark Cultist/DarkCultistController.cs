@@ -50,15 +50,8 @@ public class DarkCultistController : NetworkBehaviour
     {
         _health = GetComponent<TestenemyHealth>();
         _initialPosition = transform.position;
+        SetRandomWanderDirection();
         gameObject.layer = LayerMask.NameToLayer("Enemies");
-    }
-
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        SetRandomWanderDirection(); // Перенесли инициализацию направления сюда
-        FindTarget();
-        StartCoroutine(ServerUpdate());
     }
     
 
@@ -71,6 +64,12 @@ public class DarkCultistController : NetworkBehaviour
     }
     
     
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        FindTarget();
+        StartCoroutine(ServerUpdate());
+    }
 
     [Server]
     private void FindTarget()
@@ -318,19 +317,16 @@ public class DarkCultistController : NetworkBehaviour
     {
         if (_target == null || _projectileSpawnPoint == null || _darkEnergyProjectile == null) 
         {
-            Debug.LogWarning("Attack conditions not met");
+            Debug.LogWarning("Условия для атаки не выполнены");
             return;
         }
 
-        Debug.Log($"Attacking player! Distance: {Vector2.Distance(transform.position, _target.position)}");
-    
         _health.ResetAttackCooldown();
         RpcPlayAttackAnimation();
 
         Vector2 direction = (_target.position - _projectileSpawnPoint.position).normalized;
         GameObject projectile = Instantiate(_darkEnergyProjectile, _projectileSpawnPoint.position, Quaternion.identity);
     
-        // Поворачиваем снаряд в направлении игрока
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     
@@ -339,8 +335,16 @@ public class DarkCultistController : NetworkBehaviour
         ProjectileDarkCultist projectileScript = projectile.GetComponent<ProjectileDarkCultist>();
         if (projectileScript != null)
         {
-            projectileScript.Initialize(_health.CurrentAttack, direction);
+            // Ждем следующий кадр, чтобы убедиться, что снаряд полностью заспавнился
+            StartCoroutine(InitializeProjectileNextFrame(projectileScript, direction));
         }
+    }
+
+    [Server]
+    private IEnumerator InitializeProjectileNextFrame(ProjectileDarkCultist projectile, Vector2 direction)
+    {
+        yield return null; // Ждем один кадр
+        projectile.Initialize(_health.CurrentAttack, direction);
     }
     [ClientRpc]
     private void RpcPlayAttackAnimation()

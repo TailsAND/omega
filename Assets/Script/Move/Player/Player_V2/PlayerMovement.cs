@@ -7,6 +7,9 @@ public class PlayerMovement : NetworkBehaviour
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
     public Animator animator;
+    public AudioSource footstepAudio;
+    public AudioClip[] footstepSounds;
+    [SerializeField] private float footstepInterval = 0.3f;
     
     private Vector2 movementInput;
     public Vector2 lastDirection;
@@ -14,13 +17,14 @@ public class PlayerMovement : NetworkBehaviour
     private float originalMoveSpeed;
     private Coroutine slowCoroutine;
     private Coroutine rootCoroutine;
+    private Coroutine footstepCoroutine;
     private bool isFearEffectActive;
-    
+    private bool isMoving;
     
     private void Awake()
     {
         mainCamera = Camera.main;
-        lastDirection = Vector2.down; // Начальное направление - вниз
+        lastDirection = Vector2.down;
         originalMoveSpeed = moveSpeed;
     }
 
@@ -46,6 +50,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         rootCoroutine = StartCoroutine(RootEffect(duration));
     }
+
     [Server]
     public void ApplyFearEffect(float duration)
     {
@@ -55,7 +60,6 @@ public class PlayerMovement : NetworkBehaviour
     [TargetRpc]
     private void TargetApplyFearEffect(float duration)
     {
-        // Запускаем эффект страха (например, инверсия управления)
         StartCoroutine(FearEffect(duration));
     }
     
@@ -81,9 +85,8 @@ public class PlayerMovement : NetworkBehaviour
     private IEnumerator RootEffect(float duration)
     {
         float originalSpeed = moveSpeed;
-        moveSpeed = 0f; // Полное обездвиживание
+        moveSpeed = 0f;
     
-        // Принудительно останавливаем движение
         if (isLocalPlayer)
         {
             rb.linearVelocity = Vector2.zero;
@@ -94,6 +97,35 @@ public class PlayerMovement : NetworkBehaviour
         moveSpeed = originalSpeed;
     }
 
+    private IEnumerator PlayFootsteps()
+    {
+        while (true)
+        {
+            if (isMoving && footstepSounds.Length > 0)
+            {
+                int index = Random.Range(0, footstepSounds.Length);
+                footstepAudio.PlayOneShot(footstepSounds[index]);
+            }
+            yield return new WaitForSeconds(footstepInterval);
+        }
+    }
+
+    void Start()
+    {
+        if (isLocalPlayer)
+        {
+            footstepCoroutine = StartCoroutine(PlayFootsteps());
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (footstepCoroutine != null)
+        {
+            StopCoroutine(footstepCoroutine);
+        }
+    }
+
     void Update()
     {
         if (!isLocalPlayer) return;
@@ -101,11 +133,12 @@ public class PlayerMovement : NetworkBehaviour
         HandleInput();
         UpdateAnimator();
         UpdateCamera();
+        UpdateMovementState();
     }
 
     private void HandleInput()
     {
-        if (isFearEffectActive) return; // Добавьте флаг isFearEffectActive
+        if (isFearEffectActive) return;
 
         movementInput = new Vector2(
             Input.GetAxisRaw("Horizontal"),
@@ -118,12 +151,16 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    private void UpdateMovementState()
+    {
+        isMoving = movementInput.magnitude > 0.1f && moveSpeed > 0.1f;
+    }
+
     private void UpdateAnimator()
     {
-        // Устанавливаем параметры аниматора
         animator.SetFloat("Horizontal", lastDirection.x);
         animator.SetFloat("Vertical", lastDirection.y);
-        animator.SetFloat("Speed", movementInput.magnitude); // Величина движения (0-1)
+        animator.SetFloat("Speed", movementInput.magnitude);
     }
 
     private void UpdateCamera()

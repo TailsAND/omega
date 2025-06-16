@@ -1,4 +1,5 @@
 using UnityEngine;
+using Mirror; // Не забудьте добавить using Mirror
 
 [RequireComponent(typeof(Collider2D))]
 public class AreaSoundTrigger2D : MonoBehaviour
@@ -21,21 +22,37 @@ public class AreaSoundTrigger2D : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         
+        // Проверяем, является ли игрок локальным (Mirror)
+        if (!IsLocalPlayer(other.gameObject)) return;
+        
         _playerTransform = other.transform;
         InitializeAudioSource(other.gameObject);
         PlaySound();
         
-        Debug.Log($"Player entered sound zone: {name}", this);
+        Debug.Log($"Local player entered sound zone: {name}", this);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
         
+        // Проверяем, является ли игрок локальным (Mirror)
+        if (!IsLocalPlayer(other.gameObject)) return;
+        
         StopSound();
         _playerTransform = null;
         
-        Debug.Log($"Player exited sound zone: {name}", this);
+        Debug.Log($"Local player exited sound zone: {name}", this);
+    }
+
+    // Проверка, является ли игрок локальным (для Mirror)
+    private bool IsLocalPlayer(GameObject player)
+    {
+        if (player.TryGetComponent<NetworkIdentity>(out var networkIdentity))
+        {
+            return networkIdentity.isLocalPlayer;
+        }
+        return false; // Если нет NetworkIdentity, значит, это не сетевой игрок
     }
 
     private void InitializeAudioSource(GameObject player)
@@ -66,7 +83,7 @@ public class AreaSoundTrigger2D : MonoBehaviour
         if (_playerAudioSource == null) return;
         
         _playerAudioSource.Stop();
-        _playerAudioSource.clip = null; // Очищаем клип для предотвращения случайного воспроизведения
+        _playerAudioSource.clip = null;
         _isActive = false;
     }
 
@@ -91,7 +108,6 @@ public class AreaSoundTrigger2D : MonoBehaviour
         }
     }
 
-    // Дополнительная защита на случай уничтожения объекта
     private void OnDestroy()
     {
         if (_isActive)
