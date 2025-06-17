@@ -43,7 +43,7 @@ public class EnemyChasePlayer : NetworkBehaviour
 
         if (isServer)
         {
-            InvokeRepeating(nameof(UpdatePlayerList), 1f, 2f); // Обновляем список игроков каждые 2 секунды
+            InvokeRepeating(nameof(UpdatePlayerList), 1f, 2f);
             StartNewAction();
         }
     }
@@ -71,7 +71,6 @@ public class EnemyChasePlayer : NetworkBehaviour
     {
         allPlayers.Clear();
         
-        // 1. Поиск через NetworkManager (основной способ)
         foreach (NetworkConnection conn in NetworkServer.connections.Values)
         {
             if (conn.identity != null && conn.identity.TryGetComponent(out PlayerStats stats))
@@ -80,7 +79,6 @@ public class EnemyChasePlayer : NetworkBehaviour
             }
         }
 
-        // 2. Альтернативный поиск по компоненту (на случай если первый способ не сработал)
         if (allPlayers.Count == 0)
         {
             foreach (PlayerStats player in FindObjectsOfType<PlayerStats>())
@@ -252,10 +250,21 @@ public class EnemyChasePlayer : NetworkBehaviour
         
         if (player != null && player.CurrentlyHp > 0)
         {
+            // Используем Command для атаки игрока
             player.TakeHit(attackDamage);
             player.RpcPlayHitSound();
         }
 
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+            RpcPlayAttackAnimation();
+        }
+    }
+
+    [ClientRpc]
+    private void RpcPlayAttackAnimation()
+    {
         if (animator != null)
         {
             animator.SetTrigger("Attack");

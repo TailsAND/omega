@@ -120,25 +120,26 @@ public class TestenemyHealth : NetworkBehaviour
     public void TakeDamage(int damage, PlayerStats attacker)
     {
         if (_isDead) return;
-    
+
         int actualDamage = Mathf.Max(1, damage - _currentArmor);
         _currentHealth -= actualDamage;
         _lastAttacker = attacker;
-    
+
         if (_currentHealth <= 0)
         {
-            Die(); // Сначала вызываем смерть
+            Die();
         }
         else
         {
-            RpcPlayDamageAnimation(); // Только если не умер
+            RpcPlayDamageAnimation();
         }
-    
+
         RpcUpdateHealth(_currentHealth);
-        OnDamageTaken?.Invoke(actualDamage); 
-        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp);
+        OnDamageTaken?.Invoke(actualDamage);
+        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp); // Добавляем вызов события
     }
 
+    
     [Server]
     private void Die()
     {
@@ -185,6 +186,7 @@ public class TestenemyHealth : NetworkBehaviour
     private void RpcUpdateHealth(int newHealth)
     {
         _currentHealth = newHealth;
+        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp); // Вызываем событие и на клиенте
     }
 
     [Server]

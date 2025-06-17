@@ -34,11 +34,21 @@ public class EnemyHealthBar : MonoBehaviour
         currentColor = normalColor;
         fillImage.color = currentColor;
         
+        // Инициализируем полоску здоровья текущими значениями
         UpdateHealthBar();
         
         // Подписываемся на события
-        enemyHealth.OnDamageTaken += _ => UpdateHealthBar();
+        enemyHealth.OnHealthChanged += OnHealthChanged;
         enemyHealth.OnDeath += OnEnemyDeath;
+    }
+
+    private void OnHealthChanged(float healthPercentage)
+    {
+        // Обновляем полоску здоровья на основе процентов, чтобы избежать рассинхронизации
+        if (healthSlider != null)
+        {
+            healthSlider.value = healthPercentage * healthSlider.maxValue;
+        }
     }
 
     private void Update()
