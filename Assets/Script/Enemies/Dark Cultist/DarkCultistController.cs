@@ -2,49 +2,45 @@ using UnityEngine;
 using Mirror;
 using System.Collections;
 
+[RequireComponent(typeof(NetworkIdentity))]
+[RequireComponent(typeof(NetworkTransformUnreliable))]
 public class DarkCultistController : NetworkBehaviour
 {
     [Header("Attack Settings")]
     [SerializeField] private GameObject _darkEnergyProjectile;
     [SerializeField] private Transform _projectileSpawnPoint;
     [SerializeField] private float _projectileSpeed = 5f;
-    [SerializeField] private float _attackDetectionRange = 10f; // Зона обнаружения игрока для атаки
+    [SerializeField] private float _attackDetectionRange = 10f;
     [SerializeField] private float holyResistance = 1.3f;
-   
-    
-    
+
     [Header("Minion Settings")]
     [SerializeField] private GameObject[] _minionPrefabs;
     [SerializeField] private int _maxMinions = 3;
     [SerializeField] private float _minionSpawnInterval = 10f;
     [SerializeField] private float _minionLifetime = 30f;
     [SerializeField] private float _minionSpawnDetectionRange = 8f;
+    [SerializeField] private float _minionSpawnRadius = 3f;
+
     [Header("Curse Settings")]
     [SerializeField] private float _curseRange = 5f;
     [SerializeField] private float _curseDuration = 8f;
     [SerializeField] private float _curseCooldown = 15f;
     [SerializeField] private GameObject _curseEffectPrefab;
-    [SerializeField] private float _minionSpawnRadius = 3f;
-    [Header("Patrol Settings")]
-    [SerializeField] private float _patrolSpeed = 1.5f;
-    [SerializeField] private float _patrolPointReachedDistance = 0.5f;
-    private Vector3[] _patrolPoints;
-    private int _currentPatrolIndex = 0;
-    private bool _isPatrolling = false;
 
     [Header("Movement Settings")]
     [SerializeField] private float _movementAreaRadius = 5f;
     [SerializeField] private float _wanderSpeed = 1.5f;
     [SerializeField] private float _wanderChangeDirectionTime = 3f;
-    private Vector3 _initialPosition;
-    private Vector2 _currentWanderDirection;
-    private float _lastWanderDirectionChange;
-    
+
+    [SyncVar] private Vector3 _initialPosition;
+    [SyncVar] private Vector2 _currentWanderDirection;
+    [SyncVar] private float _lastWanderDirectionChange;
+    [SyncVar] private Transform _target;
+    [SyncVar] private int _currentMinions;
+
     private TestenemyHealth _health;
-    private Transform _target;
     private float _lastCurseTime;
     private float _lastMinionSpawnTime;
-    private int _currentMinions;
 
     private void Awake()
     {
@@ -53,17 +49,7 @@ public class DarkCultistController : NetworkBehaviour
         SetRandomWanderDirection();
         gameObject.layer = LayerMask.NameToLayer("Enemies");
     }
-    
 
-    
-    [Server]
-    private void SetRandomWanderDirection()
-    {
-        _currentWanderDirection = Random.insideUnitCircle.normalized;
-        _lastWanderDirectionChange = Time.time;
-    }
-    
-    
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -72,12 +58,18 @@ public class DarkCultistController : NetworkBehaviour
     }
 
     [Server]
+    private void SetRandomWanderDirection()
+    {
+        _currentWanderDirection = Random.insideUnitCircle.normalized;
+        _lastWanderDirectionChange = Time.time;
+    }
+
+    [Server]
     private void FindTarget()
     {
         PlayerStats[] players = FindObjectsOfType<PlayerStats>();
         if (players.Length > 0)
         {
-            // Находим ближайшего игрока в радиусе обнаружения
             float closestDistance = float.MaxValue;
             foreach (var player in players)
             {
@@ -90,30 +82,7 @@ public class DarkCultistController : NetworkBehaviour
             }
         }
     }
-    [Server]
-    private void HandleWandering()
-    {
-        // Меняем направление через случайные интервалы
-        if (Time.time > _lastWanderDirectionChange + _wanderChangeDirectionTime)
-        {
-            SetRandomWanderDirection();
-        }
 
-        // Двигаемся в текущем направлении
-        Vector3 newPosition = transform.position + (Vector3)_currentWanderDirection * _wanderSpeed * Time.deltaTime;
-
-        // Ограничиваем движение в пределах зоны
-        if (Vector2.Distance(newPosition, _initialPosition) > _movementAreaRadius)
-        {
-            // Разворачиваемся к центру если вышли за границы
-            _currentWanderDirection = (_initialPosition - transform.position).normalized;
-            newPosition = transform.position + (Vector3)_currentWanderDirection * _wanderSpeed * Time.deltaTime;
-        }
-
-        transform.position = newPosition;
-    }
-    
-    
     [Server]
     private IEnumerator ServerUpdate()
     {
@@ -123,7 +92,6 @@ public class DarkCultistController : NetworkBehaviour
             {
                 FindTarget();
                 
-                // Если цель не найдена, просто бродим
                 if (_target == null)
                 {
                     HandleWandering();
@@ -134,7 +102,6 @@ public class DarkCultistController : NetworkBehaviour
 
             float distanceToTarget = Vector2.Distance(transform.position, _target.position);
 
-            // Проверяем, находится ли цель все еще в радиусе обнаружения
             if (distanceToTarget > _attackDetectionRange)
             {
                 _target = null;
@@ -153,7 +120,6 @@ public class DarkCultistController : NetworkBehaviour
                 TrySpawnMinions();
             }
 
-            // Атакуем, если игрок в зоне обнаружения (attackDetectionRange)
             if (_health.CanAttack() && distanceToTarget <= _attackDetectionRange)
             {
                 TryRangedAttack();
@@ -163,7 +129,26 @@ public class DarkCultistController : NetworkBehaviour
             yield return null;
         }
     }
-    
+
+    [Server]
+    private void HandleWandering()
+    {
+        if (Time.time > _lastWanderDirectionChange + _wanderChangeDirectionTime)
+        {
+            SetRandomWanderDirection();
+        }
+
+        Vector3 newPosition = transform.position + (Vector3)_currentWanderDirection * _wanderSpeed * Time.deltaTime;
+
+        if (Vector2.Distance(newPosition, _initialPosition) > _movementAreaRadius)
+        {
+            _currentWanderDirection = (_initialPosition - transform.position).normalized;
+            newPosition = transform.position + (Vector3)_currentWanderDirection * _wanderSpeed * Time.deltaTime;
+        }
+
+        transform.position = newPosition;
+    }
+
     [Server]
     private void HandleMovement(float distanceToTarget)
     {
@@ -194,7 +179,6 @@ public class DarkCultistController : NetworkBehaviour
         }
     }
 
-
     [Server]
     private Vector2 GetRandomSpawnPosition()
     {
@@ -208,6 +192,7 @@ public class DarkCultistController : NetworkBehaviour
         return Time.time > _lastCurseTime + _curseCooldown && 
                Vector2.Distance(transform.position, _target.position) <= _curseRange;
     }
+
     [Server]
     private void TryCastCurse()
     {
@@ -269,11 +254,9 @@ public class DarkCultistController : NetworkBehaviour
         {
             Vector2 spawnPosition = GetRandomSpawnPosition();
         
-            // Выбираем случайный префаб миньона
             GameObject randomMinionPrefab = _minionPrefabs[Random.Range(0, _minionPrefabs.Length)];
             GameObject minion = Instantiate(randomMinionPrefab, spawnPosition, Quaternion.identity);
         
-            // Устанавливаем культиста как хозяина для миньона
             MinionController minionController = minion.GetComponent<MinionController>();
             if (minionController != null)
             {
@@ -286,7 +269,7 @@ public class DarkCultistController : NetworkBehaviour
             StartCoroutine(DestroyMinionAfterTime(minion, _minionLifetime));
         }
     }
-    
+
     [Server]
     public void TakeDamage(int damage, DamageType damageType = DamageType.Physical)
     {
@@ -298,9 +281,8 @@ public class DarkCultistController : NetworkBehaviour
 
         int finalDamage = Mathf.RoundToInt(damage * resistance);
         _health.TakeDamage(finalDamage, null);
-        
-        Debug.Log($"Cultist took {finalDamage} ({damageType}, resistance: {resistance})");
     }
+
     [Server]
     private IEnumerator DestroyMinionAfterTime(GameObject minion, float delay)
     {
@@ -316,10 +298,7 @@ public class DarkCultistController : NetworkBehaviour
     private void TryRangedAttack()
     {
         if (_target == null || _projectileSpawnPoint == null || _darkEnergyProjectile == null) 
-        {
-            Debug.LogWarning("Условия для атаки не выполнены");
             return;
-        }
 
         _health.ResetAttackCooldown();
         RpcPlayAttackAnimation();
@@ -327,15 +306,11 @@ public class DarkCultistController : NetworkBehaviour
         Vector2 direction = (_target.position - _projectileSpawnPoint.position).normalized;
         GameObject projectile = Instantiate(_darkEnergyProjectile, _projectileSpawnPoint.position, Quaternion.identity);
     
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    
         NetworkServer.Spawn(projectile);
 
         ProjectileDarkCultist projectileScript = projectile.GetComponent<ProjectileDarkCultist>();
         if (projectileScript != null)
         {
-            // Ждем следующий кадр, чтобы убедиться, что снаряд полностью заспавнился
             StartCoroutine(InitializeProjectileNextFrame(projectileScript, direction));
         }
     }
@@ -343,9 +318,10 @@ public class DarkCultistController : NetworkBehaviour
     [Server]
     private IEnumerator InitializeProjectileNextFrame(ProjectileDarkCultist projectile, Vector2 direction)
     {
-        yield return null; // Ждем один кадр
+        yield return null;
         projectile.Initialize(_health.CurrentAttack, direction);
     }
+
     [ClientRpc]
     private void RpcPlayAttackAnimation()
     {
@@ -366,30 +342,17 @@ public class DarkCultistController : NetworkBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Зона спавна миньонов
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _minionSpawnRadius);
 
-        // Зона передвижения
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(_initialPosition, _movementAreaRadius);
 
-        // Зона обнаружения для атаки
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackDetectionRange);
 
-        // Зона для спавна миньонов
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _minionSpawnDetectionRange);
-        
-        if (_patrolPoints != null)
-        {
-            Gizmos.color = Color.cyan;
-            foreach (var point in _patrolPoints)
-            {
-                Gizmos.DrawSphere(point, 0.3f);
-            }
-        }
-        
     }
 }
+

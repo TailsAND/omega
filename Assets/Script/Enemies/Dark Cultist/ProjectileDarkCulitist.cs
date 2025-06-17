@@ -1,6 +1,8 @@
 using UnityEngine;
 using Mirror;
 
+[RequireComponent(typeof(NetworkIdentity))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class ProjectileDarkCultist : NetworkBehaviour
 {
     [SerializeField] private int _damage;
@@ -20,23 +22,20 @@ public class ProjectileDarkCultist : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Enemies"), true);
         Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Minions"), true);
         Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Projectiles"), true);
-        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Mebeli"), true);
     }
 
     public override void OnStartServer()
     {
         base.OnStartServer();
-        // Сервер уничтожает снаряд через время жизни
         Destroy(gameObject, _lifetime);
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        // Применяем движение на клиентах при получении снаряда
-        if (!isServer) // Только клиенты применяют это
+        if (!isServer)
         {
-            _rb.linearVelocity = _direction * _speed;
+            ApplyMovement();
         }
     }
 
@@ -45,19 +44,26 @@ public class ProjectileDarkCultist : NetworkBehaviour
     {
         _syncDamage = damage;
         _direction = direction;
-        _rb.linearVelocity = direction * _speed;
+        ApplyMovement();
         
-        // Инициализируем на всех клиентах
         RpcInitialize(direction);
     }
 
     [ClientRpc]
     private void RpcInitialize(Vector2 direction)
     {
-        if (!isServer) // Только клиенты применяют это
+        if (!isServer)
         {
             _direction = direction;
-            _rb.linearVelocity = direction * _speed;
+            ApplyMovement();
+        }
+    }
+
+    private void ApplyMovement()
+    {
+        if (_rb != null)
+        {
+            _rb.velocity = _direction * _speed;
         }
     }
 

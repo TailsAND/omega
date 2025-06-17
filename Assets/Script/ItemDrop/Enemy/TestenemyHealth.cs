@@ -49,6 +49,7 @@ public class TestenemyHealth : NetworkBehaviour
     public float MaxHealth => MaxHp;
     #endregion
     public event Action<float> OnHealthChanged;
+    public event System.Action<float> OnHealthChangedEvent;
 
     public override void OnStartServer()
     {
@@ -57,7 +58,6 @@ public class TestenemyHealth : NetworkBehaviour
         CalculateEnemyLevel();
         ScaleStats();
         _currentHealth = MaxHp;
-        enabled = true; 
     }
     [Server]
     public void ServerHeal(float amount) 
@@ -111,16 +111,11 @@ public class TestenemyHealth : NetworkBehaviour
         
         int actualDamage = Mathf.Max(1, damage - _currentArmor);
         _currentHealth -= actualDamage;
-        _lastAttacker = attacker;
         
-        OnDamageTaken?.Invoke(actualDamage); 
-        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp);
         if (_currentHealth <= 0)
         {
-            Die();
+            Die(attacker);
         }
-        
-        RpcUpdateHealth(_currentHealth);
     }
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
@@ -129,35 +124,38 @@ public class TestenemyHealth : NetworkBehaviour
     }
 
     [Server]
-    private void Die()
+    private void Die(PlayerStats attacker)
     {
         if (_isDead) return;
         _isDead = true;
 
-        RpcDieEffects(); 
+        RpcDieEffects();
         
-
         if (_enemyLoot != null)
         {
-            int lootLevel = _lastAttacker != null ? _lastAttacker.Lvl : _currentLevel;
+            int lootLevel = attacker != null ? attacker.Lvl : _currentLevel;
             _enemyLoot.DropItem(lootLevel);
         }
-        InventoryManager.Instance.PlayerSkillController.PlayerStats.AddExperience(_experience);
+
+        if (attacker != null)
+        {
+            attacker.AddExperience(_experience);
+        }
         
-        OnDeath?.Invoke(); 
         NetworkServer.Destroy(gameObject);
     }
 
     [ClientRpc]
     private void RpcDieEffects()
     {
-        var collider = GetComponent<Collider>();
-        if (collider != null) collider.enabled = false;
         if (_deathEffectPrefab != null)
         {
             Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
         }
     }
+    
+    
+    
     [ServerCallback]
     private void OnTriggerEnter2D(Collider2D other)
     {
