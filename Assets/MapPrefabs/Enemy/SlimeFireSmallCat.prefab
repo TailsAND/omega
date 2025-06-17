@@ -284,8 +284,12 @@ MonoBehaviour:
   _attackPerLevel: 3
   _armorPerLevel: 1
   _enemyLoot: {fileID: 5777462254845752075}
-  _deathEffectPrefab: {fileID: 5855782691315158757, guid: 752e1e75d03683846a1eb6dc796f9fac, type: 3}
+  _deathEffectPrefab: {fileID: 0}
   showHealthBar: 1
+  _animator: {fileID: 3562067484102555239}
+  _damageAnimationTrigger: TakeDamage
+  _deathAnimationTrigger: Die
+  _deathAnimationDuration: 1
 --- !u!114 &114656264105044041
 MonoBehaviour:
   m_ObjectHideFlags: 0
