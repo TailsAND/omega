@@ -20,36 +20,39 @@ public class PlayerUI : MonoBehaviour {
     }
 
     public void UpdateUI() {
-        if (!_playerStats.isLocalPlayer) {
+        if (!_playerStats.isLocalPlayer || _playerStats == null) 
+        {
             return;
         }
 
+        try
+        {
         UpdateHealthBar();
         UpdateManaBar();
         UpdateEXPBar();
 
         UiContainer.Instance.hp_text.text = $"{_playerStats.CurrentlyHp}/{_playerStats.MaxHp}";
-
         UiContainer.Instance.hp_text_inv.text = $"{_playerStats.CurrentlyHp}/{_playerStats.MaxHp}";
-
         UiContainer.Instance.mana_text.text = $"{_playerStats.CurrentlyMana} / {_playerStats.MaxMana}";
         UiContainer.Instance.mana_text_inv.text = $"{_playerStats.CurrentlyMana} / {_playerStats.MaxMana}";
-
         UiContainer.Instance.armor_text.text = $"{_playerStats.Armor}";
-
         UiContainer.Instance.level_text.text = $"{_playerStats.Lvl}";
         UiContainer.Instance.exp_text.text = $"Опыт: {_playerStats.XpCurrently}/{_playerStats.XpNeeded}";
-
         UiContainer.Instance.strength_text.text = $"{_playerStats.Strength}";
         UiContainer.Instance.sanity_text.text = $"{_playerStats.Sanity}";
         UiContainer.Instance.agility_text.text = $"{_playerStats.Agility}";
         UiContainer.Instance.luck_text.text = $"{_playerStats.Luck}";
         UiContainer.Instance.speed_text.text = $"{_playerStats.Speed}";
 
-        if (_playerStats.AbilityPoints > 0)
-            UiContainer.Instance.ability_points_text.text = $"Очки характеристиков: {_playerStats.AbilityPoints}";
-        else
-            UiContainer.Instance.ability_points_text.text = "";
+            if (_playerStats.AbilityPoints > 0)
+                UiContainer.Instance.ability_points_text.text = $"Очки характеристик: {_playerStats.AbilityPoints}";
+            else
+                UiContainer.Instance.ability_points_text.text = "";
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"UI Update failed: {e.Message}");
+        }
     }
 
     private void UpdateHealthBar() {

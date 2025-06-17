@@ -12,21 +12,23 @@ public class PlayerEdgeEffects : NetworkBehaviour
     public float effectDuration = 1f;
     public float maxIntensity = 0.8f;
     public Color damageColor = Color.red;
+    public Color poisonColor = Color.green;
+    public Color fearColor = Color.magenta;
+
+    private PlayerStats playerStats;
 
     private void Start()
     {
-        // Создаем runtime-копию материала
-        if (isLocalPlayer && Input.GetKeyDown(KeyCode.T))
-        {
-            RpcActivateEffect();
-        }
+        playerStats = GetComponent<PlayerStats>();
+        runtimeMaterial = new Material(edgeEffectMaterial);
     }
 
     [ClientRpc]
-    public void RpcActivateEffect()
+    public void RpcActivateEffect(Color effectColor)
     {
         if (!isLocalPlayer || runtimeMaterial == null) return;
         
+        runtimeMaterial.SetColor("_EdgeColor", effectColor);
         StopAllCoroutines();
         StartCoroutine(PlayEffect());
     }
@@ -48,7 +50,45 @@ public class PlayerEdgeEffects : NetworkBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        Debug.Log($"Rendering: mat={(runtimeMaterial!=null)}");
-        Graphics.Blit(src, dest, runtimeMaterial);
+        if (runtimeMaterial != null)
+        {
+            Graphics.Blit(src, dest, runtimeMaterial);
+        }
+        else
+        {
+            Graphics.Blit(src, dest);
+        }
+    }
+
+    // Вызывается при получении урона
+    public void OnDamageTaken()
+    {
+        if (isLocalPlayer)
+        {
+            RpcActivateEffect(damageColor);
+        }
+    }
+    public void OnEffectEnd()
+    {
+        if (!isLocalPlayer || runtimeMaterial == null) return;
+        runtimeMaterial.SetFloat("_Intensity", 0);
+    }
+    
+    // Вызывается при отравлении
+    public void OnPoisonEffect()
+    {
+        if (isLocalPlayer)
+        {
+            RpcActivateEffect(poisonColor);
+        }
+    }
+
+    // Вызывается при страхе
+    public void OnFearEffect()
+    {
+        if (isLocalPlayer)
+        {
+            RpcActivateEffect(fearColor);
+        }
     }
 }

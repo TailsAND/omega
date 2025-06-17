@@ -53,19 +53,25 @@ public class PlayerEquipment : NetworkBehaviour {
         // Применяем характеристики предмета
         ApplyItemStats(equipmentItemConfig, itemData, true);
 
-        if (equipmentItemConfig.Skills.Count < 0)
+        // Обработка скиллов
+        if (equipmentItemConfig.Skills.Count > 0)
         {
-            SetEquipmentImage(equipmentItemConfig);
-            return;
+            var skillController = InventoryManager.Instance.PlayerSkillController;
+            if (skillController != null)
+            {
+                skillController.SkillManager.Skills.Clear();
+            }
         }
 
-        var skillController = InventoryManager.Instance.PlayerSkillController;
-        skillController.SkillManager.Skills.Clear();
-
         SetEquipment(equipmentItemConfig, itemData);
-
-        GameUI.Instance.SkillContainerView.gameObject.GetComponent<SkillSelectorHandler>().UpdateSkillSelector();
         SetEquipmentImage(equipmentItemConfig);
+
+        // Обновляем UI скиллов
+        var skillHandler = GameUI.Instance?.SkillContainerView?.gameObject.GetComponent<SkillSelectorHandler>();
+        if (skillHandler != null)
+        {
+            skillHandler.UpdateSkillSelector();
+        }
     }
 
     private void SetEquipment(ItemConfig equipmentItemConfig, ItemData itemData) {
@@ -107,6 +113,7 @@ public class PlayerEquipment : NetworkBehaviour {
 
         // Применяем базовые характеристики
         _playerStats.MaxHp += itemData.healthBonus * multiplier;
+        _playerStats.CurrentlyHp = Mathf.Clamp(_playerStats.CurrentlyHp, 0, _playerStats.MaxHp);
         _playerStats.Armor += itemData.armorBonus * multiplier;
 
         // Если это оружие, обновляем характеристики атаки
@@ -115,7 +122,7 @@ public class PlayerEquipment : NetworkBehaviour {
             var combat = GetComponent<PlayerCombat>();
             if (combat != null)
             {
-                // Можно добавить модификаторы атаки здесь
+                combat.BaseDamage += itemData.attackBonus * multiplier;
             }
         }
 
@@ -127,8 +134,19 @@ public class PlayerEquipment : NetworkBehaviour {
                 ApplySpecialStat(itemData.specialStats[i], itemData.specialStatsValues[i] * multiplier);
             }
         }
-    }
+
+        // Обязательно обновляем UI
+        if (_playerStats.isLocalPlayer)
+        {
+            _playerStats.PlayerUI?.UpdateUI();
+        }
     
+        // Для сетевой игры - синхронизируем изменения
+        if (isServer)
+        {
+            _playerStats.RpcUpdateStats(_playerStats.MaxHp, _playerStats.CurrentlyHp, _playerStats.Armor);
+        }
+    }
     
     private void ApplySpecialStat(SpecialStatType statType, float value)
     {

@@ -39,6 +39,9 @@ public class EnemyShadowStalker : NetworkBehaviour
     [SerializeField] private float attachmentDistance = 1.5f; // Дистанция прикрепления
     [SerializeField] private float attachmentCheckInterval = 0.2f; // Интервал проверки прикрепления
     
+    [Header("Attachment Conditions")]
+    [SerializeField] private bool onlyAttachInPatrolZone = true;
+    
     private TestenemyHealth health;
     private Rigidbody2D rb;
     private Animator animator;
@@ -225,10 +228,20 @@ public class EnemyShadowStalker : NetworkBehaviour
     private void HandlePounce()
     {
         if (Time.time < nextPounceTime || isInStealth) return;
-        
+    
         float distanceToTarget = Vector2.Distance(transform.position, currentTarget.position);
         if (distanceToTarget <= pounceRange)
         {
+            // Проверяем, находится ли игрок в зоне патрулирования (если включена настройка)
+            if (onlyAttachInPatrolZone)
+            {
+                float distanceToPatrolCenter = Vector2.Distance(currentTarget.position, patrolCenter);
+                if (distanceToPatrolCenter > patrolRadius)
+                {
+                    return; // Игрок вне зоны патрулирования - не прикрепляемся
+                }
+            }
+        
             StartCoroutine(PounceAttack());
         }
     }
@@ -274,6 +287,7 @@ public class EnemyShadowStalker : NetworkBehaviour
         attachmentEndTime = Time.time + attachmentDuration;
         playerStats.RegisterAttachedEnemy();
     
+        // Остальной код остается без изменений
         if (patrolCoroutine != null)
             StopCoroutine(patrolCoroutine);
         isPatrolling = false;
@@ -292,7 +306,6 @@ public class EnemyShadowStalker : NetworkBehaviour
         debuffedPlayer = playerStats;
         debuffCoroutine = StartCoroutine(ApplyDebuffRoutine());
     }
-
     
     [Server]
     private IEnumerator AttachmentRoutine(Transform player)
@@ -465,29 +478,74 @@ public class EnemyShadowStalker : NetworkBehaviour
                 damageMultiplier = mark.GetDamageMultiplier();
             }
         }
-    
+
         int finalDamage = Mathf.FloorToInt(damage * damageMultiplier * (isLightDamage ? lightVulnerabilityMultiplier : 1f));
-    
         health.TakeDamage(finalDamage, attacker);
-        
-        // Открепляемся при получении урона
+    
+        // При получении урона возвращаемся в зону патрулирования
         if (isAttachedToPlayer)
         {
             DetachFromPlayer();
+            ReturnToPatrolZone();
         }
-        
+    
         // Прерываем stealth при получении урона
         if (isInStealth)
         {
             if (stealthCoroutine != null)
                 StopCoroutine(stealthCoroutine);
-            
+        
             isInStealth = false;
             RpcSetStealthVisuals(false);
             StartCoroutine(DelayedStealthRestart());
         }
     }
-
+    [Server]
+    private void ReturnToPatrolZone()
+    {
+        // Останавливаем все текущие действия
+        if (attachmentCoroutine != null)
+        {
+            StopCoroutine(attachmentCoroutine);
+            attachmentCoroutine = null;
+        }
+    
+        if (debuffCoroutine != null)
+        {
+            StopCoroutine(debuffCoroutine);
+            RemoveDebuff();
+        }
+    
+        // Возвращаемся к центру зоны патрулирования
+        currentTarget = null;
+        isAttachedToPlayer = false;
+        isPouncing = false;
+        isStunned = false;
+    
+        // Запускаем корутину возврата
+        StartCoroutine(ReturnToPatrolRoutine());
+    }
+    
+    [Server]
+    private IEnumerator ReturnToPatrolRoutine()
+    {
+        // Двигаемся к центру зоны патрулирования
+        while (Vector2.Distance(transform.position, patrolCenter) > patrolPointReachedThreshold)
+        {
+            Vector2 direction = (patrolCenter - (Vector2)transform.position).normalized;
+            rb.linearVelocity = direction * health.CurrentAttack * 0.5f;
+            RpcUpdateAnimator(direction, rb.linearVelocity.magnitude);
+            yield return null;
+        }
+    
+        // Останавливаемся и начинаем патрулирование
+        rb.linearVelocity = Vector2.zero;
+        RpcUpdateAnimator(Vector2.zero, 0f);
+    
+        StartPatrol();
+        StartStealthCycle();
+    }
+    
     [Server]
     private IEnumerator DelayedStealthRestart()
     {

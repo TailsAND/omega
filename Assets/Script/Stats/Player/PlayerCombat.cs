@@ -8,7 +8,7 @@ public class PlayerCombat : NetworkBehaviour
     [SerializeField] private float _meleeAttackAngle = 90f;
     [SerializeField] private float _rangedAttackAngle = 30f;
     [SerializeField] private float _baseAttackCooldown = 1f;
-    [SerializeField] private int _baseAttackDamage = 10;
+    [SerializeField] private int _baseDamage = 10;
     [SerializeField] private LayerMask _attackableLayers;
     [SerializeField] private Color _meleeZoneColor = new Color(1, 0, 0, 0.3f);
     [SerializeField] private Color _rangedZoneColor = new Color(0, 0, 1, 0.3f);
@@ -22,7 +22,11 @@ public class PlayerCombat : NetworkBehaviour
     [Header("Damage Info UI")]
     [SerializeField] private GameObject _damageInfoPrefab;
     [SerializeField] private Vector3 _damageInfoOffset = new Vector3(0, 2f, 0);
-
+    
+    public int BaseDamage {
+        get => _baseDamage;
+        set => _baseDamage = value;
+    }
     private float _lastAttackTime;
     private PlayerEquipment _equipment;
     private PlayerStats _stats;
@@ -132,28 +136,31 @@ public class PlayerCombat : NetworkBehaviour
     {
         if (weaponConfig == null) return;
 
+        ItemData weaponData = _equipment.GetItemData(ItemType.Weapon);
+        int damage = weaponData?.attackBonus ?? _baseDamage; // Используем _baseDamage вместо weaponConfig.baseDamage
+
         switch (weaponConfig.weaponType)
         {
             case WeaponType.Sword:
             case WeaponType.Axe:
             case WeaponType.Dagger:
-                MeleeAttack(weaponConfig.baseDamage);
+                MeleeAttack(damage);
                 break;
-            
+        
             case WeaponType.Bow:
                 if (_arrowPrefab != null)
-                    RangedAttack(_arrowPrefab, weaponConfig.baseDamage, _rangedAttackAngle);
+                    RangedAttack(_arrowPrefab, damage, _rangedAttackAngle);
                 break;
             
             case WeaponType.Crossbow:
                 if (_crossbowBoltPrefab != null)
-                    RangedAttack(_crossbowBoltPrefab, weaponConfig.baseDamage, _rangedAttackAngle);
+                    RangedAttack(_crossbowBoltPrefab, damage, _rangedAttackAngle);
                 break;
             
             case WeaponType.Staff:
             case WeaponType.Wand:
                 if (_magicProjectilePrefab != null)
-                    RangedAttack(_magicProjectilePrefab, weaponConfig.baseDamage, _rangedAttackAngle);
+                    RangedAttack(_magicProjectilePrefab, damage, _rangedAttackAngle);
                 break;
             
             default:
@@ -299,14 +306,14 @@ public class PlayerCombat : NetworkBehaviour
             
             if (hitCollider.TryGetComponent<TestenemyHealth>(out var enemyHealth))
             {
-                int actualDamage = CalculateDamage(_baseAttackDamage, enemyHealth.CurrentArmor);
+                int actualDamage = CalculateDamage(_baseDamage, enemyHealth.CurrentArmor);
                 enemyHealth.TakeDamage(actualDamage, _stats);
                 ShowDamageInfo(hitCollider.transform.position, actualDamage);
             }
             else if (hitCollider.TryGetComponent<PlayerStats>(out var playerStats))
             {
-                playerStats.TakeHit(_baseAttackDamage);
-                ShowDamageInfo(hitCollider.transform.position, _baseAttackDamage);
+                playerStats.TakeHit(_baseDamage);
+                ShowDamageInfo(hitCollider.transform.position, _baseDamage);
             }
         }
         

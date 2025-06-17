@@ -113,7 +113,8 @@ public class PlayerStats : NetworkBehaviour {
     
     public bool IsPlayer => isLocalPlayer;
     private PlayerMovement playerMovement;
-    private PlayerUI playerUI;
+    [SerializeField] private PlayerUI playerUI;
+    public PlayerUI PlayerUI => playerUI;
     private static List<PlayerStats> playersWithAttachedEnemies = new List<PlayerStats>();
 
 
@@ -148,7 +149,18 @@ public class PlayerStats : NetworkBehaviour {
     //     base.OnStartLocalPlayer();
     //     gameObject.layer = LayerMask.NameToLayer("Player");
     // }
-
+    [ClientRpc]
+    public void RpcUpdateStats(int maxHp, int currentHp, int armor)
+    {
+        MaxHp = maxHp;
+        CurrentlyHp = currentHp;
+        Armor = armor;
+    
+        if (isLocalPlayer)
+        {
+            PlayerUI?.UpdateUI();
+        }
+    }
     public bool CanAttachEnemy()
     {
         return !playersWithAttachedEnemies.Contains(this);
@@ -177,19 +189,38 @@ public class PlayerStats : NetworkBehaviour {
     }
  
     [ClientRpc]
-    public void RpcShowPoisonEffect()
-    {
-        // Здесь можно добавить визуальные эффекты (например, изменение цвета игрока)
-        Debug.Log("Poison effect applied (visual)");
-    }
-
-    [ClientRpc]
     public void RpcHidePoisonEffect()
     {
         // Здесь можно убрать визуальные эффекты
-        Debug.Log("Poison effect removed (visual)");
+        Debug.Log("Эффект яда снят (визуально)");
+    
+        // Если нужно убрать edge effect
+        if (TryGetComponent<PlayerEdgeEffects>(out var edgeEffects))
+        {
+            edgeEffects.OnEffectEnd();
+        }
+    }
+    
+    [ClientRpc]
+    public void RpcShowPoisonEffect()
+    {
+        if (TryGetComponent<PlayerEdgeEffects>(out var edgeEffects))
+        {
+            edgeEffects.OnPoisonEffect();
+        }
+        Debug.Log("Poison effect applied (visual)");
     }
 
+
+    [ClientRpc]
+    public void RpcShowFearEffect()
+    {
+        if (TryGetComponent<PlayerEdgeEffects>(out var edgeEffects))
+        {
+            edgeEffects.OnFearEffect();
+        }
+        Debug.Log("Fear effect applied (visual)");
+    }
 
     
     public void UseItem(ItemConfig itemConfig)
@@ -261,14 +292,15 @@ public class PlayerStats : NetworkBehaviour {
     public void TakeHit(int damage)
     {
         if (!isServer || connectionToClient == null) return;
-        if (!isServer) 
-        {
-            Debug.Log("TakeHit called on client, ignoring");
-            return;
-        }
     
         currently_hp -= damage;
         Debug.Log($"Player took {damage} damage, health now: {currently_hp}");
+    
+        // Активируем эффект урона
+        if (TryGetComponent<PlayerEdgeEffects>(out var edgeEffects))
+        {
+            edgeEffects.OnDamageTaken();
+        }
     
         if (currently_hp <= 0)
         {
@@ -278,7 +310,6 @@ public class PlayerStats : NetworkBehaviour {
     
         RpcUpdateHealth(currently_hp);
     }
-    
 
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
