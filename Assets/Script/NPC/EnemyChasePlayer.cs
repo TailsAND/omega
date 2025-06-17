@@ -3,6 +3,7 @@ using Mirror;
 
 [RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(NetworkTransformReliable))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 public class EnemyChasePlayer : NetworkBehaviour
 {
     [Header("Movement Settings")]
@@ -15,34 +16,43 @@ public class EnemyChasePlayer : NetworkBehaviour
     public float detectionRange = 5f;
     public float chaseRange = 8f;
 
+    [Header("Attack Settings")]
+    public int attackDamage = 10;
+    public float attackCooldown = 1f;
+    private float lastAttackTime;
+
     [Header("Sync Variables")]
     [SyncVar(hook = nameof(OnDirectionChanged))]
-    private Vector2 _movementDirection;
+    private Vector2 movementDirection;
     [SyncVar(hook = nameof(OnMovementStateChanged))]
-    private bool _isMoving;
+    private bool isMoving;
     [SyncVar]
-    private bool _isChasing;
+    private bool isChasing;
 
-    private Vector2 _initialPosition;
-    private Animator _animator;
-    private float _actionTimeRemaining;
-    private Transform _playerTransform;
+    private Vector2 initialPosition;
+    private Animator animator;
+    private float actionTimeRemaining;
+    private PlayerStats playerStats;
+    private bool playerInRange;
 
     void Start()
     {
-        _initialPosition = transform.position;
-        _animator = GetComponent<Animator>();
+        initialPosition = transform.position;
+        animator = GetComponent<Animator>();
         
         if (isServer)
         {
-            // Находим игрока (предполагаем, что у игрока есть тег "Player")
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                _playerTransform = player.transform;
-            }
-            
+            // Начинаем поиск игрока
+            InvokeRepeating(nameof(FindPlayer), 0f, 2f); // Поиск каждые 2 секунды
             StartNewAction();
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (isServer)
+        {
+            CancelInvoke(nameof(FindPlayer));
         }
     }
 
@@ -52,41 +62,68 @@ public class EnemyChasePlayer : NetworkBehaviour
         {
             ServerUpdate();
         }
-        
-        UpdateAnimation();
+    }
+
+    [Server]
+    private void FindPlayer()
+    {
+        // Если игрок уже найден и он жив - ничего не делаем
+        if (playerStats != null && playerStats.CurrentlyHp > 0) return;
+
+        // Ищем через NetworkManager всех игроков
+        foreach (NetworkConnection conn in NetworkServer.connections.Values)
+        {
+            if (conn.identity != null)
+            {
+                PlayerStats stats = conn.identity.GetComponent<PlayerStats>();
+                if (stats != null && stats.IsPlayer)
+                {
+                    playerStats = stats;
+                    return;
+                }
+            }
+        }
+
+        // Альтернативный способ через поиск по компоненту
+        PlayerStats[] allPlayers = FindObjectsOfType<PlayerStats>();
+        foreach (PlayerStats ps in allPlayers)
+        {
+            if (ps.IsPlayer)
+            {
+                playerStats = ps;
+                return;
+            }
+        }
     }
 
     [Server]
     private void ServerUpdate()
     {
-        // Проверяем, видим ли мы игрока
-        if (_playerTransform != null)
+        // Если игрок не найден или мертв - пропускаем
+        if (playerStats == null || playerStats.CurrentlyHp <= 0) return;
+
+        float distanceToPlayer = Vector2.Distance(transform.position, playerStats.transform.position);
+        
+        if (distanceToPlayer <= detectionRange || playerInRange)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
-            
-            if (distanceToPlayer <= detectionRange)
-            {
-                _isChasing = true;
-                ChasePlayer();
-                return;
-            }
-            else if (distanceToPlayer > chaseRange)
-            {
-                _isChasing = false;
-            }
+            isChasing = true;
+            ChasePlayer();
+        }
+        else if (distanceToPlayer > chaseRange && !playerInRange)
+        {
+            isChasing = false;
         }
 
-        // Если не преследуем игрока, продолжаем обычное поведение
-        if (!_isChasing)
+        if (!isChasing)
         {
-            _actionTimeRemaining -= Time.deltaTime;
+            actionTimeRemaining -= Time.deltaTime;
 
-            if (_actionTimeRemaining <= 0)
+            if (actionTimeRemaining <= 0)
             {
                 StartNewAction();
             }
 
-            if (_isMoving)
+            if (isMoving)
             {
                 MoveEnemy();
             }
@@ -96,25 +133,24 @@ public class EnemyChasePlayer : NetworkBehaviour
     [Server]
     private void ChasePlayer()
     {
-        if (_playerTransform == null) return;
+        if (playerStats == null) return;
         
-        Vector2 directionToPlayer = ((Vector2)_playerTransform.position - (Vector2)transform.position).normalized;
-        _movementDirection = directionToPlayer;
-        _isMoving = true;
+        Vector2 directionToPlayer = ((Vector2)playerStats.transform.position - (Vector2)transform.position).normalized;
+        movementDirection = directionToPlayer;
+        isMoving = true;
         
         MoveEnemy();
     }
-
     [Server]
     private void MoveEnemy()
     {
-        Vector2 newPosition = (Vector2)transform.position + _movementDirection * moveSpeed * Time.deltaTime;
+        Vector2 newPosition = (Vector2)transform.position + movementDirection * moveSpeed * Time.deltaTime;
         
-        // Ограничиваем движение в пределах радиуса от начальной позиции
-        if (!_isChasing && Vector2.Distance(_initialPosition, newPosition) > movementRadius)
+        // Ограничиваем движение в пределах радиуса, если не преследуем игрока
+        if (!isChasing && Vector2.Distance(initialPosition, newPosition) > movementRadius)
         {
-            _movementDirection = (_initialPosition - newPosition).normalized;
-            newPosition = (Vector2)transform.position + _movementDirection * moveSpeed * Time.deltaTime;
+            movementDirection = (initialPosition - newPosition).normalized;
+            newPosition = (Vector2)transform.position + movementDirection * moveSpeed * Time.deltaTime;
         }
         
         transform.position = newPosition;
@@ -126,14 +162,14 @@ public class EnemyChasePlayer : NetworkBehaviour
         if (Random.value < 0.7f)
         {
             SetRandomDirection();
-            _isMoving = true;
-            _actionTimeRemaining = Random.Range(minDirectionTime, maxDirectionTime);
+            isMoving = true;
+            actionTimeRemaining = Random.Range(minDirectionTime, maxDirectionTime);
         }
         else
         {
-            _movementDirection = Vector2.zero;
-            _isMoving = false;
-            _actionTimeRemaining = Random.Range(minStopTime, maxStopTime);
+            movementDirection = Vector2.zero;
+            isMoving = false;
+            actionTimeRemaining = Random.Range(minStopTime, maxStopTime);
         }
     }
 
@@ -141,7 +177,7 @@ public class EnemyChasePlayer : NetworkBehaviour
     private void SetRandomDirection()
     {
         int direction = Random.Range(0, 4);
-        _movementDirection = direction switch
+        movementDirection = direction switch
         {
             0 => Vector2.up,
             1 => Vector2.right,
@@ -151,28 +187,55 @@ public class EnemyChasePlayer : NetworkBehaviour
         };
     }
 
-    private void UpdateAnimation()
+    [ServerCallback]
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_animator != null)
+        PlayerStats ps = other.GetComponent<PlayerStats>();
+        if (ps != null && ps.IsPlayer)
         {
-            _animator.SetFloat("MoveX", _movementDirection.x);
-            _animator.SetFloat("MoveY", _movementDirection.y);
-            _animator.SetBool("IsMoving", _isMoving);
-            _animator.SetBool("IsChasing", _isChasing);
+            playerInRange = true;
+            AttackPlayer(ps.gameObject);
+        }
+    }
+
+    [ServerCallback]
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        PlayerStats ps = other.GetComponent<PlayerStats>();
+        if (ps != null && ps.IsPlayer)
+        {
+            playerInRange = false;
+        }
+    }
+
+    [Server]
+    private void AttackPlayer(GameObject player)
+    {
+        lastAttackTime = Time.time;
+        
+        PlayerStats stats = player.GetComponent<PlayerStats>();
+        if (stats != null)
+        {
+            stats.TakeHit(attackDamage);
+            stats.RpcPlayHitSound();
+        }
+        
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
         }
     }
 
     private void OnDirectionChanged(Vector2 oldDir, Vector2 newDir)
     {
-        _movementDirection = newDir;
+        movementDirection = newDir;
     }
 
     private void OnMovementStateChanged(bool oldState, bool newState)
     {
-        _isMoving = newState;
+        isMoving = newState;
     }
 
-    // Визуализация зоны обнаружения в редакторе
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -180,6 +243,6 @@ public class EnemyChasePlayer : NetworkBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(_initialPosition, movementRadius);
+        Gizmos.DrawWireSphere(initialPosition, movementRadius);
     }
 }

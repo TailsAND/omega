@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using System.Linq;
@@ -26,6 +27,13 @@ public class TestenemyHealth : NetworkBehaviour
     [Header("Health Bar")]
     [SerializeField] private bool showHealthBar = true;
     
+    [Header("Анимации")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _damageAnimationTrigger = "TakeDamage";
+    [SerializeField] private string _deathAnimationTrigger = "Die";
+    [SerializeField] private float _deathAnimationDuration = 1f;
+    [SyncVar] private bool _isPlayingDeath; // Добавляем новый SyncVar
+    
     [SyncVar] private int _currentHealth;   
     [SyncVar] private int _currentLevel;    
     [SyncVar] private int _currentAttack;    
@@ -36,6 +44,7 @@ public class TestenemyHealth : NetworkBehaviour
     private PlayerStats _lastAttacker;    
     public System.Action OnDeath;          
     public System.Action<float> OnDamageTaken;
+    
     #region Свойства
     public int MaxHp => _baseHealth + (_healthPerLevel * (_currentLevel - 1));
     public int CurrentHealth => _currentHealth;
@@ -48,6 +57,7 @@ public class TestenemyHealth : NetworkBehaviour
     public bool IsDead => _isDead;
     public float MaxHealth => MaxHp;
     #endregion
+    
     public event Action<float> OnHealthChanged;
 
     public override void OnStartServer()
@@ -59,6 +69,7 @@ public class TestenemyHealth : NetworkBehaviour
         _currentHealth = MaxHp;
         enabled = true; 
     }
+
     [Server]
     public void ServerHeal(float amount) 
     {
@@ -67,6 +78,7 @@ public class TestenemyHealth : NetworkBehaviour
         _currentHealth = Mathf.Min(_currentHealth + Mathf.RoundToInt(amount), MaxHp);
         RpcUpdateHealth(_currentHealth);
     }
+
     [Server]
     protected virtual void ServerUpdate()
     {
@@ -78,6 +90,7 @@ public class TestenemyHealth : NetworkBehaviour
     {
         ServerUpdate();
     }
+
     [Server]
     private void CalculateEnemyLevel()
     {
@@ -103,25 +116,71 @@ public class TestenemyHealth : NetworkBehaviour
         _currentArmor = _baseArmor + _armorPerLevel * (_currentLevel - 1);
     }
 
-   
     [Server]
     public void TakeDamage(int damage, PlayerStats attacker)
     {
         if (_isDead) return;
-        
+    
         int actualDamage = Mathf.Max(1, damage - _currentArmor);
         _currentHealth -= actualDamage;
         _lastAttacker = attacker;
-        
-        OnDamageTaken?.Invoke(actualDamage); 
-        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp);
+    
         if (_currentHealth <= 0)
         {
-            Die();
+            Die(); // Сначала вызываем смерть
         }
-        
+        else
+        {
+            RpcPlayDamageAnimation(); // Только если не умер
+        }
+    
         RpcUpdateHealth(_currentHealth);
+        OnDamageTaken?.Invoke(actualDamage); 
+        OnHealthChanged?.Invoke((float)_currentHealth / MaxHp);
     }
+
+    [Server]
+    private void Die()
+    {
+        if (_isDead || _isPlayingDeath) return;
+    
+        _isDead = true;
+        _isPlayingDeath = true;
+    
+        RpcPlayDeathAnimation();
+        RpcDieEffects();
+    
+        if (_enemyLoot != null)
+        {
+            int lootLevel = _lastAttacker?.Lvl ?? _currentLevel;
+            _enemyLoot.DropItem(lootLevel);
+        }
+    
+        InventoryManager.Instance?.PlayerSkillController?.PlayerStats?.AddExperience(_experience);
+    
+        OnDeath?.Invoke();
+        StartCoroutine(DestroyAfterAnimation());
+    }
+
+    [ClientRpc]
+    private void RpcPlayDamageAnimation()
+    {
+        if (!_isPlayingDeath && _animator != null && !string.IsNullOrEmpty(_damageAnimationTrigger))
+        {
+            _animator.SetTrigger(_damageAnimationTrigger);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcPlayDeathAnimation()
+    {
+        if (_animator != null)
+        {
+            _animator.ResetTrigger(_damageAnimationTrigger); // Сбрасываем триггер урона
+            _animator.SetTrigger(_deathAnimationTrigger); // Запускаем смерть
+        }
+    }
+
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
     {
@@ -129,22 +188,9 @@ public class TestenemyHealth : NetworkBehaviour
     }
 
     [Server]
-    private void Die()
+    private IEnumerator DestroyAfterAnimation()
     {
-        if (_isDead) return;
-        _isDead = true;
-
-        RpcDieEffects(); 
-        
-
-        if (_enemyLoot != null)
-        {
-            int lootLevel = _lastAttacker != null ? _lastAttacker.Lvl : _currentLevel;
-            _enemyLoot.DropItem(lootLevel);
-        }
-        InventoryManager.Instance.PlayerSkillController.PlayerStats.AddExperience(_experience);
-        
-        OnDeath?.Invoke(); 
+        yield return new WaitForSeconds(_deathAnimationDuration);
         NetworkServer.Destroy(gameObject);
     }
 
@@ -153,27 +199,30 @@ public class TestenemyHealth : NetworkBehaviour
     {
         var collider = GetComponent<Collider>();
         if (collider != null) collider.enabled = false;
+        
         if (_deathEffectPrefab != null)
         {
             Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
         }
     }
+
     [ServerCallback]
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<ProjectileBasicAttack>(out var projectile))
         {
-            var owner = projectile.GetOwner(); // Используем метод-геттер
+            var owner = projectile.GetOwner();
             if (owner != null)
             {
                 var ownerStats = owner.GetComponent<PlayerStats>();
                 if (ownerStats != null)
                 {
-                    TakeDamage(projectile.GetDamage(), ownerStats); // Используем метод-геттер
+                    TakeDamage(projectile.GetDamage(), ownerStats);
                 }
             }
         }
     }
+
     [Server]
     public bool CanAttack()
     {

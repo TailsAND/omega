@@ -253,7 +253,7 @@ public class PlayerStats : NetworkBehaviour {
     }
 
     [ClientRpc]
-    private void RpcPlayHitSound()
+    public void RpcPlayHitSound()
     {
         // Здесь добавьте код для воспроизведения звука получения урона
         // Например:

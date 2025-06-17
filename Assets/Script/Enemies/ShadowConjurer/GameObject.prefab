@@ -176,12 +176,14 @@ MonoBehaviour:
   _baseArmor: 5
   _attackRange: 2
   _attackCooldown: 2
+  _experience: 200
   _maxLevelDifference: 3
   _healthPerLevel: 20
   _attackPerLevel: 3
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
 --- !u!114 &1069783816354175526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,12 +204,14 @@ MonoBehaviour:
   _baseArmor: 5
   _attackRange: 2
   _attackCooldown: 2
+  _experience: 200
   _maxLevelDifference: 3
   _healthPerLevel: 20
   _attackPerLevel: 3
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
   teleportCooldown: 8
   teleportRange: 5
   invisibilityDuration: 3
