@@ -29,6 +29,7 @@ public class ZoneEnemyAI : NetworkBehaviour
         _enemyHealth = GetComponent<TestenemyHealth>();
         _startPosition = transform.position;
         SetNewPatrolPoint();
+        _currentIdleTime = Random.Range(_minIdleTime, _maxIdleTime);
     }
 
     private void Update()
@@ -107,13 +108,15 @@ public class ZoneEnemyAI : NetworkBehaviour
         else
         {
             Vector2 direction = (_currentPatrolPoint - (Vector2)transform.position).normalized;
-            transform.position += (Vector3)(direction * _moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _currentPatrolPoint, _moveSpeed * Time.deltaTime);
             
             // Поворот спрайта в направлении движения (для 2D)
-            if (direction != Vector2.zero)
+            if (direction.x != 0)
             {
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                // Меняем scale по X для отражения спрайта
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Sign(direction.x) * Mathf.Abs(scale.x);
+                transform.localScale = scale;
             }
         }
     }
@@ -133,13 +136,14 @@ public class ZoneEnemyAI : NetworkBehaviour
         }
 
         Vector2 direction = ((Vector2)_currentTarget.position - (Vector2)transform.position).normalized;
-        transform.position += (Vector3)(direction * _moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _currentTarget.position, _moveSpeed * Time.deltaTime);
         
         // Поворот спрайта в направлении игрока (для 2D)
-        if (direction != Vector2.zero)
+        if (direction.x != 0)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(direction.x) * Mathf.Abs(scale.x);
+            transform.localScale = scale;
         }
     }
 
@@ -166,10 +170,11 @@ public class ZoneEnemyAI : NetworkBehaviour
         Debug.Log("Attack");
 
         Vector2 dir = (Vector2)_currentTarget.position - (Vector2)transform.position;
-        if (dir != Vector2.zero)
+        if (dir.x != 0)
         {
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(dir.x) * Mathf.Abs(scale.x);
+            transform.localScale = scale;
         }
         
         PlayerStats playerStats = _currentTarget.GetComponent<PlayerStats>();

@@ -137,8 +137,7 @@ public class PlayerStats : NetworkBehaviour {
         if (!isLocalPlayer) {
             return;
         }
-
-        AddExperience(2); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ДЛЯ ТЕСТА удалить потом
+        
         CheckHpAndMana();
         playerUI.UpdateUI();
     }
@@ -300,9 +299,9 @@ public class PlayerStats : NetworkBehaviour {
     private void Die() {
         GetComponent<PlayerInventory>().DropOnDie();
         GetComponent<PlayerSkillController>().GreenZone = true;
+        transform.position = _spawnPosition;
         greenZone = true;
         currently_hp = max_hp / 2;
-        transform.position = _spawnPosition;
     }
 
     public void IncreaseStrength() {

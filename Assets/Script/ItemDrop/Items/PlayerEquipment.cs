@@ -52,7 +52,7 @@ public class PlayerEquipment : NetworkBehaviour {
 
         // Применяем характеристики предмета
         ApplyItemStats(equipmentItemConfig, itemData, true);
-
+        
         if (equipmentItemConfig.Skills.Count < 0)
         {
             SetEquipmentImage(equipmentItemConfig);
@@ -101,13 +101,20 @@ public class PlayerEquipment : NetworkBehaviour {
     
     private void ApplyItemStats(ItemConfig itemConfig, ItemData itemData, bool isEquipping)
     {
-        if (_playerStats == null || itemConfig == null || itemData == null) return;
+
+
+        if (itemConfig == null || itemData == null) return;
 
         int multiplier = isEquipping ? 1 : -1;
 
+        
+
         // Применяем базовые характеристики
-        _playerStats.MaxHp += itemData.healthBonus * multiplier;
-        _playerStats.Armor += itemData.armorBonus * multiplier;
+        InventoryManager.Instance.PlayerSkillController.gameObject.GetComponent<PlayerStats>().MaxHp += itemData.healthBonus * multiplier;
+        InventoryManager.Instance.PlayerSkillController.gameObject.GetComponent<PlayerStats>().Armor += itemData.armorBonus * multiplier;
+        
+        PlayerUI.Instance.UpdateUI();
+
 
         // Если это оружие, обновляем характеристики атаки
         if (itemConfig.weaponType != WeaponType.None)

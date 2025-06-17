@@ -66,8 +66,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 42.934, y: -34.357, z: -0.08244838}
-  m_LocalScale: {x: 2.248137, y: 1.8869787, z: 4.2262}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.45, y: 1.2170608, z: 2.7258084}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1268843193456106176}
   m_Father: {fileID: 0}
@@ -263,7 +263,7 @@ MonoBehaviour:
   _attackDetectionRange: 6
   holyResistance: 1.3
   _minionPrefabs:
-  - {fileID: 7379034307553318968, guid: 565a5d9d9befe5743b24c360f3b4da12, type: 3}
+  - {fileID: 6349456098392761170, guid: 5c46c3ce5d49a244abb83642588cbc8e, type: 3}
   _maxMinions: 3
   _minionSpawnInterval: 10
   _minionLifetime: 30
@@ -298,6 +298,7 @@ MonoBehaviour:
   _baseArmor: 5
   _attackRange: 2
   _attackCooldown: 2
+  _experience: 200
   _maxLevelDifference: 3
   _healthPerLevel: 20
   _attackPerLevel: 3

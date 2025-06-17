@@ -8,8 +8,8 @@ public class RegenerationController : NetworkBehaviour {
     [SyncVar] private float hp_regeneration;
     [SyncVar] private float mana_regeneration;
 
-    [SyncVar] private float hp_regeneration_per_second = 0.05f; //раз в 20 секунд
-    [SyncVar] private float mana_regeneration_per_second = 0.2f; //раз в 5 секунд
+    [SerializeField][SyncVar] private float hp_regeneration_per_second = 0.05f;
+    [SerializeField][SyncVar] private float mana_regeneration_per_second = 0.2f; 
 
 
     public float ManaRegeneration {
@@ -60,7 +60,7 @@ public class RegenerationController : NetworkBehaviour {
             playerUI.UpdateUI();
         }
 
-        if (mana_regeneration >= 1 && playerStats.CurrentlyMana > playerStats.MaxMana * 0.1f) {
+        if (mana_regeneration >= 1) {
             playerStats.CurrentlyMana += (int)mana_regeneration;
             mana_regeneration = 0f;
             playerUI.UpdateUI();

@@ -11,7 +11,8 @@ public class TestenemyHealth : NetworkBehaviour
     [SerializeField] private int _baseArmor = 5;        
     [SerializeField] private float _attackRange = 2f;   
     [SerializeField] private float _attackCooldown = 2f;
-    
+    [SerializeField] private int _experience = 200;
+
     [Header("Масштабирование по уровню")]
     [SerializeField] private int _maxLevelDifference = 3; 
     [SerializeField] private int _healthPerLevel = 20;  
@@ -141,6 +142,7 @@ public class TestenemyHealth : NetworkBehaviour
             int lootLevel = _lastAttacker != null ? _lastAttacker.Lvl : _currentLevel;
             _enemyLoot.DropItem(lootLevel);
         }
+        InventoryManager.Instance.PlayerSkillController.PlayerStats.AddExperience(_experience);
         
         OnDeath?.Invoke(); 
         NetworkServer.Destroy(gameObject);

@@ -31,7 +31,13 @@ public class SkillManager : MonoBehaviour {
             return;
         }
 
-        GetComponent<PlayerStats>().CurrentlyMana -= playerskill.skillConfig.ManaCost;
+        if (GetComponent<PlayerStats>().CurrentlyMana - playerskill.skillConfig.ManaCost > 0) {
+            Debug.Log(GetComponent<PlayerStats>().CurrentlyMana - playerskill.skillConfig.ManaCost);
+            GetComponent<PlayerStats>().CurrentlyMana -= playerskill.skillConfig.ManaCost;
+        }
+        else {
+            return;
+        }
         skill.Activate(GetMouseWorldPosition());
         StartCoroutine(CooldownSkill(skill));
     }

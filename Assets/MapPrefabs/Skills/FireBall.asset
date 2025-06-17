@@ -18,9 +18,9 @@ MonoBehaviour:
   IsPassive: 0
   SkillType: 0
   PercentageBuff: 0
-  Damage: 20
+  Damage: 60
   ProjectileSpeed: 10
-  ManaCost: 32
-  Cooldown: 2
+  ManaCost: 3
+  Cooldown: 1
   ProjectileLifetime: 2
   ProjectileType: 0

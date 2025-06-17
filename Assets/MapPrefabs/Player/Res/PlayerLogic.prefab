@@ -197,8 +197,6 @@ GameObject:
   - component: {fileID: 3820933814322284347}
   - component: {fileID: 7339654325217976826}
   - component: {fileID: -7666614221123661290}
-  - component: {fileID: 7355851802689311227}
-  - component: {fileID: -1568228476913601040}
   - component: {fileID: -3095385020681225760}
   - component: {fileID: 6197982689662656025}
   - component: {fileID: -1337530180944930152}
@@ -448,6 +446,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  hp_regeneration_per_second: 3
+  mana_regeneration_per_second: 1
 --- !u!114 &3820933814322284347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,50 +533,6 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &7355851802689311227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909981378074328598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243756e46a3e9314497ccbd7de2cabae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamage: 40
-  attackRange: 1
-  attackCooldown: 0.5
-  attackOffset: {x: 0.5, y: 0}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 136
-  animator: {fileID: 7085261678692851948}
-  attackSound: {fileID: 8300000, guid: 91806d6425f834d1897ded278936ac7f, type: 3}
-  playerStats: {fileID: 0}
---- !u!114 &-1568228476913601040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909981378074328598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243756e46a3e9314497ccbd7de2cabae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamage: 10
-  attackRange: 1
-  attackCooldown: 0.5
-  attackOffset: {x: 0.5, y: 0}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  animator: {fileID: 0}
-  attackSound: {fileID: 0}
-  playerStats: {fileID: 0}
 --- !u!114 &-3095385020681225760
 MonoBehaviour:
   m_ObjectHideFlags: 0
