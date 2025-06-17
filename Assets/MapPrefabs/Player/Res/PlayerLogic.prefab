@@ -401,6 +401,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  xp_currently: 0
   hitSound: {fileID: 8300000, guid: 917d6c645a8a1c9428616e5ba64b2599, type: 3}
   greenZone: 0
 --- !u!114 &-510250030928325903
@@ -446,8 +447,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  hp_regeneration_per_second: 0.5
-  mana_regeneration_per_second: 0.25
+  hp_regeneration_per_second: 0.05
+  mana_regeneration_per_second: 0.2
 --- !u!114 &3820933814322284347
 MonoBehaviour:
   m_ObjectHideFlags: 0

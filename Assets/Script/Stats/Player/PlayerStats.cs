@@ -229,27 +229,49 @@ public class PlayerStats : NetworkBehaviour {
 
         playerUI.UpdateUI();
     }
-    [Client]
-    public void TakeHit(int damage)
+    
+    [Server]
+    public void SvTakeDamage(int damage)
     {
-        if (!isLocalPlayer) return;
-    
         currently_hp -= damage;
-        Debug.Log($"Player took {damage} damage, health now: {currently_hp}");
-
-        // Play hit sound locally
-        AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        RpcUpdateHealth(currently_hp);
     
-        if (playerUI != null)
-        {
-            playerUI.UpdateUI();
-        }
-
         if (currently_hp <= 0)
         {
             currently_hp = 0;
-            Die();
+            RpcDie();
         }
+    }
+
+    
+    [Command(requiresAuthority = false)]
+    public void CmdTakeHit(int damage, NetworkConnectionToClient sender = null)
+    {
+        // Проверяем, что отправитель существует
+        if (sender == null) return;
+    
+        // Применяем урон на сервере
+        SvTakeDamage(damage);
+    
+        // Воспроизводим звук у всех игроков
+        RpcPlayHitSound();
+    }
+    
+    public void TakeHit(int damage)
+    {
+        // Вызываем команду на сервере
+        CmdTakeHit(damage);
+    
+        // Локально воспроизводим звук сразу (не ждем ответа сервера)
+        AudioSource.PlayClipAtPoint(hitSound, transform.position);
+    }
+    
+    [ClientRpc]
+    private void RpcDie()
+    {
+        if (isServer) return; // Сервер уже обработал смерть
+    
+        Die(); // Вызываем метод смерти на всех клиентах
     }
 
     [ClientRpc]
@@ -262,15 +284,19 @@ public class PlayerStats : NetworkBehaviour {
         // GetComponent<AudioSource>().PlayOneShot(hitSound);
     }
     
-
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
     {
-        if (!isClient) return;
         currently_hp = newHealth;
         if (playerUI != null)
         {
             playerUI.UpdateUI();
+        }
+    
+        // Проверяем смерть и на клиенте
+        if (currently_hp <= 0)
+        {
+            Die();
         }
     }
     [ClientRpc]
@@ -299,12 +325,23 @@ public class PlayerStats : NetworkBehaviour {
         }
     }
 
-    private void Die() {
+    
+    
+    [ClientRpc]
+    private void Die()
+    {
+        if (isServer) return;
+    
         GetComponent<PlayerInventory>().DropOnDie();
         GetComponent<PlayerSkillController>().GreenZone = true;
         transform.position = _spawnPosition;
         greenZone = true;
         currently_hp = max_hp / 2;
+    
+        if (playerUI != null)
+        {
+            playerUI.UpdateUI();
+        }
     }
 
     public void IncreaseStrength() {

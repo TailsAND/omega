@@ -104,7 +104,7 @@ public class PlayerSkillController : NetworkBehaviour {
     }
 
     private void UseSkill() {
-        if (Input.GetKey(KeyCode.Q) && Active_Skills.Count > 0) {
+        if (Input.GetKey(KeyCode.Mouse0) && Active_Skills.Count > 0) {
             SkillManager.UseSkill(Active_Skills[0]);
         }
 

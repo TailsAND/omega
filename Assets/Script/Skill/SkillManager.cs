@@ -32,7 +32,6 @@ public class SkillManager : MonoBehaviour {
         }
 
         if (GetComponent<PlayerStats>().CurrentlyMana - playerskill.skillConfig.ManaCost > 0) {
-            Debug.Log(GetComponent<PlayerStats>().CurrentlyMana - playerskill.skillConfig.ManaCost);
             GetComponent<PlayerStats>().CurrentlyMana -= playerskill.skillConfig.ManaCost;
         }
         else {

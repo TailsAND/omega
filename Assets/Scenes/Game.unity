@@ -24291,6 +24291,7 @@ GameObject:
   - component: {fileID: 886240955}
   - component: {fileID: 886240954}
   - component: {fileID: 886240953}
+  - component: {fileID: 886240957}
   m_Layer: 0
   m_Name: NpcLogic
   m_TagString: Untagged
@@ -24350,20 +24351,19 @@ MonoBehaviour:
       \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435\u0442'. \u0418\u0434\u0438-\u043A\u0430
       \u043D\u0430\u0439\u0434\u0438 \u0445\u043E\u0442\u044C \u0440\u0436\u0430\u0432\u044B\u0439
       \u0433\u0432\u043E\u0437\u0434\u044C, \u0430 \u043F\u043E\u0442\u043E\u043C
-      \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0441\u044F. \u0410
-      \u0442\u043E \u043C\u043D\u0435 \u0436\u0430\u043B\u043A\u043E \u0442\u0435\u0431\u044F
-      \u0434\u0430\u0436\u0435 \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E
-      \u043E\u0446\u0435\u043D\u0438\u0432\u0430\u0442\u044C!\""
+      \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0441\u044F. \u0410 \u0442\u043E
+      \u043C\u043D\u0435 \u0436\u0430\u043B\u043A\u043E \u0442\u0435\u0431\u044F \u0434\u0430\u0436\u0435
+      \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E \u043E\u0446\u0435\u043D\u0438\u0432\u0430\u0442\u044C!\""
     npcVoice: {fileID: 8300000, guid: b250360192ddc9d4f9d40b8d480a3c4e, type: 3}
     playerResponse: "\"\u041C\u043E\u0436\u0435\u0442, \u0434\u0430\u0448\u044C \u0447\u0442\u043E-\u043D\u0438\u0431\u0443\u0434\u044C
       \u0432 \u0434\u043E\u043B\u0433?\""
     playerVoice: {fileID: 0}
   - npcText: "\"\u0412 \u0434\u043E\u043B\u0433? \u0414\u0430 \u0442\u044B \u0438
-      \u0442\u0430\u043A \u043C\u043D\u0435 \u0434\u043E\u043B\u0436\u0435\u043D
-      \u0437\u0430 \u043F\u043E\u0442\u0440\u0430\u0447\u0435\u043D\u043D\u043E\u0435
-      \u0432\u0440\u0435\u043C\u044F! \u0428\u0443\u0442\u0438\u0448\u044C \u043B\u0443\u0447\u0448\u0435,
-      \u0447\u0435\u043C \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0448\u044C \u043B\u0443\u0442!
-      \u0422\u0435\u0431\u0435 \u0431\u044B \u0432 \u043A\u043E\u043C\u0435\u0434\u0438\u0439\u043D\u044B\u0439
+      \u0442\u0430\u043A \u043C\u043D\u0435 \u0434\u043E\u043B\u0436\u0435\u043D \u0437\u0430
+      \u043F\u043E\u0442\u0440\u0430\u0447\u0435\u043D\u043D\u043E\u0435 \u0432\u0440\u0435\u043C\u044F!
+      \u0428\u0443\u0442\u0438\u0448\u044C \u043B\u0443\u0447\u0448\u0435, \u0447\u0435\u043C
+      \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0448\u044C \u043B\u0443\u0442! \u0422\u0435\u0431\u0435
+      \u0431\u044B \u0432 \u043A\u043E\u043C\u0435\u0434\u0438\u0439\u043D\u044B\u0439
       \u043A\u043B\u0443\u0431, \u0430 \u043D\u0435 \u0432 \u043F\u043E\u0434\u0437\u0435\u043C\u0435\u043B\u044C\u044F!\""
     npcVoice: {fileID: 8300000, guid: e5c160c3eed95f14d849c195d1d0f412, type: 3}
     playerResponse: "\"\u041D\u0443 \u0438 \u043B\u0430\u0434\u043D\u043E\""
@@ -24481,6 +24481,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &886240957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886240951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c289b9297a4c9a81af42a72171826f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData:
+    Type: 2
+    Skills: 00000000
+    configId: 
+    rank: 0
+    healthBonus: 0
+    armorBonus: 0
+    attackBonus: 0
+    specialStats: 
+    specialStatsValues: []
+    level: 0
+  itemConfig: {fileID: 11400000, guid: 0084c87e2f68ac04395cb64e968538b6, type: 2}
 --- !u!1 &888660429
 GameObject:
   m_ObjectHideFlags: 0
@@ -42045,6 +42069,171 @@ RectTransform:
   m_AnchoredPosition: {x: 361.5, y: 307.89874}
   m_SizeDelta: {x: 83.2527, y: 90.4934}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!43 &1416687950
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 11
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 0
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 0
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 0
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 0
+    _typelessdata: 
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1420291817
 GameObject:
   m_ObjectHideFlags: 0
@@ -51648,8 +51837,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -54362,8 +54551,8 @@ Mesh:
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
     serializedVersion: 2
@@ -64046,11 +64235,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2905634976125830357, guid: 8c96ecebbdacfe847a874ec7cb3e4338, type: 3}
-      propertyPath: 'allRecipes.Array.data[0]'
+      propertyPath: allRecipes.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: bf9d822b45ae74543ae9a9e44e908fdb, type: 2}
     - target: {fileID: 2905634976125830357, guid: 8c96ecebbdacfe847a874ec7cb3e4338, type: 3}
-      propertyPath: 'allRecipes.Array.data[1]'
+      propertyPath: allRecipes.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: a6a341582edc4254f8eebb9d7719cbfd, type: 2}
     - target: {fileID: 3219900837111062676, guid: 8c96ecebbdacfe847a874ec7cb3e4338, type: 3}
