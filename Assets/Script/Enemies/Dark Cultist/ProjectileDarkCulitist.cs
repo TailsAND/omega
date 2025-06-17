@@ -63,7 +63,7 @@ public class ProjectileDarkCultist : NetworkBehaviour
     {
         if (_rb != null)
         {
-            _rb.velocity = _direction * _speed;
+            _rb.linearVelocity = _direction * _speed;
         }
     }
 
