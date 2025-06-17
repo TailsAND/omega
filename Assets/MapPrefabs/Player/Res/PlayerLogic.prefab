@@ -446,8 +446,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  hp_regeneration_per_second: 3
-  mana_regeneration_per_second: 1
+  hp_regeneration_per_second: 0.5
+  mana_regeneration_per_second: 0.25
 --- !u!114 &3820933814322284347
 MonoBehaviour:
   m_ObjectHideFlags: 0

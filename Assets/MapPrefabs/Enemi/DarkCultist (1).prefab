@@ -40,11 +40,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2961475741172367653}
+  - component: {fileID: 844718704372440980}
+  - component: {fileID: 5823077474003562436}
   - component: {fileID: 8266649669280848228}
   - component: {fileID: 4565610085548223945}
   - component: {fileID: 6798617711278925471}
   - component: {fileID: 8180120227603967837}
-  - component: {fileID: 5823077474003562436}
   - component: {fileID: 961105500755142188}
   - component: {fileID: 8150786277889808519}
   - component: {fileID: 7236562272533228524}
@@ -72,6 +73,57 @@ Transform:
   - {fileID: 1268843193456106176}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &844718704372440980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527724019946203007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 2961475741172367653}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  useFixedUpdate: 0
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+--- !u!114 &5823077474003562436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527724019946203007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2874416270
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!114 &8266649669280848228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,23 +277,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0073076966, y: -0.0024352972}
   m_Size: {x: 0.35293576, y: 0.6548747}
   m_Direction: 0
---- !u!114 &5823077474003562436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1527724019946203007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 2874416270
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &961105500755142188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,13 +303,11 @@ MonoBehaviour:
   _minionSpawnInterval: 10
   _minionLifetime: 30
   _minionSpawnDetectionRange: 6
+  _minionSpawnRadius: 3
   _curseRange: 5
   _curseDuration: 8
   _curseCooldown: 15
   _curseEffectPrefab: {fileID: 4042429062395165705, guid: 3806f35f0993fb34781897fbb2feccbf, type: 3}
-  _minionSpawnRadius: 3
-  _patrolSpeed: 1.5
-  _patrolPointReachedDistance: 0.5
   _movementAreaRadius: 5
   _wanderSpeed: 1.5
   _wanderChangeDirectionTime: 3

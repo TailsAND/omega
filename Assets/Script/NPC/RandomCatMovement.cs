@@ -1,7 +1,11 @@
 using UnityEngine;
+using Mirror;
 
-public class RandomCatMovement : MonoBehaviour
+[RequireComponent(typeof(NetworkIdentity))]
+[RequireComponent(typeof(NetworkTransformReliable))]
+public class RandomCatMovement : NetworkBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 2f;
     public float minDirectionTime = 1f;
     public float maxDirectionTime = 3f;
@@ -9,69 +13,115 @@ public class RandomCatMovement : MonoBehaviour
     public float maxStopTime = 2f;
     public float movementRadius = 5f;
 
-    private Vector2 movementDirection;
-    private float actionTimeRemaining;
-    private Vector2 initialPosition;
-    private Animator animator;
-    private bool isMoving;
+    [Header("Sync Variables")]
+    [SyncVar(hook = nameof(OnDirectionChanged))]
+    private Vector2 _movementDirection;
+    [SyncVar(hook = nameof(OnMovementStateChanged))]
+    private bool _isMoving;
+
+    private Vector2 _initialPosition;
+    private Animator _animator;
+    private float _actionTimeRemaining;
 
     void Start()
     {
-        initialPosition = transform.position;
-        animator = GetComponent<Animator>();
-        StartNewAction();
+        _initialPosition = transform.position;
+        _animator = GetComponent<Animator>();
+        
+        if (isServer)
+        {
+            StartNewAction();
+        }
     }
 
     void Update()
     {
-        actionTimeRemaining -= Time.deltaTime;
+        if (isServer)
+        {
+            ServerUpdate();
+        }
+        
+        UpdateAnimation();
+    }
 
-        if (actionTimeRemaining <= 0)
+    [Server]
+    private void ServerUpdate()
+    {
+        _actionTimeRemaining -= Time.deltaTime;
+
+        if (_actionTimeRemaining <= 0)
         {
             StartNewAction();
         }
 
-        // Если движется - перемещаем
-        if (isMoving)
+        if (_isMoving)
         {
-            transform.Translate(movementDirection * moveSpeed * Time.deltaTime);
-            
-            // Проверяем границы перемещения
-            if (Vector2.Distance(initialPosition, transform.position) > movementRadius)
-            {
-                movementDirection = (initialPosition - (Vector2)transform.position).normalized;
-            }
+            MoveCat();
         }
-
-        // Обновляем параметры аниматора
-        animator.SetFloat("MoveX", Mathf.Round(movementDirection.x));
-        animator.SetFloat("MoveY", Mathf.Round(movementDirection.y));
-        animator.SetBool("IsMoving", isMoving);
     }
 
-    void StartNewAction()
+    [Server]
+    private void MoveCat()
     {
-        // 70% chance to move, 30% chance to stop
+        Vector2 newPosition = (Vector2)transform.position + _movementDirection * moveSpeed * Time.deltaTime;
+        
+        if (Vector2.Distance(_initialPosition, newPosition) > movementRadius)
+        {
+            _movementDirection = (_initialPosition - newPosition).normalized;
+            newPosition = (Vector2)transform.position + _movementDirection * moveSpeed * Time.deltaTime;
+        }
+        
+        transform.position = newPosition;
+    }
+
+    [Server]
+    private void StartNewAction()
+    {
         if (Random.value < 0.7f)
         {
-            // Выбираем новое направление
-            int direction = Random.Range(0, 4);
-            switch (direction)
-            {
-                case 0: movementDirection = Vector2.up; break;
-                case 1: movementDirection = Vector2.right; break;
-                case 2: movementDirection = Vector2.down; break;
-                case 3: movementDirection = Vector2.left; break;
-            }
-            isMoving = true;
-            actionTimeRemaining = Random.Range(minDirectionTime, maxDirectionTime);
+            SetRandomDirection();
+            _isMoving = true;
+            _actionTimeRemaining = Random.Range(minDirectionTime, maxDirectionTime);
         }
         else
         {
-            // Останавливаемся
-            movementDirection = Vector2.zero;
-            isMoving = false;
-            actionTimeRemaining = Random.Range(minStopTime, maxStopTime);
+            _movementDirection = Vector2.zero;
+            _isMoving = false;
+            _actionTimeRemaining = Random.Range(minStopTime, maxStopTime);
         }
+    }
+
+    [Server]
+    private void SetRandomDirection()
+    {
+        int direction = Random.Range(0, 4);
+        _movementDirection = direction switch
+        {
+            0 => Vector2.up,
+            1 => Vector2.right,
+            2 => Vector2.down,
+            3 => Vector2.left,
+            _ => Vector2.zero
+        };
+    }
+
+    private void UpdateAnimation()
+    {
+        if (_animator != null)
+        {
+            _animator.SetFloat("MoveX", _movementDirection.x);
+            _animator.SetFloat("MoveY", _movementDirection.y);
+            _animator.SetBool("IsMoving", _isMoving);
+        }
+    }
+
+    private void OnDirectionChanged(Vector2 oldDir, Vector2 newDir)
+    {
+        _movementDirection = newDir;
+    }
+
+    private void OnMovementStateChanged(bool oldState, bool newState)
+    {
+        _isMoving = newState;
     }
 }

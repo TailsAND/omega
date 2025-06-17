@@ -210,7 +210,7 @@ MonoBehaviour:
   _baseArmor: 5
   _attackRange: 2
   _attackCooldown: 2
-  _experience: 3000
+  _experience: 1540
   _maxLevelDifference: 3
   _healthPerLevel: 20
   _attackPerLevel: 3

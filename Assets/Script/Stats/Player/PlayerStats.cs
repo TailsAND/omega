@@ -229,24 +229,27 @@ public class PlayerStats : NetworkBehaviour {
 
         playerUI.UpdateUI();
     }
-    [Server]
+    [Client]
     public void TakeHit(int damage)
     {
-        if (!isServer || connectionToClient == null) return;
+        if (!isLocalPlayer) return;
     
         currently_hp -= damage;
         Debug.Log($"Player took {damage} damage, health now: {currently_hp}");
 
-        // Воспроизводим звук на всех клиентах
-        RpcPlayHitSound();
+        // Play hit sound locally
+        AudioSource.PlayClipAtPoint(hitSound, transform.position);
     
+        if (playerUI != null)
+        {
+            playerUI.UpdateUI();
+        }
+
         if (currently_hp <= 0)
         {
             currently_hp = 0;
             Die();
         }
-
-        RpcUpdateHealth(currently_hp);
     }
 
     [ClientRpc]
