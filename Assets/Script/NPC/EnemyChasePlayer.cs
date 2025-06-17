@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(NetworkTransformReliable))]
@@ -32,84 +33,101 @@ public class EnemyChasePlayer : NetworkBehaviour
     private Vector2 initialPosition;
     private Animator animator;
     private float actionTimeRemaining;
-    private PlayerStats playerStats;
-    private bool playerInRange;
+    private readonly List<PlayerStats> playersInRange = new List<PlayerStats>();
+    private readonly HashSet<PlayerStats> allPlayers = new HashSet<PlayerStats>();
 
-    void Start()
+    private void Start()
     {
         initialPosition = transform.position;
         animator = GetComponent<Animator>();
-        
+
         if (isServer)
         {
-            // Начинаем поиск игрока
-            InvokeRepeating(nameof(FindPlayer), 0f, 2f); // Поиск каждые 2 секунды
+            InvokeRepeating(nameof(UpdatePlayerList), 1f, 2f); // Обновляем список игроков каждые 2 секунды
             StartNewAction();
         }
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         if (isServer)
         {
-            CancelInvoke(nameof(FindPlayer));
+            CancelInvoke(nameof(UpdatePlayerList));
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (isServer)
         {
             ServerUpdate();
         }
+
+        UpdateAnimation();
     }
 
     [Server]
-    private void FindPlayer()
+    private void UpdatePlayerList()
     {
-        // Если игрок уже найден и он жив - ничего не делаем
-        if (playerStats != null && playerStats.CurrentlyHp > 0) return;
-
-        // Ищем через NetworkManager всех игроков
+        allPlayers.Clear();
+        
+        // 1. Поиск через NetworkManager (основной способ)
         foreach (NetworkConnection conn in NetworkServer.connections.Values)
         {
-            if (conn.identity != null)
+            if (conn.identity != null && conn.identity.TryGetComponent(out PlayerStats stats))
             {
-                PlayerStats stats = conn.identity.GetComponent<PlayerStats>();
-                if (stats != null && stats.IsPlayer)
+                allPlayers.Add(stats);
+            }
+        }
+
+        // 2. Альтернативный поиск по компоненту (на случай если первый способ не сработал)
+        if (allPlayers.Count == 0)
+        {
+            foreach (PlayerStats player in FindObjectsOfType<PlayerStats>())
+            {
+                if (player.isActiveAndEnabled)
                 {
-                    playerStats = stats;
-                    return;
+                    allPlayers.Add(player);
                 }
             }
         }
+    }
 
-        // Альтернативный способ через поиск по компоненту
-        PlayerStats[] allPlayers = FindObjectsOfType<PlayerStats>();
-        foreach (PlayerStats ps in allPlayers)
+    [Server]
+    private PlayerStats FindClosestPlayer()
+    {
+        PlayerStats closestPlayer = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (PlayerStats player in allPlayers)
         {
-            if (ps.IsPlayer)
+            if (player == null || player.CurrentlyHp <= 0) continue;
+
+            float distance = Vector2.Distance(transform.position, player.transform.position);
+            if (distance < closestDistance)
             {
-                playerStats = ps;
-                return;
+                closestDistance = distance;
+                closestPlayer = player;
             }
         }
+
+        return closestPlayer;
     }
 
     [Server]
     private void ServerUpdate()
     {
-        // Если игрок не найден или мертв - пропускаем
-        if (playerStats == null || playerStats.CurrentlyHp <= 0) return;
+        PlayerStats closestPlayer = FindClosestPlayer();
+        if (closestPlayer == null) return;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, playerStats.transform.position);
-        
-        if (distanceToPlayer <= detectionRange || playerInRange)
+        float distanceToPlayer = Vector2.Distance(transform.position, closestPlayer.transform.position);
+
+        if (distanceToPlayer <= detectionRange || playersInRange.Count > 0)
         {
             isChasing = true;
-            ChasePlayer();
+            ChasePlayer(closestPlayer);
         }
-        else if (distanceToPlayer > chaseRange && !playerInRange)
+        else if (distanceToPlayer > chaseRange && playersInRange.Count == 0)
         {
             isChasing = false;
         }
@@ -131,28 +149,28 @@ public class EnemyChasePlayer : NetworkBehaviour
     }
 
     [Server]
-    private void ChasePlayer()
+    private void ChasePlayer(PlayerStats player)
     {
-        if (playerStats == null) return;
-        
-        Vector2 directionToPlayer = ((Vector2)playerStats.transform.position - (Vector2)transform.position).normalized;
+        if (player == null) return;
+
+        Vector2 directionToPlayer = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
         movementDirection = directionToPlayer;
         isMoving = true;
-        
+
         MoveEnemy();
     }
+
     [Server]
     private void MoveEnemy()
     {
         Vector2 newPosition = (Vector2)transform.position + movementDirection * moveSpeed * Time.deltaTime;
-        
-        // Ограничиваем движение в пределах радиуса, если не преследуем игрока
+
         if (!isChasing && Vector2.Distance(initialPosition, newPosition) > movementRadius)
         {
             movementDirection = (initialPosition - newPosition).normalized;
             newPosition = (Vector2)transform.position + movementDirection * moveSpeed * Time.deltaTime;
         }
-        
+
         transform.position = newPosition;
     }
 
@@ -187,39 +205,57 @@ public class EnemyChasePlayer : NetworkBehaviour
         };
     }
 
+    private void UpdateAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetFloat("MoveX", movementDirection.x);
+            animator.SetFloat("MoveY", movementDirection.y);
+            animator.SetBool("IsMoving", isMoving);
+            animator.SetBool("IsChasing", isChasing);
+        }
+    }
+
     [ServerCallback]
     private void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerStats ps = other.GetComponent<PlayerStats>();
-        if (ps != null && ps.IsPlayer)
+        if (other.TryGetComponent(out PlayerStats player) && !playersInRange.Contains(player))
         {
-            playerInRange = true;
-            AttackPlayer(ps.gameObject);
+            playersInRange.Add(player);
+            AttackPlayer(player);
         }
     }
 
     [ServerCallback]
     private void OnTriggerExit2D(Collider2D other)
     {
-        PlayerStats ps = other.GetComponent<PlayerStats>();
-        if (ps != null && ps.IsPlayer)
+        if (other.TryGetComponent(out PlayerStats player))
         {
-            playerInRange = false;
+            playersInRange.Remove(player);
+        }
+    }
+
+    [ServerCallback]
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out PlayerStats player) && 
+            Time.time > lastAttackTime + attackCooldown)
+        {
+            AttackPlayer(player);
         }
     }
 
     [Server]
-    private void AttackPlayer(GameObject player)
+    private void AttackPlayer(PlayerStats player)
     {
         lastAttackTime = Time.time;
         
-        PlayerStats stats = player.GetComponent<PlayerStats>();
-        if (stats != null)
+        if (player != null && player.CurrentlyHp > 0)
         {
-            stats.TakeHit(attackDamage);
-            stats.RpcPlayHitSound();
+            player.TakeHit(attackDamage);
+            player.RpcPlayHitSound();
         }
-        
+
         if (animator != null)
         {
             animator.SetTrigger("Attack");

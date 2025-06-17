@@ -2,15 +2,14 @@ using Mirror;
 using UnityEngine;
 
 public class RegenerationController : NetworkBehaviour {
-    [SyncVar] private float timer;
-    [SyncVar] private float interval_of_one_second = 1f;
+    private float timer;
+    private float interval_of_one_second = 1f;
 
-    [SyncVar] private float hp_regeneration;
-    [SyncVar] private float mana_regeneration;
+    private float hp_regeneration;
+    private float mana_regeneration;
 
-    [SerializeField][SyncVar] private float hp_regeneration_per_second = 0.05f;
-    [SerializeField][SyncVar] private float mana_regeneration_per_second = 0.2f; 
-
+    [SerializeField] private float hp_regeneration_per_second = 0.05f;
+    [SerializeField] private float mana_regeneration_per_second = 0.2f; 
 
     public float ManaRegeneration {
         get { return mana_regeneration; }
@@ -41,6 +40,8 @@ public class RegenerationController : NetworkBehaviour {
     }
 
     private void Update() {
+        if (!isLocalPlayer) return; // Только локальный игрок выполняет логику
+        
         timer += Time.deltaTime;
         Regeneration();
     }
