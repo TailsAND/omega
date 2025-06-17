@@ -42,6 +42,9 @@ public class EnemyShadowStalker : NetworkBehaviour
     [Header("Attachment Conditions")]
     [SerializeField] private bool onlyAttachInPatrolZone = true;
     
+    [Header("Physics Settings")]
+    [SerializeField] private bool pushPlayerOnCollision = false;
+    
     private TestenemyHealth health;
     private Rigidbody2D rb;
     private Animator animator;
@@ -467,7 +470,36 @@ public class EnemyShadowStalker : NetworkBehaviour
     }
 
     [Server]
-    public void TakeDamageWithLightCheck(int damage, PlayerStats attacker, bool isLightDamage = false)
+    public void TakeDamage(int damage, DamageType damageType = DamageType.Physical, PlayerStats attacker = null)
+    {
+        if (health.IsDead) return;
+
+        float damageMultiplier = 1f;
+        
+            damageMultiplier *= lightVulnerabilityMultiplier;
+        
+    
+        // Учет метки охотника от атакующего
+        if (attacker != null)
+        {
+            HunterMarkBuff mark = attacker.GetComponent<HunterMarkBuff>();
+            if (mark != null)
+            {
+                damageMultiplier *= mark.GetDamageMultiplier();
+            }
+        }
+
+        int finalDamage = Mathf.FloorToInt(damage * damageMultiplier);
+    
+        // Старый метод для совместимости
+        TakeDamageWithLightCheck(finalDamage, attacker);
+    
+        Debug.Log($"Shadow Stalker took {finalDamage} ({damageType}, multiplier: {damageMultiplier})");
+    }
+
+// Старый метод оставляем для совместимости, но делаем его частным
+    [Server]
+    private void TakeDamageWithLightCheck(int damage, PlayerStats attacker, bool isLightDamage = false)
     {
         float damageMultiplier = 1f;
         if (attacker != null)
@@ -481,20 +513,20 @@ public class EnemyShadowStalker : NetworkBehaviour
 
         int finalDamage = Mathf.FloorToInt(damage * damageMultiplier * (isLightDamage ? lightVulnerabilityMultiplier : 1f));
         health.TakeDamage(finalDamage, attacker);
-    
+
         // При получении урона возвращаемся в зону патрулирования
         if (isAttachedToPlayer)
         {
             DetachFromPlayer();
             ReturnToPatrolZone();
         }
-    
+
         // Прерываем stealth при получении урона
         if (isInStealth)
         {
             if (stealthCoroutine != null)
                 StopCoroutine(stealthCoroutine);
-        
+    
             isInStealth = false;
             RpcSetStealthVisuals(false);
             StartCoroutine(DelayedStealthRestart());
@@ -584,25 +616,32 @@ public class EnemyShadowStalker : NetworkBehaviour
     [Server]
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isServer || !isPouncing) return;
-        
+        if (!isServer) return;
+    
         PlayerStats player = collision.gameObject.GetComponent<PlayerStats>();
         if (player != null)
         {
+            // Наносим урон игроку
             player.TakeHit(health.CurrentAttack);
-            
-            // Apply root effect to player
+        
+            // Применяем эффект обездвиживания (root)
             PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
             if (playerMovement != null)
             {
                 playerMovement.ApplyRoot(0.5f);
             }
-            
-            // Начинаем накладывать дебафф при столкновении
+        
+            // Отключаем физическое толкание, если флаг false
+            if (!pushPlayerOnCollision)
+            {
+                Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
+            }
+        
+            // Начинаем накладывать дебафф
             debuffedPlayer = player;
             if (debuffCoroutine != null)
                 StopCoroutine(debuffCoroutine);
-                
+            
             debuffCoroutine = StartCoroutine(ApplyDebuffRoutine());
         }
     }
