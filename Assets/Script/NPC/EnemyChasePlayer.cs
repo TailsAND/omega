@@ -246,12 +246,13 @@ public class EnemyChasePlayer : NetworkBehaviour
     [Server]
     private void AttackPlayer(PlayerStats player)
     {
+        Debug.Log($"Attacking player: {player?.name}, Current HP: {player?.CurrentlyHp}");
         lastAttackTime = Time.time;
-        
+    
         if (player != null && player.CurrentlyHp > 0)
         {
-            // Используем Command для атаки игрока
-            player.TakeHit(attackDamage);
+            Debug.Log("Dealing damage...");
+            player.CmdTakeHit(attackDamage);
             player.RpcPlayHitSound();
         }
 

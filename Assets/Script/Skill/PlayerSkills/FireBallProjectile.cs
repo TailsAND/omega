@@ -36,13 +36,16 @@ public class FireBallProjectile : ProjectileBase {
     [ServerCallback]
     private void OnTriggerEnter2D(Collider2D collision) {
         if (!isServer) return;
+
+        // Игнорируем столкновение с владельцем снаряда
         if (_owner == null || collision.gameObject == _owner) {
-            return; 
+            return;
         }
 
         PlayerStats enemyPlayer = collision.GetComponent<PlayerStats>();
         if (enemyPlayer != null) {
-            enemyPlayer.TakeHit(_projectileDamage);
+            // Используем CmdTakeHit вместо TakeHit
+            enemyPlayer.CmdTakeHit(_projectileDamage);
             NetworkServer.Destroy(gameObject);
             return;
         }

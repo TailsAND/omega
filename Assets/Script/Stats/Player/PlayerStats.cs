@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerStats : NetworkBehaviour {
     [SyncVar] private int max_hp = 300;
-    [SyncVar] private int currently_hp = 300;
+    [SyncVar(hook = nameof(OnHealthChanged))]
+    private int currently_hp = 300;
+
     [SyncVar] private int max_mana = 65;
     [SyncVar] private int currently_mana = 65;
 
@@ -119,8 +121,8 @@ public class PlayerStats : NetworkBehaviour {
 
 
 
-    private void Awake() {
-
+    private void Awake() 
+    {
         _spawnPosition = transform.position;
     }
 
@@ -128,14 +130,14 @@ public class PlayerStats : NetworkBehaviour {
         //SavePlayerData(); // Сохраняем данные при выходе
     }
 
-    void Start() {
+    void Start() 
+    {
         FindPlayerComponents();
     }
     
-    void Update() {
-        if (!isLocalPlayer) {
-            return;
-        }
+    void Update() 
+    {
+        if (!isLocalPlayer) return;
         
         CheckHpAndMana();
         playerUI.UpdateUI();
@@ -228,75 +230,77 @@ public class PlayerStats : NetworkBehaviour {
 
         playerUI.UpdateUI();
     }
-    
-    [Server]
-    public void SvTakeDamage(int damage)
-    {
-        currently_hp -= damage;
-        RpcUpdateHealth(currently_hp);
-    
-        if (currently_hp <= 0)
-        {
-            currently_hp = 0;
-            RpcDie();
-        }
-    }
-
-    
     [Command(requiresAuthority = false)]
     public void CmdTakeHit(int damage, NetworkConnectionToClient sender = null)
     {
-        // Проверяем, что отправитель существует
-        if (sender == null) return;
-    
-        // Применяем урон на сервере
-        SvTakeDamage(damage);
-    
-        // Воспроизводим звук у всех игроков
+        if (sender != null && sender.identity == netIdentity) return;
+        
+        int finalDamage = CalculateDamage(damage);
+        SvTakeDamage(finalDamage);
         RpcPlayHitSound();
     }
     
+    
     public void TakeHit(int damage)
     {
-        // Вызываем команду на сервере
+        if (!isLocalPlayer) return;
+        
         CmdTakeHit(damage);
-    
-        // Локально воспроизводим звук сразу (не ждем ответа сервера)
         AudioSource.PlayClipAtPoint(hitSound, transform.position);
     }
     
     [ClientRpc]
     private void RpcDie()
     {
-        if (isServer) return; // Сервер уже обработал смерть
-    
-        Die(); // Вызываем метод смерти на всех клиентах
+        if (isServer) return;
+        
+        GetComponent<PlayerInventory>().DropOnDie();
+        GetComponent<PlayerSkillController>().GreenZone = true;
+        transform.position = _spawnPosition;
+        greenZone = true;
+        currently_hp = max_hp / 2;
+        
+        if (playerUI != null) playerUI.UpdateUI();
     }
 
     [ClientRpc]
     public void RpcPlayHitSound()
     {
-        // Здесь добавьте код для воспроизведения звука получения урона
-        // Например:
         AudioSource.PlayClipAtPoint(hitSound, transform.position);
-        // Или, если у вас есть AudioSource на объекте:
-        // GetComponent<AudioSource>().PlayOneShot(hitSound);
     }
     
+
+    private void OnHealthChanged(int oldValue, int newValue)
+    {
+        currently_hp = newValue;
+        if (playerUI != null) playerUI.UpdateUI();
+    }
+
+    [Server]
+    private int CalculateDamage(int baseDamage)
+    {
+        // Пример: уменьшение урона на основе брони
+        return Mathf.Max(1, baseDamage - armor / 10);
+    }
+    
+    [Server]
+    public void SvTakeDamage(int damage)
+    {
+        if (currently_hp <= 0) return;
+        
+        currently_hp = Mathf.Max(0, currently_hp - damage);
+        RpcUpdateHealth(currently_hp);
+
+        if (currently_hp <= 0)
+        {
+            RpcDie();
+        }
+    }
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
     {
         currently_hp = newHealth;
-        if (playerUI != null)
-        {
-            playerUI.UpdateUI();
-        }
-    
-        // Проверяем смерть и на клиенте
-        if (currently_hp <= 0)
-        {
-            Die();
-        }
+        if (playerUI != null) playerUI.UpdateUI();
     }
     [ClientRpc]
     public void RpcApplyTemporarySlow(float slowFactor, float duration)
@@ -307,40 +311,28 @@ public class PlayerStats : NetworkBehaviour {
         }
     }
 
-    [Client]
-    private void CheckHpAndMana() {
-        if (currently_hp <= 0) {
-            Die();
-        }
-        else if (currently_hp >= max_hp) {
-            currently_hp = max_hp;
-        }
+    private void CheckHpAndMana() 
+    {
+        if (currently_hp <= 0) Die();
+        else if (currently_hp >= max_hp) currently_hp = max_hp;
 
-        if (currently_mana < 0) {
-            currently_mana = 0;
-        }
-        else if (currently_mana >= max_mana) {
-            currently_mana = max_mana;
-        }
+        if (currently_mana < 0) currently_mana = 0;
+        else if (currently_mana >= max_mana) currently_mana = max_mana;
     }
 
     
-    
-    [ClientRpc]
     private void Die()
     {
-        if (isServer) return;
-    
-        GetComponent<PlayerInventory>().DropOnDie();
-        GetComponent<PlayerSkillController>().GreenZone = true;
-        transform.position = _spawnPosition;
-        greenZone = true;
-        currently_hp = max_hp / 2;
-    
-        if (playerUI != null)
+        if (!isServer)
         {
-            playerUI.UpdateUI();
+            GetComponent<PlayerInventory>().DropOnDie();
+            GetComponent<PlayerSkillController>().GreenZone = true;
+            transform.position = _spawnPosition;
+            greenZone = true;
+            currently_hp = max_hp / 2;
         }
+        
+        if (playerUI != null) playerUI.UpdateUI();
     }
 
     public void IncreaseStrength() {
@@ -397,11 +389,10 @@ public class PlayerStats : NetworkBehaviour {
         UpdateAllStats();
     }
 
-    [Client]
-    private void FindPlayerComponents() {
+    private void FindPlayerComponents() 
+    {
         playerMovement = GetComponent<PlayerMovement>();
         playerUI = GetComponent<PlayerUI>();
-        
     }
     public void SetStateOfAbilityUpdateButtons() {
         if (InventoryManager.Instance.PlayerSkillController.PlayerStats.AbilityPoints > 0) {
