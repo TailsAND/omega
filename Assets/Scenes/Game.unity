@@ -21057,171 +21057,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!43 &771750156
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 11
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 0
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 0
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0, y: 0, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 0
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 0
-    _typelessdata: 
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &783965782
 GameObject:
   m_ObjectHideFlags: 0
@@ -22608,6 +22443,67 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &828097088
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 156.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -56.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5051747394744497017, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001979879398837381, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: m_Name
+      value: SlimeFireSmallCat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373339848807235101, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
+      propertyPath: sceneId
+      value: 2576005022
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1b82ca59a451cd64c9486aaf8192d425, type: 3}
 --- !u!4 &830659214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4573752416090738940, guid: 78a7a1e0d762afb4baa51dbb1680ba8e, type: 3}
@@ -24407,45 +24303,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 328554405}
   dialogText: {fileID: 351499523}
-  playerResponseText: {fileID: 1614917660}
-  responseButton: {fileID: 553827050}
+  playerResponseText: {fileID: 0}
+  responseButton: {fileID: 0}
   audioSource: {fileID: 2011764946}
   interactHint: {fileID: 918124560}
   dialogs:
-  - npcText: "\"\u041D\u0443 \u0438 \u043D\u0443... \u0412\u0438\u0436\u0443, \u0442\u044B
-      \u043F\u0440\u0438\u0448\u0451\u043B \u043A\u043E \u043C\u043D\u0435 \u0441
-      \u043F\u043E\u043B\u043D\u044B\u043C\u0438 \u043A\u0430\u0440\u043C\u0430\u043D\u0430\u043C\u0438...
-      \u0432\u043E\u0437\u0434\u0443\u0445\u0430. \u0414\u0430\u0436\u0435 \u043A\u0440\u044B\u0441\u044B
-      \u043D\u043E\u0441\u044F\u0442 \u0431\u043E\u043B\u044C\u0448\u0435 \u0434\u043E\u0431\u0440\u0430,
-      \u0447\u0435\u043C \u0442\u044B!\""
-    npcVoice: {fileID: 8300000, guid: 93a6fd46c37b7f840beba78f51d03efc, type: 3}
-    playerResponse: "\"\u041D\u0443... \u0443 \u043C\u0435\u043D\u044F \u0435\u0441\u0442\u044C
-      \u044F!\""
+  - npcText: 
+    npcVoice: {fileID: 0}
+    playerResponse: 
     playerVoice: {fileID: 0}
-  - npcText: " \"\u041E, \u0434\u0430! \u0411\u0435\u0441\u0446\u0435\u043D\u043D\u044B\u0439
-      \u044D\u043A\u0437\u0435\u043C\u043F\u043B\u044F\u0440! \u041F\u0440\u044F\u043C\u043E
-      \u043C\u0443\u0437\u0435\u0439\u043D\u044B\u0439 \u044D\u043A\u0441\u043F\u043E\u043D\u0430\u0442
-      \u2013 '\u0427\u0435\u043B\u043E\u0432\u0435\u043A, \u0443 \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E
-      \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435\u0442'. \u0418\u0434\u0438-\u043A\u0430
-      \u043D\u0430\u0439\u0434\u0438 \u0445\u043E\u0442\u044C \u0440\u0436\u0430\u0432\u044B\u0439
-      \u0433\u0432\u043E\u0437\u0434\u044C, \u0430 \u043F\u043E\u0442\u043E\u043C
-      \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0441\u044F. \u0410
-      \u0442\u043E \u043C\u043D\u0435 \u0436\u0430\u043B\u043A\u043E \u0442\u0435\u0431\u044F
-      \u0434\u0430\u0436\u0435 \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E
-      \u043E\u0446\u0435\u043D\u0438\u0432\u0430\u0442\u044C!\""
-    npcVoice: {fileID: 8300000, guid: b250360192ddc9d4f9d40b8d480a3c4e, type: 3}
-    playerResponse: "\"\u041C\u043E\u0436\u0435\u0442, \u0434\u0430\u0448\u044C \u0447\u0442\u043E-\u043D\u0438\u0431\u0443\u0434\u044C
-      \u0432 \u0434\u043E\u043B\u0433?\""
+  - npcText: 
+    npcVoice: {fileID: 0}
+    playerResponse: 
     playerVoice: {fileID: 0}
-  - npcText: "\"\u0412 \u0434\u043E\u043B\u0433? \u0414\u0430 \u0442\u044B \u0438
-      \u0442\u0430\u043A \u043C\u043D\u0435 \u0434\u043E\u043B\u0436\u0435\u043D
-      \u0437\u0430 \u043F\u043E\u0442\u0440\u0430\u0447\u0435\u043D\u043D\u043E\u0435
-      \u0432\u0440\u0435\u043C\u044F! \u0428\u0443\u0442\u0438\u0448\u044C \u043B\u0443\u0447\u0448\u0435,
-      \u0447\u0435\u043C \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0448\u044C \u043B\u0443\u0442!
-      \u0422\u0435\u0431\u0435 \u0431\u044B \u0432 \u043A\u043E\u043C\u0435\u0434\u0438\u0439\u043D\u044B\u0439
-      \u043A\u043B\u0443\u0431, \u0430 \u043D\u0435 \u0432 \u043F\u043E\u0434\u0437\u0435\u043C\u0435\u043B\u044C\u044F!\""
-    npcVoice: {fileID: 8300000, guid: e5c160c3eed95f14d849c195d1d0f412, type: 3}
-    playerResponse: "\"\u041D\u0443 \u0438 \u043B\u0430\u0434\u043D\u043E\""
+  - npcText: 
+    npcVoice: {fileID: 0}
+    playerResponse: 
     playerVoice: {fileID: 0}
 --- !u!58 &886240954
 CircleCollider2D:
@@ -32393,22 +32266,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 1422238300}
   dialogText: {fileID: 1265534636}
-  playerResponseText: {fileID: 686174985}
-  responseButton: {fileID: 1639818026}
+  playerResponseText: {fileID: 0}
+  responseButton: {fileID: 0}
   audioSource: {fileID: 816789432}
   interactHint: {fileID: 918124560}
   dialogs:
-  - npcText: "\"\u0422\u044B\u044B\u044B\u2026 \u0442\u044B \u043E\u0434\u0438\u043D
-      \u0438\u0437 \u041D\u0418\u0425?\u041D\u0435\u0442? \u0422\u043E\u0433\u0434\u0430
-      \u0411\u0415\u0413\u0418! \u041E\u043D\u0438 \u0441\u043B\u0435\u0434\u044F\u0442
-      \u0437\u0430 \u043A\u0430\u0436\u0434\u043E\u0439 \u0434\u044B\u0440\u043E\u0439
-      \u0432 \u0441\u0442\u0435\u043D\u0430\u0445\u2026 \u041B\u0435\u0441\u0442\u043D\u0438\u0446\u0430!
-      \u0414\u0430, \u0434\u0430, \u043B\u0435\u0441\u0442\u043D\u0438\u0446\u0430
-      \u0432\u0435\u0434\u0451\u0442 \u043D\u0430\u0432\u0435\u0440\u0445! \u0418\u043B\u0438\u2026
-      \u0438\u043B\u0438 \u044D\u0442\u043E \u043B\u043E\u0432\u0443\u0448\u043A\u0430?
-      \u0425\u0430-\u0445\u0430\u2026.\""
-    npcVoice: {fileID: 8300000, guid: 29c5f7729acc66240a7623df5f3c6bec, type: 3}
-    playerResponse: "\"\u041D\u0443 \u043B\u0430\u0434\u043D\u043E.\""
+  - npcText: 
+    npcVoice: {fileID: 0}
+    playerResponse: 
     playerVoice: {fileID: 0}
 --- !u!58 &1139615021
 CircleCollider2D:
@@ -36298,17 +36163,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 857945460}
   dialogText: {fileID: 526644970}
-  playerResponseText: {fileID: 1432103695}
-  responseButton: {fileID: 726157899}
+  playerResponseText: {fileID: 0}
+  responseButton: {fileID: 0}
   audioSource: {fileID: 1374024190}
   interactHint: {fileID: 918124560}
   dialogs:
-  - npcText: "\"\u0424\u0443... \u0431\u0440\u043E\u0434\u044F\u0433\u0430. \u041B\u0430\u0434\u043D\u043E
-      \u0441\u043E\u0439\u0434\u0435\u0448\u044C. \u0412\u043E\u0437\u044C\u043C\u0438
-      \u044D\u0442\u0443 \u043F\u0430\u043B\u043A\u0443 \u0438 \u0438\u0434\u0438
-      \u0443\u043D\u0438\u0447\u0442\u043E\u0436 \u043F\u0430\u0440\u0443 \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432.\""
+  - npcText: 
     npcVoice: {fileID: 0}
-    playerResponse: "\"\u041D\u0443 \u043B\u0430\u0434\u043D\u043E.\""
+    playerResponse: 
     playerVoice: {fileID: 0}
 --- !u!58 &1240377218
 CircleCollider2D:
@@ -52499,7 +52361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1801679062
@@ -55142,6 +55004,171 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906230832}
   m_CullTransparentMesh: 1
+--- !u!43 &1908002433
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 11
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 0
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 0
+    localAABB:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 0
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 0
+    _typelessdata: 
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1913306011
 GameObject:
   m_ObjectHideFlags: 0
@@ -64386,3 +64413,4 @@ SceneRoots:
   - {fileID: 1698023372}
   - {fileID: 1938788995}
   - {fileID: 1870500741}
+  - {fileID: 828097088}
