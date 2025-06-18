@@ -23,10 +23,6 @@ public class PlayerStats : NetworkBehaviour {
     [SyncVar] private int luck = 1;
     [SyncVar] private int speed = 1;
     
-    [Header("Death Panel")]
-    public GameObject deathPanelPrefab; // Префаб панели смерти (должен быть назначен в инспекторе)
-    private GameObject deathPanelInstance; // Экземпляр панели смерти
-    
     public AudioClip hitSound; // Перетащите сюда ваш звуковой файл в инспекторе
     
     public bool greenZone = true;
@@ -216,7 +212,14 @@ public class PlayerStats : NetworkBehaviour {
         xp_currently += extra_xp;
         UpdateAllStats();
     }
-    
+    [TargetRpc]
+    public void TargetAddExperience(NetworkConnection target, int experience)
+    {
+        if (isLocalPlayer) // Дополнительная проверка на клиенте
+        {
+            AddExperience(experience);
+        }
+    }
     public void UpdateAllStats() {
         xp_needed = (int)(xp_needed_per_lvl + xp_needed_per_lvl * (lvl - 1));
         int strength_hp = (strength - 1) * 20;
@@ -265,7 +268,6 @@ public class PlayerStats : NetworkBehaviour {
         currently_hp = max_hp / 2;
         
         if (playerUI != null) playerUI.UpdateUI();
-        ShowDeathPanel();
     }
 
     [ClientRpc]
@@ -338,73 +340,8 @@ public class PlayerStats : NetworkBehaviour {
         }
         
         if (playerUI != null) playerUI.UpdateUI();
-        ShowDeathPanel();
     }
 
-    private void ShowDeathPanel()
-    {
-        if (!isLocalPlayer) return;
-        
-        if (deathPanelPrefab != null && deathPanelInstance == null)
-        {
-            deathPanelInstance = Instantiate(deathPanelPrefab);
-            deathPanelInstance.SetActive(false); // Сначала создаём выключенной
-            
-            // Включаем панель только при смерти
-            deathPanelInstance.SetActive(true);
-            
-            // Находим кнопку возрождения и назначаем обработчик
-            var reviveButton = deathPanelInstance.GetComponentInChildren<UnityEngine.UI.Button>();
-            if (reviveButton != null)
-            {
-                reviveButton.onClick.AddListener(RevivePlayer);
-            }
-        }
-    }
-    private void HideDeathPanel()
-    {
-        if (deathPanelInstance != null)
-        {
-            deathPanelInstance.SetActive(false); // Выключаем панель вместо уничтожения
-        }
-    }
-    
-    private void RevivePlayer()
-    {
-        // Логика возрождения игрока
-        currently_hp = max_hp;
-        greenZone = true;
-        
-        if (playerUI != null) playerUI.UpdateUI();
-        
-        HideDeathPanel();
-        
-        // Если нужно синхронизировать с сервером
-        if (isLocalPlayer)
-        {
-            CmdRevivePlayer();
-        }
-    }
-
-    [Command]
-    private void CmdRevivePlayer()
-    {
-        currently_hp = max_hp;
-        greenZone = true;
-        RpcRevivePlayer();
-    }
-
-    [ClientRpc]
-    private void RpcRevivePlayer()
-    {
-        currently_hp = max_hp;
-        greenZone = true;
-        
-        if (playerUI != null) playerUI.UpdateUI();
-        
-        HideDeathPanel();
-    }
-    
     public void IncreaseStrength() {
         if (ability_points > 0) {
             strength++;

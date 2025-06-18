@@ -144,21 +144,25 @@ public class TestenemyHealth : NetworkBehaviour
     private void Die()
     {
         if (_isDead || _isPlayingDeath) return;
-    
+
         _isDead = true;
         _isPlayingDeath = true;
-    
+
         RpcPlayDeathAnimation();
         RpcDieEffects();
-    
+
         if (_enemyLoot != null)
         {
             int lootLevel = _lastAttacker?.Lvl ?? _currentLevel;
             _enemyLoot.DropItem(lootLevel);
         }
-    
-        InventoryManager.Instance?.PlayerSkillController?.PlayerStats?.AddExperience(_experience);
-    
+
+        // Отправляем опыт только последнему атакующему игроку
+        if (_lastAttacker != null)
+        {
+            _lastAttacker.TargetAddExperience(_lastAttacker.connectionToClient, _experience);
+        }
+
         OnDeath?.Invoke();
         StartCoroutine(DestroyAfterAnimation());
     }
