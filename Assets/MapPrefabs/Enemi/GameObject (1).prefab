@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 556505070
+  _assetId: 3056053574
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -191,12 +191,18 @@ MonoBehaviour:
   _baseArmor: 5
   _attackRange: 2
   _attackCooldown: 2
+  _experience: 200
   _maxLevelDifference: 3
   _healthPerLevel: 20
   _attackPerLevel: 3
   _armorPerLevel: 1
   _enemyLoot: {fileID: 0}
   _deathEffectPrefab: {fileID: 0}
+  showHealthBar: 1
+  _animator: {fileID: 0}
+  _damageAnimationTrigger: TakeDamage
+  _deathAnimationTrigger: Die
+  _deathAnimationDuration: 1
 --- !u!114 &3820678834548113704
 MonoBehaviour:
   m_ObjectHideFlags: 0

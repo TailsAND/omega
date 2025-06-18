@@ -531,7 +531,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  deathPanelPrefab: {fileID: 2665174042897853899, guid: dcfeb0e3dfe7be94fa83ccba17778099, type: 3}
+  deathPanelPrefab: {fileID: 8370934230553077726, guid: e64db4c21033237469a713623dbd035f, type: 3}
   hitSound: {fileID: 8300000, guid: 917d6c645a8a1c9428616e5ba64b2599, type: 3}
   greenZone: 0
 --- !u!114 &-510250030928325903

@@ -257,13 +257,15 @@ public class PlayerStats : NetworkBehaviour {
     private void RpcDie()
     {
         if (isServer) return;
-        ShowDeathPanel();
+        
         GetComponent<PlayerInventory>().DropOnDie();
         GetComponent<PlayerSkillController>().GreenZone = true;
         transform.position = _spawnPosition;
         greenZone = true;
         currently_hp = max_hp / 2;
+        
         if (playerUI != null) playerUI.UpdateUI();
+        ShowDeathPanel();
     }
 
     [ClientRpc]
@@ -346,6 +348,10 @@ public class PlayerStats : NetworkBehaviour {
         if (deathPanelPrefab != null && deathPanelInstance == null)
         {
             deathPanelInstance = Instantiate(deathPanelPrefab);
+            deathPanelInstance.SetActive(false); // Сначала создаём выключенной
+            
+            // Включаем панель только при смерти
+            deathPanelInstance.SetActive(true);
             
             // Находим кнопку возрождения и назначаем обработчик
             var reviveButton = deathPanelInstance.GetComponentInChildren<UnityEngine.UI.Button>();
@@ -355,13 +361,11 @@ public class PlayerStats : NetworkBehaviour {
             }
         }
     }
-    
     private void HideDeathPanel()
     {
         if (deathPanelInstance != null)
         {
-            Destroy(deathPanelInstance);
-            deathPanelInstance = null;
+            deathPanelInstance.SetActive(false); // Выключаем панель вместо уничтожения
         }
     }
     
