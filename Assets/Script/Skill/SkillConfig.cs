@@ -24,6 +24,9 @@ public class SkillConfig : ScriptableObject {
     public int Cooldown;
     public int ProjectileLifetime;
 
+    [Header("Sound Settings")]
+    public int SoundIndex = -1;
+    
     public ProjectileType ProjectileType;
 }
 [System.Serializable]

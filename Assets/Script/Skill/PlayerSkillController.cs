@@ -17,12 +17,23 @@ public class PlayerSkillController : NetworkBehaviour {
     public RegenerationController Regeneration { get; private set; }
 
     private List<Skill> _skills = new();
-    public bool GreenZone = true; // Добавляем булеву переменную (true - город, false - зона скиллов)
-
+    public bool GreenZone = true; // Флаг зоны (true - безопасная зона, false - зона битвы)
+    
+    [Header("Настройки звука")]
+    public AudioSource _skillAudioSource;
+    [SerializeField] private AudioClip _defaultSkillSound; // Звук по умолчанию
+    [SerializeField] private List<AudioClip> _availableSkillSounds; // Все возможные звуки навыков
     private void Awake() {
         FindComponents();
         GreenZone = true;
-        // CreateSkills();
+        
+        // Инициализация аудио источника, если не задан в инспекторе
+        if (_skillAudioSource == null) {
+            _skillAudioSource = gameObject.AddComponent<AudioSource>();
+            _skillAudioSource.spatialBlend = 1f; // 3D звук
+            _skillAudioSource.playOnAwake = false;
+            _skillAudioSource.loop = false;
+        }
     }
 
     private void Start() {
@@ -36,7 +47,6 @@ public class PlayerSkillController : NetworkBehaviour {
             var skill = SkillFactory.Create(skillConfig, this);
             _skills.Add(skill);
         }
-
         SortActiveOrPassiveSkill();
     }
 
@@ -48,10 +58,8 @@ public class PlayerSkillController : NetworkBehaviour {
             else {
                 Active_Skills.Add(skill);
             }
-
             SkillManager.AddSkill(skill);
         }
-
         Active_Skills = Active_Skills.DistinctBy(e => e.skillConfig.Name).ToList();
     }
 
@@ -67,7 +75,6 @@ public class PlayerSkillController : NetworkBehaviour {
                 _skills.Add(createdSkill);
             }
         }
-
         SortActiveOrPassiveSkill();
     }
 
@@ -75,7 +82,6 @@ public class PlayerSkillController : NetworkBehaviour {
         Active_Skills.RemoveAll(s => s.skillConfig.Name == skill.skillConfig.Name);
         Passive_Skills.RemoveAll(s => s.skillConfig.Name == skill.skillConfig.Name);
         _skills.RemoveAll(s => s.skillConfig.Name == skill.skillConfig.Name);
-
         SkillManager.RemoveSkill(skill);
     }
 
@@ -86,7 +92,6 @@ public class PlayerSkillController : NetworkBehaviour {
         Playermovement = GetComponent<PlayerMovement>();
         Regeneration = GetComponent<RegenerationController>();
     }
-
 
     private void Update() {
         if (!isLocalPlayer) {
@@ -104,40 +109,83 @@ public class PlayerSkillController : NetworkBehaviour {
     }
 
     private void UseSkill() {
-        if (Input.GetKey(KeyCode.Mouse0) && Active_Skills.Count > 0) {
+        if (Input.GetMouseButtonDown(0) && Active_Skills.Count > 0) {
             SkillManager.UseSkill(Active_Skills[0]);
+            PlaySkillSound(Active_Skills[0]);
         }
 
         if (Input.GetKey(KeyCode.E) && Active_Skills.Count > 1) {
             SkillManager.UseSkill(Active_Skills[1]);
+            PlaySkillSound(Active_Skills[1]);
         }
     }
 
+    private void PlaySkillSound(Skill skill) 
+    {
+        if (_skillAudioSource == null) return;
+        
+        // Получаем звук по индексу из конфига
+        AudioClip clipToPlay = GetSkillClipByIndex(skill.skillConfig.SoundIndex) ?? _defaultSkillSound;
+        if (clipToPlay != null) 
+        {
+            _skillAudioSource.PlayOneShot(clipToPlay);
+        }
+    }
+    
+        
+    private AudioClip GetSkillClipByIndex(int index)
+    {
+        if (index < 0 || index >= _availableSkillSounds.Count) return null;
+        return _availableSkillSounds[index];
+    }
+    
     [Command]
-    public void SpawnProjectile(SkillConfig config, Vector3 direction) {
+    public void SpawnProjectile(SkillConfig config, Vector3 direction) 
+    {
         ProjectileBase projectileObject = ProjectileFactory.Instance.GetProjectileByType(config.ProjectileType);
-        ProjectileBase projectile =
-            Instantiate(projectileObject, PlayerStats.transform.position, PlayerStats.transform.rotation);
+        ProjectileBase projectile = Instantiate(projectileObject, PlayerStats.transform.position, PlayerStats.transform.rotation);
         projectile.InitDirection(direction);
         projectile.Init(gameObject, config.Damage, config.ProjectileSpeed, config.ProjectileLifetime);
         NetworkServer.Spawn(projectile.gameObject);
+        
+        // Передаем индекс звука напрямую из конфига
+        RpcPlaySkillSound(config.SoundIndex);
     }
+    
     [ClientRpc]
-    public void RpcBlockSkills(float duration)
+    private void RpcPlaySkillSound(int soundIndex) 
     {
+        if (soundIndex >= 0 && soundIndex < _availableSkillSounds.Count && _skillAudioSource != null) 
+        {
+            _skillAudioSource.PlayOneShot(_availableSkillSounds[soundIndex]);
+        }
+        else if (_defaultSkillSound != null && _skillAudioSource != null)
+        {
+            _skillAudioSource.PlayOneShot(_defaultSkillSound);
+        }
+    }
+    
+    private int GetSoundIndex(AudioClip clip)
+    {
+        if (clip == null) return -1;
+        return _availableSkillSounds.FindIndex(s => s == clip);
+    }
+
+    
+    [ClientRpc]
+    public void RpcBlockSkills(float duration) {
         StartCoroutine(BlockSkillsRoutine(duration));
     }
 
-    private IEnumerator BlockSkillsRoutine(float duration)
-    {
-        bool canUseSkills = false; // Предполагаем, что у вас есть такое поле
+    private IEnumerator BlockSkillsRoutine(float duration) {
+        bool canUseSkills = false;
         float endTime = Time.time + duration;
-        while (Time.time < endTime)
-        {
+        while (Time.time < endTime) {
             yield return null;
         }
         canUseSkills = true;
     }
+
     public void TeleportToArena() {
         GreenZone = false;
     }
