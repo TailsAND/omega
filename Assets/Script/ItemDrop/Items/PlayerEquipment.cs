@@ -46,15 +46,23 @@ public class PlayerEquipment : NetworkBehaviour {
         return _playerInventoryData[itemType];
     }
 
-    public void WearItem(ItemConfig equipmentItemConfig, ItemData itemData)
-    {
+    public void WearItem(ItemConfig equipmentItemConfig, ItemData itemData) {
         if (equipmentItemConfig == null || itemData == null) return;
+
+        // Проверяем, не надет ли уже предмет этого типа
+        if (_playerInventoryConfig.ContainsKey(equipmentItemConfig.itemType)) {
+            Debug.Log($"Item of type {equipmentItemConfig.itemType} is already equipped");
+            return;
+        }
+
+        // Удаляем предмет из инвентаря перед надеванием
+        var inventory = InventoryManager.Instance.PlayerSkillController.GetComponent<PlayerInventory>();
+        inventory.RemoveItem(equipmentItemConfig, itemData);
 
         // Применяем характеристики предмета
         ApplyItemStats(equipmentItemConfig, itemData, true);
-        
-        if (equipmentItemConfig.Skills.Count < 0)
-        {
+    
+        if (equipmentItemConfig.Skills.Count < 0) {
             SetEquipmentImage(equipmentItemConfig);
             return;
         }
@@ -74,19 +82,21 @@ public class PlayerEquipment : NetworkBehaviour {
         Debug.Log(_playerInventoryConfig[equipmentItemConfig.itemType]);
     }
 
-    public void Unwear(ItemConfig equipmentItemConfig, ItemData itemData)
-    {
+    public void Unwear(ItemConfig equipmentItemConfig, ItemData itemData) {
         if (equipmentItemConfig == null || itemData == null) return;
 
         // Удаляем характеристики предмета
         ApplyItemStats(equipmentItemConfig, itemData, false);
-        InventoryManager.Instance.PlayerSkillController.gameObject.GetComponent<PlayerInventory>()
-            .PutInEmptySlot(equipmentItemConfig, itemData);
+    
+        // Возвращаем предмет в инвентарь только если он действительно был надет
+        if (_playerInventoryConfig.ContainsKey(equipmentItemConfig.itemType)) {
+            var inventory = InventoryManager.Instance.PlayerSkillController.GetComponent<PlayerInventory>();
+            inventory.PutInEmptySlot(equipmentItemConfig, itemData);
+        }
 
         DeleteEquipment(equipmentItemConfig);
 
-        foreach (var skillType in itemData.Skills)
-        {
+        foreach (var skillType in itemData.Skills) {
             InventoryManager.Instance.PlayerSkillController.DeleteSkill(
                 SkillFactory.Create(ConfigsManager.GetSkillConfig(skillType),
                     InventoryManager.Instance.PlayerSkillController));

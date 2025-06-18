@@ -31,15 +31,23 @@ public class InventorySlotView : MonoBehaviour {
     }
 
     public void PutInSlot(ItemConfig itemConfig, ItemData itemData) {
-        _icon.sprite = itemConfig.icon;
-        slotItemConfig = itemConfig;
-        slotItemData = itemData;
-        _icon.enabled = true;
-        
-        // Устанавливаем цвет фона слота в зависимости от редкости
-        SetSlotColor(itemConfig.rarity);
-        
-        LogItemInfo(itemConfig, itemData);
+        // Проверяем, не надет ли уже этот предмет
+        bool isEquipped = PlayerEquipment.Instance.GetAllItems().ContainsKey(itemConfig.itemType) && 
+                          PlayerEquipment.Instance.GetItemConfig(itemConfig.itemType) == itemConfig;
+
+        if (!isEquipped) {
+            _icon.sprite = itemConfig.icon;
+            slotItemConfig = itemConfig;
+            slotItemData = itemData;
+            _icon.enabled = true;
+    
+            // Устанавливаем цвет фона слота в зависимости от редкости
+            SetSlotColor(itemConfig.rarity);
+    
+            LogItemInfo(itemConfig, itemData);
+        } else {
+            ClearSlot();
+        }
     }
 
     private void SetSlotColor(ItemRarity rarity) {

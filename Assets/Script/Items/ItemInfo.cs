@@ -43,11 +43,24 @@ public class ItemInfo : MonoBehaviour
 
     }
 
-    public void Use()
-    { 
+    public void Use() { 
         UseOfItems.instance.Use(_infoItemConfig);
+    
+        // Удаляем предмет из инвентаря
+        var inventory = InventoryManager.Instance.PlayerSkillController.GetComponent<PlayerInventory>();
+        for (int i = 0; i < inventory.Slots.Count; i++) {
+            if (inventory.Slots[i].ItemConfig == _infoItemConfig && 
+                inventory.Slots[i].ItemData == itemData) {
+                inventory.Slots[i] = new InventorySlot();
+                break;
+            }
+        }
+    
         Close();
         CurrenSlot.ClearSlot();
+    
+        // Обновляем инвентарь
+        InventoryManager.Instance.InventoryView.SetData(inventory);
     }
 
     public void Drop()

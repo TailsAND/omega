@@ -44,7 +44,19 @@ public void AddLoot(EquipmentItemData itemData, TestenemyHealth enemyHealth)
         Debug.Log($"Added loot: {itemConfig.itemName} with stats: HP+{generatedItemData.healthBonus}, Armor+{generatedItemData.armorBonus}");
     }
 }
-
+public void RemoveItem(ItemConfig itemConfig, ItemData itemData) {
+    for (int i = 0; i < Slots.Count; i++) {
+        if (Slots[i].ItemConfig == itemConfig && Slots[i].ItemData == itemData) {
+            if (Slots[i].SlotView != null) {
+                Slots[i].SlotView.ClearSlot();
+            }
+            Slots[i] = new InventorySlot();
+            OnInventoryChanged?.Invoke();
+            break;
+        }
+    }
+    RpcUpdateInventory();
+}
     [Server]
     public ItemData StealRandomItem()
     {
