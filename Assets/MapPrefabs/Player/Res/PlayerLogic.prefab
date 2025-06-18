@@ -401,7 +401,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  xp_currently: 0
   hitSound: {fileID: 8300000, guid: 917d6c645a8a1c9428616e5ba64b2599, type: 3}
   greenZone: 0
 --- !u!114 &-510250030928325903
@@ -913,7 +912,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
